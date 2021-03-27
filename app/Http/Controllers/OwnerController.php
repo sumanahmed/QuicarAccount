@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CarType;
 use Illuminate\Http\Request;
 use Validator;
 use Response;
 use App\Models\Owner;
+use App\Models\Year;
+use App\Models\CarModel;
+use DB;
 
 class OwnerController extends Controller
 {
@@ -22,9 +26,23 @@ class OwnerController extends Controller
             $query = $query->where('phone', $request->phone);
         }
 
-        $owners = $query->get();
-        
-        return view('owner.index', compact('owners'));
+        if ($request->car_type_id) {
+            $query = $query->where('car_type_id', $request->car_type_id);
+        }
+
+        if ($request->model_id) {
+            $query = $query->where('model_id', $request->model_id);
+        }
+
+        if ($request->year_id) {
+            $query = $query->where('year_id', $request->year_id);
+        }
+
+        $owners = $query->paginate(12);
+        $car_types = CarType::all();
+        $models    = CarModel::all();
+        $years     = Year::all();        
+        return view('owner.index', compact('owners','car_types','models','years'));
     }
 
     //store

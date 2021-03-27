@@ -38,7 +38,7 @@ Route::group(['prefix'=>'/driver'], function(){
     Route::post('/destroy', [DriverController::class, 'destroy'])->name('driver.destroy');
 });
 
-Route::group(['prefix'=>'/owner', 'middleware' => 'admin'], function(){
+Route::group(['prefix'=>'/owner'], function(){
     Route::get('/', [OwnerController::class, 'index'])->name('owner.index');
     Route::post('/store', [OwnerController::class, 'store'])->name('owner.store');
     Route::post('/update', [OwnerController::class, 'update'])->name('owner.update');

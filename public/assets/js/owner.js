@@ -3,6 +3,11 @@ $("#create").click(function (e) {
     e.preventDefault();
     var name    = $("#name").val();
     var phone   = $("#phone").val();
+    var address = $("#address").val();
+    var car_type_id = $("#car_type_id :selected").val();
+    var model_id    = $("#model_id :selected").val();
+    var year_id     = $("#year_id :selected").val();
+    var contract_amount = $("#contract_amount").val();
 
     $.ajax({
         type:'POST',
@@ -11,6 +16,11 @@ $("#create").click(function (e) {
         data: {
             name : name,
             phone: phone,
+            address: address,
+            car_type_id: car_type_id,
+            model_id: model_id,
+            year_id: year_id,
+            contract_amount: contract_amount,
         },
         success:function(response){
             if((response.errors)){
@@ -22,8 +32,8 @@ $("#create").click(function (e) {
                 }               
             }else{
                 $('#createModal').modal('hide');
-                $("#allDriver").append('' +
-                    '<tr class="driver-'+ response.data.id +'">\n' +
+                $("#allOwner").append('' +
+                    '<tr class="owner-'+ response.data.id +'">\n' +
                         '<td>'+ response.data.name +'</td>\n' +
                         '<td>'+ response.data.phone +'</td>\n' +
                         '<td style="vertical-align: middle;text-align: center;">\n' +                        

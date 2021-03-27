@@ -26,6 +26,12 @@
               <p>Driver</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('owner.index') }}" class="nav-link nav-team nav-owner">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Owner</p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

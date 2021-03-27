@@ -17,6 +17,7 @@ class CreateOwnersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
+            $table->string('address');
             $table->unsignedBigInteger('car_type_id')->nullable();
             $table->unsignedBigInteger('model_id')->nullable();
             $table->unsignedBigInteger('year_id')->nullable();
