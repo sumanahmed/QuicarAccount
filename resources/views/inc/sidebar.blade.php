@@ -1,26 +1,28 @@
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-  <ul class="navbar-nav">
-    <li class="nav-item">
-      <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
-    </li>
-  </ul>
-  <!-- Right navbar links -->
-  <ul class="navbar-nav ml-auto">
-    <!-- Notifications Dropdown Menu -->
-    <li class="nav-item dropdown">
-      <a class="nav-link" data-toggle="dropdown" href="#">
-          <img src="images/avatar.png" class="img-circle" style="height: 30px;" alt="User Image"> Tanvir Ahmed
-      </a>
-      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right mt-3">
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-          <i class="fas fa-user-edit mr-2"></i> Edit Profile
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-          <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
-        </a>
-    </li>
-  </ul>
-</nav>
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{{ route('dashboard') }}" class="brand-link" style="background:#f4f6f9">
+      <div class="login-logo"><img style="width: 120px;" src="{{ asset('assets/images/logo.png') }}"></div>
+    </a>
+    <!-- Sidebar -->
+    
+    <div class="sidebar">
+      <nav>
+        <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="{{ route('dashboard') }}" class="nav-link nav-dashboard">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('customer.index') }}" class="nav-link nav-team nav-customer">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Customer</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

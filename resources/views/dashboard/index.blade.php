@@ -88,6 +88,6 @@
 @endsection
 @section('scripts')
     <script>
-        $("#dashboard").addClass('active');
+        $('.nav-dashboard').addClass('active');
     </script>
 @endsection

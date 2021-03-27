@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use Response;
-use App\Models\Customer;
+use App\Models\Driver;
 use DB;
 
-class CustomerController extends Controller
+class DriverController extends Controller
 {
     //show all
-    public function index(Request $request)
-    {
-        $query = DB::table('customers')->select('*');
+    public function index(Request $request){
+
+        $query = DB::table('drivers')->select('*');
 
         if ($request->name) {
             $query = $query->where('name', 'like', "{$request->name}%");
@@ -23,9 +23,9 @@ class CustomerController extends Controller
             $query = $query->where('phone', $request->phone);
         }
 
-        $customers = $query->paginate(12);
+        $drivers = $query->get();
 
-        return view('customer.index', compact('customers'));
+        return view('driver.index', compact('drivers'));
     }
 
     //store
@@ -42,22 +42,22 @@ class CustomerController extends Controller
 
         try {
 
-            $customer          = new Customer();
-            $customer->name    = $request->name;
-            $customer->phone   = $request->phone;
-            $customer->save();
+            $driver          = new Driver();
+            $driver->name    = $request->name;
+            $driver->phone   = $request->phone;
+            $driver->save();
 
         } catch (\Throwable $ex) {
             return Response::json([
                 'status'    => false,
                 'message'   => $ex->getMessage(),
-                'data'      => $customer
+                'data'      => $driver
             ]);
         }
 
         return Response::json([
             'status'    => true,
-            'data'      => $customer
+            'data'      => $driver
         ]);            
     }
 
@@ -75,28 +75,28 @@ class CustomerController extends Controller
 
         try {
 
-            $customer          = Customer::find($request->id);
-            $customer->name    = $request->name;
-            $customer->phone   = $request->phone;
-            $customer->update();
+            $driver          = Driver::find($request->id);
+            $driver->name    = $request->name;
+            $driver->phone   = $request->phone;
+            $driver->update();
 
         } catch (\Throwable $ex) {
             return Response::json([
                 'status'    => false,
                 'message'   => $ex->getMessage(),
-                'data'      => $customer
+                'data'      => $driver
             ]);
         }
 
         return Response::json([
             'status'    => true,
-            'data'      => $customer
+            'data'      => $driver
         ]); 
     }
 
     //destroy
     public function destroy(Request $request){
-        Customer::find($request->id)->delete();
+        Driver::find($request->id)->delete();
         return response()->json();
     }
 }

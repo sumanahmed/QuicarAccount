@@ -1,9 +1,8 @@
 @include('inc.header')
+@include('inc.sidebar')
 
 <div class="content-wrapper">
-	@include('inc.sidebar')
     @yield('content')
 </div>
 
 @include('inc.footer')
-
