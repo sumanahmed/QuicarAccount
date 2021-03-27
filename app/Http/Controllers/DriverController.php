@@ -23,14 +23,14 @@ class DriverController extends Controller
             $query = $query->where('phone', $request->phone);
         }
 
-        $drivers = $query->get();
+        $drivers = $query->paginate(12);
 
         return view('driver.index', compact('drivers'));
     }
 
     //store
-    public function store(Request $request){
-
+    public function store(Request $request)
+    {      
         $validators = Validator::make($request->all(),[
             'name'   => 'required',
             'phone'  => 'required',

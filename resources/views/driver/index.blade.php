@@ -1,5 +1,5 @@
 @extends('layout.admin')
-@section('title','Customer')
+@section('title','Driver')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -7,7 +7,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Customer</h1>
+            <h1 class="m-0 text-dark">Driver</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <button class="btn btn-success float-right" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i> Create</button>
@@ -23,7 +23,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="car-header">
-                      <form class="form" action="{{ route('customer.index') }}" method="get" style="padding:10px 20px;">
+                      <form class="form" action="{{ route('driver.index') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
                           <div class="col-md-4">
                             <div class="form-group">
@@ -61,21 +61,21 @@
                               <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
-                        <tbody id="allCustomer">
-                          @foreach($customers as $customer)
-                            <tr class="customer-{{ $customer->id }}">
-                              <td>{{ $customer->name }}</td>
-                              <td>{{ $customer->phone }}</td>
+                        <tbody id="allDriver">
+                          @foreach($drivers as $driver)
+                            <tr class="driver-{{ $driver->id }}">
+                              <td>{{ $driver->name }}</td>
+                              <td>{{ $driver->phone }}</td>
                               <td style="vertical-align: middle;text-align: center;">
-                                  <button class="btn btn-xs btn-warning" data-toggle="modal" id="edit" data-target="#editModal" data-id="{{ $customer->id }}" data-name="{{ $customer->name }}" data-phone="{{ $customer->phone }}" title="Edit">Edit</button>
-                                  <button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="{{ $customer->id }}" title="Delete">Delete</button>
+                                  <button class="btn btn-xs btn-warning" data-toggle="modal" id="edit" data-target="#editModal" data-id="{{ $driver->id }}" data-name="{{ $driver->name }}" data-phone="{{ $driver->phone }}" title="Edit">Edit</button>
+                                  <button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="{{ $driver->id }}" title="Delete">Delete</button>
                               </td>
                             </tr>
                           @endforeach
                         </tbody>
                       </table>
                       <div class="d-felx justify-content-center mt-3">
-                        {{ $customers->links('pagination::bootstrap-4') }}
+                        {{ $drivers->links('pagination::bootstrap-4') }}
                       </div>
                     </div>
                 </div>
@@ -85,8 +85,6 @@
     </section>
     <div class="modal fade" tabindex="-1" id="createModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-default" role="document">
-          <form id="createCategoryForm" method="POST" enctype="multipart/form-data">
-            {{ csrf_field() }} {{ method_field('POST') }}
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
                   <h5 class="modal-title text-center w-100">Add New</h5>
@@ -109,14 +107,10 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
-          </form>
         </div>
     </div>
     <div class="modal fade" tabindex="-1" id="editModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-default" role="document">
-          <form id="editCategoryForm" method="POST" enctype="multipart/form-data">
-            {{ csrf_field() }} {{ method_field('POST') }}
-            <input type="hidden" id="edit_category_id" />
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
                   <h5 class="modal-title text-center w-100">Edit</h5>
@@ -140,7 +134,6 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
-          </form>
         </div>
     </div>
     <div class="modal fade" tabindex="-1" id="deleteModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -162,8 +155,8 @@
     </div>
 @endsection
 @section('scripts')
-    <script src="{{ asset('assets/js/customer.js') }}"></script>
+    <script src="{{ asset('assets/js/driver.js') }}"></script>
     <script>
-        $('.nav-customer').addClass('active');
+        $('.nav-driver').addClass('active');
     </script>
 @endsection

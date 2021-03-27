@@ -13,7 +13,7 @@ class CustomerController extends Controller
     //show all
     public function index(Request $request)
     {
-        $query = DB::table('customers')->select('*');
+        $query = DB::table('customers')->select('*')->orderBy('name','ASC');
 
         if ($request->name) {
             $query = $query->where('name', 'like', "{$request->name}%");

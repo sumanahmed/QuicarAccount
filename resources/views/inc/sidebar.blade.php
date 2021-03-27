@@ -20,6 +20,12 @@
               <p>Customer</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('driver.index') }}" class="nav-link nav-team nav-driver">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Driver</p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
