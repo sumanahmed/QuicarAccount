@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRentsTable extends Migration
+class CreateDriversTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class CreateRentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rents', function (Blueprint $table) {
+        Schema::create('drivers', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('phone');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateRentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rents');
+        Schema::dropIfExists('drivers');
     }
 }

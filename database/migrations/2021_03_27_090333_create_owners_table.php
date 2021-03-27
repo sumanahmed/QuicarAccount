@@ -17,14 +17,16 @@ class CreateOwnersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
-            $table->string('car_type');
-            $table->string('model');
-            $table->string('year');
-            $table->string('reg_number');
-            $table->string('address');
-            $table->string('driver_name');
-            $table->string('driver_phone');
+            $table->unsignedBigInteger('car_type_id')->nullable();
+            $table->unsignedBigInteger('model_id')->nullable();
+            $table->unsignedBigInteger('year_id')->nullable();
+            $table->unsignedBigInteger('driver_id')->nullable();
+            $table->double('contract_amount')->nullable();
             $table->timestamps();
+            $table->foreign('car_type_id')->references('id')->on('car_types');
+            $table->foreign('model_id')->references('id')->on('models');
+            $table->foreign('year_id')->references('id')->on('years');
+            $table->foreign('driver_id')->references('id')->on('years');
         });
     }
 
