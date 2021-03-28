@@ -136,4 +136,5 @@
     <script>
         $('.nav-rent').addClass('active');
     </script>
+    <script src="{{ asset('assets/js/rent.js') }}"></script>
 @endsection

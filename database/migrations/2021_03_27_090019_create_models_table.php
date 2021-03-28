@@ -16,7 +16,9 @@ class CreateModelsTable extends Migration
         Schema::create('models', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('car_type_id');
             $table->timestamps();
+            $table->foreign('car_type_id')->references('id')->on('car_types');
         });
     }
 

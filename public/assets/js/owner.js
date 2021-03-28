@@ -146,3 +146,25 @@ $("#destroy").click(function(){
         }
     });
 });
+
+// get car model
+$("#car_type_id").change(function(){
+    var car_type_id = $(this).val();
+    $.get('/get-car-model/'+ car_type_id, function(response){
+        $('#model_id').empty();
+        for(var i = 0; i <= response.length; i++){
+            $('#model_id').append('<option value="'+ response[i].id +'">'+ response[i].name +'</option');
+        }
+    });
+});
+
+//get brand by car_type_id
+$("#filter_car_type_id").change(function(){
+    var car_type_id = $(this).val();
+    $.get('/get-car-model/'+ car_type_id, function(response){
+        $('#filter_model_id').empty();
+        for(var i = 0; i <= response.length; i++){
+            $('#filter_model_id').append('<option value="'+ response[i].id +'">'+ response[i].name +'</option');
+        }
+    });
+});
