@@ -97,7 +97,20 @@ class RentController extends Controller
         } else {
             return redirect()->back()->with('error_message','Sorry, something went wrong');
         }
+    }
 
-        
+    /**
+     * show create page
+     */
+    public function edit ($id) 
+    {        
+        $rent      = Rent::find($id);
+        $car_types = CarType::all();
+        $models    = CarModel::all();
+        $years     = Year::all(); 
+        $customers = Customer::all(); 
+        $drivers   = Driver::all(); 
+
+        return view('rent.edit', compact('rent','car_types','models','years','customers','drivers'));
     }
 }
