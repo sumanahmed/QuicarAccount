@@ -24,7 +24,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="car-header">
-                      <form class="form" action="{{ route('owner.index') }}" method="get" style="padding:10px 20px;">
+                      <form class="form" action="{{ route('rent.index') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
                           <div class="col-md-3">
                             <div class="form-group">
@@ -71,37 +71,34 @@
                       <table class="table table-sm table-bordered table-striped data_table">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Car Type</th>
-                                <th>Model</th>
-                                <th>Year</th>
-                                <th>Contract Amount</th>
+                                <th>Pickup Location</th>
+                                <th>Drop Location</th>
+                                <th>Reg No</th>
+                                <th>Price</th>
+                                <th>Advance</th>
                                 <th style="vertical-align: middle;text-align: center;">Action</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Pickup Location</th>
+                                <th>Drop Location</th>
                                 <th>Reg No</th>
-                                <th>Phone</th>
-                                <th>Car Type</th>
-                                <th>Model</th>
-                                <th>Year</th>
-                                <th>Contract Amount</th>
+                                <th>Price</th>
+                                <th>Advance</th>
                               <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
                         <tbody id="allRent">
                           @foreach($rents as $rent)
                             <tr class="rent-{{ $rent->id }}">
-                              <td>{{ $rent->name }}</td>
-                              <td>{{ $rent->phone }}</td>
-                              <td>{{ $rent->car_type_name }}</td>
-                              <td>{{ $rent->model_name }}</td>
-                              <td>{{ $rent->year_name }}</td>
-                              <td>{{ $rent->contract_amount }}</td>
+                              <td>{{ $rent->pickup_location }}</td>
+                              <td>{{ $rent->drop_location }}</td>
+                              <td>{{ $rent->reg_number }}</td>
+                              <td>{{ $rent->price }}</td>
+                              <td>{{ $rent->advance }}</td>
                               <td style="vertical-align: middle;text-align: center;">
-                                  <a href="{{ route('edit', $rent->id) }}" class="btn btn-xs btn-warning" title="Edit">Edit</button>
+                                  <a href="{{ route('rent.edit', $rent->id) }}" class="btn btn-xs btn-warning" title="Edit">Edit</a>
                                   <button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="{{ $rent->id }}" title="Delete">Delete</button>
                               </td>
                             </tr>

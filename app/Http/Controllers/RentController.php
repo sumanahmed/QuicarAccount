@@ -10,13 +10,14 @@ use App\Models\Driver;
 use App\Models\Rent;
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 
 class RentController extends Controller
 {
     //show all
     public function index(Request $request)
     {
-        $query = DB::table('rents')->select('*')->orderBy('owners.id', 'DESC');
+        $query = DB::table('rents')->select('*')->orderBy('id', 'DESC');
 
         if ($request->name) {
             $query = $query->where('name', 'like', "{$request->name}%");
@@ -88,8 +89,15 @@ class RentController extends Controller
         $rent->start_date       = date('Y-m-d', strtotime($request->start_date));
         $rent->billing_date     = date('Y-m-d', strtotime($request->billing_date));
         $rent->note             = $request->note;
-        $rent->save();
+        $rent->created_by       = Auth::id();
+        $rent->updated_by       = Auth::id();
+        
+        if ($rent->save()) {
+            return redirect()->route('rent.index')->with('message','Rent added successfully');
+        } else {
+            return redirect()->back()->with('error_message','Sorry, something went wrong');
+        }
 
-        return view('rent.create', compact('car_types','models','years','customers','drivers'));
+        
     }
 }
