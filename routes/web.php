@@ -53,9 +53,9 @@ Route::group(['prefix'=>'/owner', 'middleware'=>'admin'], function(){
 
 Route::group(['prefix'=>'/rent', 'middleware'=>'admin'], function(){
     Route::get('/', [RentController::class, 'index'])->name('rent.index');
-    Route::get('/create', [OwnerController::class, 'create'])->name('rent.create');
-    Route::post('/store', [OwnerController::class, 'store'])->name('owner.store');
-    Route::get('/edit/{id}', [OwnerController::class, 'edit'])->name('rent.edit');
-    Route::post('/update/{id}', [OwnerController::class, 'update'])->name('rent.update');
-    Route::post('/destroy', [OwnerController::class, 'destroy'])->name('rent.destroy');
+    Route::get('/create', [RentController::class, 'create'])->name('rent.create');
+    Route::post('/store', [RentController::class, 'store'])->name('rent.store');
+    Route::get('/edit/{id}', [RentController::class, 'edit'])->name('rent.edit');
+    Route::post('/update/{id}', [RentController::class, 'update'])->name('rent.update');
+    Route::post('/destroy', [RentController::class, 'destroy'])->name('rent.destroy');
 });

@@ -19,8 +19,12 @@ class CreateExpensesTable extends Migration
             $table->date('date');
             $table->double('amount');
             $table->unsignedBigInteger('user_id')->comment('expense_by');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

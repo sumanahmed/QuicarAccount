@@ -18,7 +18,7 @@ class CreateRentsTable extends Migration
             $table->unsignedBigInteger('car_type_id')->nullable();
             $table->unsignedBigInteger('model_id')->nullable();
             $table->unsignedBigInteger('year_id')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->string('reg_number')->nullable();
             $table->integer('total_person')->nullable();
@@ -37,12 +37,16 @@ class CreateRentsTable extends Migration
             $table->date('start_date')->nullable();
             $table->date('billing_date')->nullable();
             $table->text('note')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->foreign('car_type_id')->references('id')->on('car_types');
             $table->foreign('model_id')->references('id')->on('models');
             $table->foreign('year_id')->references('id')->on('years');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('customer_id')->references('id')->on('users');
             $table->foreign('driver_id')->references('id')->on('years');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

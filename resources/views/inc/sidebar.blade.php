@@ -33,7 +33,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('rent.index') }}" class="nav-link nav-team nav-owner">
+            <a href="{{ route('rent.index') }}" class="nav-link nav-team nav-rent">
               <i class="nav-icon fas fa-users"></i>
               <p>Rent</p>
             </a>
