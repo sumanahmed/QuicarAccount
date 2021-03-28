@@ -27,6 +27,15 @@
 <script src="{{ asset('assets/js/adminlte.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+<script src="{{ asset('assets/js/toastr.js') }}"></script>
+<script>
+  $('.datePicker').daterangepicker({
+      singleDatePicker: true,
+      locale: {
+          format: 'YYYY-MM-DD'
+      }
+  });
+</script>
 @if(Session::has('error_message'))
     <script>
         toastr.error("{{ Session::get('error_message') }}")

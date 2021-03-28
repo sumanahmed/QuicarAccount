@@ -16,7 +16,13 @@ class OwnerController extends Controller
     //show all
     public function index(Request $request)
     {
-        $query = DB::table('owners')->select('*');
+        $query = DB::table('owners')
+                    ->leftjoin('car_types','owners.car_type_id','car_types.id')
+                    ->leftjoin('models','owners.model_id','models.id')
+                    ->leftjoin('years','owners.year_id','years.id')
+                    ->select('owners.*','car_types.name as car_type_name',
+                        'models.name as model_name', 'years.name as year_name')
+                    ->orderBy('owners.id', 'DESC');
 
         if ($request->name) {
             $query = $query->where('name', 'like', "{$request->name}%");
@@ -46,8 +52,8 @@ class OwnerController extends Controller
     }
 
     //store
-    public function store(Request $request){
-
+    public function store(Request $request)
+    {       
         $validators = Validator::make($request->all(),[
             'name'   => 'required',
             'phone'  => 'required',
@@ -62,10 +68,11 @@ class OwnerController extends Controller
             $owner               = new Owner();
             $owner->name         = $request->name;
             $owner->phone        = $request->phone;
+            $owner->address      = $request->address;
             $owner->car_type_id  = $request->car_type_id;
             $owner->model_id     = $request->model_id;
             $owner->year_id      = $request->year_id;
-            $owner->driver_id    = $request->driver_id;
+            $owner->driver_id    = isset($request->driver_id) ? $request->driver_id : Null;
             $owner->contract_amount  = $request->contract_amount;
             $owner->save();
 
@@ -73,13 +80,22 @@ class OwnerController extends Controller
             return Response::json([
                 'status'    => false,
                 'message'   => $ex->getMessage(),
-                'data'      => $owner
+                'data'      => []
             ]);
         }
 
+        $new_owner = DB::table('owners')
+                ->leftjoin('car_types','owners.car_type_id','car_types.id')
+                ->leftjoin('models','owners.model_id','models.id')
+                ->leftjoin('years','owners.year_id','years.id')
+                ->select('owners.*','car_types.name as car_type_name',
+                    'models.name as model_name', 'years.name as year_name')
+                ->where('owners.id', $owner->id)
+                ->first();
+
         return Response::json([
             'status'    => true,
-            'data'      => $owner
+            'data'      => $new_owner
         ]);            
     }
 
@@ -100,10 +116,11 @@ class OwnerController extends Controller
             $owner          = Owner::find($request->id);
             $owner->name         = $request->name;
             $owner->phone        = $request->phone;
+            $owner->address      = $request->address;
             $owner->car_type_id  = $request->car_type_id;
             $owner->model_id     = $request->model_id;
             $owner->year_id      = $request->year_id;
-            $owner->driver_id    = $request->driver_id;
+            $owner->driver_id    = isset($request->driver_id) ? $request->driver_id : Null;
             $owner->contract_amount  = $request->contract_amount;
             $owner->update();
 
@@ -115,9 +132,18 @@ class OwnerController extends Controller
             ]);
         }
 
+        $new_owner = DB::table('owners')
+                ->leftjoin('car_types','owners.car_type_id','car_types.id')
+                ->leftjoin('models','owners.model_id','models.id')
+                ->leftjoin('years','owners.year_id','years.id')
+                ->select('owners.*','car_types.name as car_type_name',
+                    'models.name as model_name', 'years.name as year_name')
+                ->where('owners.id', $owner->id)
+                ->first();
+
         return Response::json([
             'status'    => true,
-            'data'      => $owner
+            'data'      => $new_owner
         ]); 
     }
 

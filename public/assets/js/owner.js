@@ -11,7 +11,7 @@ $("#create").click(function (e) {
 
     $.ajax({
         type:'POST',
-        url: '/driver/store',
+        url: '/owner/store',
         headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
         data: {
             name : name,
@@ -36,8 +36,12 @@ $("#create").click(function (e) {
                     '<tr class="owner-'+ response.data.id +'">\n' +
                         '<td>'+ response.data.name +'</td>\n' +
                         '<td>'+ response.data.phone +'</td>\n' +
+                        '<td>'+ response.data.car_type_name +'</td>\n' +
+                        '<td>'+ response.data.model_name +'</td>\n' +
+                        '<td>'+ response.data.year_name +'</td>\n' +
+                        '<td>'+ response.data.contract_amount +'</td>\n' +
                         '<td style="vertical-align: middle;text-align: center;">\n' +                        
-                            '<button class="btn btn-xs btn-warning" data-toggle="modal" id="edit" data-target="#editModal" data-id="'+ response.data.id +'" data-name="'+ response.data.name +'" data-phone="'+ response.data.phone +'" title="Edit">Edit</button>\n' +
+                            '<button class="btn btn-xs btn-warning" data-toggle="modal" id="edit" data-target="#editModal" data-id="'+ response.data.id +'" data-name="'+ response.data.name +'" data-phone="'+ response.data.phone +'" data-car_type_id="'+ response.data.car_type_id +'" data-model_id="'+ response.data.model_id +'" data-year_id="'+ response.data.year_id +'" data-contract_amount="'+ response.data.contract_amount +'" data-address="'+ response.data.address +'" title="Edit">Edit</button>\n' +
                             '<button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="'+ response.data.id +'" title="Delete">Delete</button>\n' +
                         '</td>\n' +
                     '</tr>'+
@@ -51,29 +55,44 @@ $("#create").click(function (e) {
 });
 
 
-//open edit District modal
+//open edit modal
 $(document).on('click', '#edit', function () {
     console.log('data phone', $(this).data('phone'))
     $('#editModal').modal('show');
     $('#edit_id').val($(this).data('id'));
     $('#edit_name').val($(this).data('name'));
     $('#edit_phone').val($(this).data('phone'));
+    $('#edit_car_type_id').val($(this).data('car_type_id'));
+    $('#edit_model_id').val($(this).data('model_id'));
+    $('#edit_year_id').val($(this).data('year_id'));
+    $('#edit_contract_amount').val($(this).data('contract_amount'));
+    $('#edit_address').val($(this).data('address'));
  });
 
-// update District
+// update 
 $("#update").click(function (e) {
     e.preventDefault();
     var id      = $("#edit_id").val();
     var name    = $("#edit_name").val();
     var phone   = $("#edit_phone").val();
+    var car_type_id     = $("#edit_car_type_id").val();
+    var model_id        = $("#edit_model_id").val();
+    var year_id         = $("#edit_year_id").val();
+    var contract_amount = $("#edit_contract_amount").val();
+    var address         = $("#edit_address").val();
     $.ajax({
         type:'POST',
-        url: '/driver/update',
+        url: '/owner/update',
         headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
         data: {
             id    : id,
             name  : name,
             phone : phone,
+            car_type_id : car_type_id,
+            model_id    : model_id,
+            year_id     : year_id,
+            contract_amount : contract_amount,
+            address     : address
         },
         success:function(response){
             if((response.errors)){
@@ -85,12 +104,16 @@ $("#update").click(function (e) {
                 }   
             }else{
                 $('#editModal').modal('hide');
-                $("tr.driver-"+ response.data.id).replaceWith('' +
-                    '<tr class="driver-'+ response.data.id +'">\n' +
+                $("tr.owner-"+ response.data.id).replaceWith('' +
+                    '<tr class="owner-'+ response.data.id +'">\n' +
                         '<td>'+ response.data.name +'</td>\n' +
                         '<td>'+ response.data.phone +'</td>\n' +
-                        '<td style="vertical-align: middle;text-align: center;">\n' +
-                            '<button class="btn btn-xs btn-warning" data-toggle="modal" id="edit" data-target="#editModal" data-id="'+ response.data.id +'" data-name="'+ response.data.name +'" data-phone="'+ response.data.phone +'" title="Edit">Edit</button>\n' +
+                        '<td>'+ response.data.car_type_name +'</td>\n' +
+                        '<td>'+ response.data.model_name +'</td>\n' +
+                        '<td>'+ response.data.year_name +'</td>\n' +
+                        '<td>'+ response.data.contract_amount +'</td>\n' +
+                        '<td style="vertical-align: middle;text-align: center;">\n' +                        
+                            '<button class="btn btn-xs btn-warning" data-toggle="modal" id="edit" data-target="#editModal" data-id="'+ response.data.id +'" data-name="'+ response.data.name +'" data-phone="'+ response.data.phone +'" data-car_type_id="'+ response.data.car_type_id +'" data-model_id="'+ response.data.model_id +'" data-year_id="'+ response.data.year_id +'" data-contract_amount="'+ response.data.contract_amount +'" data-address="'+ response.data.address +'" title="Edit">Edit</button>\n' +
                             '<button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="'+ response.data.id +'" title="Delete">Delete</button>\n' +
                         '</td>\n' +
                     '</tr>'+
@@ -101,25 +124,25 @@ $("#update").click(function (e) {
     });
 });
 
-//open delete District modal
+//open delete modal
 $(document).on('click', '#delete', function () {
     $('#deleteModal').modal('show');
     $('input[name=del_id]').val($(this).data('id'));
  });
 
-//destroy District
+//destroy 
 $("#destroy").click(function(){
     $.ajax({
         type: 'POST',
-        url: '/driver/destroy',
+        url: '/owner/destroy',
         headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
         data: {
             id: $('input[name=del_id]').val()
         },
         success: function (data) {
             $('#deleteModal').modal('hide');
-            $('.driver-' + $('input[name=del_id]').val()).remove();
-            toastr.success('District Deleted')
+            $('.owner-' + $('input[name=del_id]').val()).remove();
+            toastr.success('Deleted')
         }
     });
 });

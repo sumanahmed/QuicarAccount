@@ -102,12 +102,12 @@
                         </tfoot>
                         <tbody id="allOwner">
                           @foreach($owners as $owner)
-                            <tr class="driver-{{ $owner->id }}">
+                            <tr class="owner-{{ $owner->id }}">
                               <td>{{ $owner->name }}</td>
                               <td>{{ $owner->phone }}</td>
-                              <td>{{ $owner->carType->name }}</td>
-                              <td>{{ $owner->model->name }}</td>
-                              <td>{{ $owner->year->name }}</td>
+                              <td>{{ $owner->car_type_name }}</td>
+                              <td>{{ $owner->model_name }}</td>
+                              <td>{{ $owner->year_name }}</td>
                               <td>{{ $owner->contract_amount }}</td>
                               <td style="vertical-align: middle;text-align: center;">
                                   <button class="btn btn-xs btn-warning" data-toggle="modal" id="edit" data-target="#editModal" data-id="{{ $owner->id }}" data-name="{{ $owner->name }}" data-phone="{{ $owner->phone }}"
@@ -162,23 +162,25 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="form-group">
-                                <label for="name">Car Type</label>
-                                <select name="car_type_id" id="car_type_id" class="form-control">
-                                    @foreach($car_types as $car_type) 
-                                        <option value="{{ $car_type->id }}">{{ $car_type->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                          <div class="form-group">
+                            <label for="name">Car Type</label>
+                            <select name="car_type_id" id="car_type_id" class="form-control">
+                              <option selected disabled>Select</option>
+                              @foreach($car_types as $car_type) 
+                                  <option value="{{ $car_type->id }}">{{ $car_type->name }}</option>
+                              @endforeach
+                            </select>
+                          </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="name">Model</label>
-                                <select name="model_id" id="model_id" class="form-control">
-                                    @foreach($models as $model) 
-                                        <option value="{{ $model->id }}">{{ $model->name }}</option>
-                                    @endforeach
-                                </select>
+                              <label for="name">Model</label>
+                              <select name="model_id" id="model_id" class="form-control">
+                                <option selected disabled>Select</option>
+                                  @foreach($models as $model) 
+                                      <option value="{{ $model->id }}">{{ $model->name }}</option>
+                                  @endforeach
+                              </select>
                             </div>
                         </div>
                     </div>
@@ -187,6 +189,7 @@
                             <div class="form-group">
                                 <label for="name">Year</label>
                                 <select name="year_id" id="year_id" class="form-control">
+                                    <option selected disabled>Select</option>
                                     @foreach($years as $year) 
                                         <option value="{{ $year->id }}" @if(isset($_GET['year_id']) && $year->id == $_GET['year_id']) selected @endif>{{ $year->name }}</option>
                                     @endforeach
@@ -215,17 +218,74 @@
                   <h5 class="modal-title text-center w-100">Edit</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                      <label class="col-form-label">Name <span class="text-danger" title="Required">*</span></label>
-                      <input type="text" class="form-control" id="edit_name" placeholder="Name" required>
-                      <input type="hidden" id="edit_id" />
-                      <span class="nameError text-danger text-bold"></span>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="col-form-label">Name <span class="text-danger" title="Required">*</span></label>
+                                <input type="text" class="form-control" name="name" id="edit_name" placeholder="Name" required>
+                                <input type="hidden" id="edit_id"/>
+                                <span class="errorName text-danger text-bold"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="col-form-label">Phone <span class="text-danger" title="Required">*</span></label>
+                                <input type="text" class="form-control" name="phone" id="edit_phone" placeholder="Phone" required>
+                                <span class="errorPhone text-danger text-bold"></span>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                      <label class="col-form-label">Phone <span class="text-danger" title="Required">*</span></label>
-                      <input type="text" class="form-control" id="edit_phone" placeholder="Phone" required>
-                      <span class="errorBnName text-danger text-bold"></span>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="col-form-label">Address <span class="text-danger" title="Required">*</span></label>
+                                <input type="text" class="form-control" name="address" id="edit_address" placeholder="Enter Address" required>
+                                <span class="errorName text-danger text-bold"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <label for="name">Car Type</label>
+                            <select name="car_type_id" id="edit_car_type_id" class="form-control">
+                              <option selected disabled>Select</option>
+                              @foreach($car_types as $car_type) 
+                                  <option value="{{ $car_type->id }}">{{ $car_type->name }}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                              <label for="name">Model</label>
+                              <select name="model_id" id="edit_model_id" class="form-control">
+                                <option selected disabled>Select</option>
+                                  @foreach($models as $model) 
+                                      <option value="{{ $model->id }}">{{ $model->name }}</option>
+                                  @endforeach
+                              </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="name">Year</label>
+                                <select name="year_id" id="edit_year_id" class="form-control">
+                                    <option selected disabled>Select</option>
+                                    @foreach($years as $year) 
+                                        <option value="{{ $year->id }}" @if(isset($_GET['year_id']) && $year->id == $_GET['year_id']) selected @endif>{{ $year->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="contract_amount">Conract Amount</label>
+                                <input type="text" id="edit_contract_amount" class="form-control" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -32,6 +32,35 @@
               <p>Owner</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('rent.index') }}" class="nav-link nav-team nav-owner">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Rent</p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview menu-product">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-sitemap"></i>
+              <p>Accounts<i class="fas fa-angle-left right"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link nav-income">
+                  <p>Income</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link nav-expense">
+                  <p>Expense</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link nav-expense">
+                  <p>Report</p>
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

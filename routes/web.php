@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\RentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,26 +23,39 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+Route::get('/',[AuthController::class, 'login'])->name('login');
+Route::post('/sign-in',[AuthController::class, 'signIn'])->name('signin');
+Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::group(['prefix'=>'/customer'], function(){
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('admin');
+
+Route::group(['prefix'=>'/customer', 'middleware'=>'admin'], function(){
     Route::get('/', [CustomerController::class, 'index'])->name('customer.index');
     Route::post('/store', [CustomerController::class, 'store'])->name('customer.store');
     Route::post('/update', [CustomerController::class, 'update'])->name('customer.update');
     Route::post('/destroy', [CustomerController::class, 'destroy'])->name('customer.destroy');
 });
 
-Route::group(['prefix'=>'/driver'], function(){
+Route::group(['prefix'=>'/driver', 'middleware'=>'admin'], function(){
     Route::get('/', [DriverController::class, 'index'])->name('driver.index');
     Route::post('/store', [DriverController::class, 'store'])->name('driver.store');
     Route::post('/update', [DriverController::class, 'update'])->name('driver.update');
     Route::post('/destroy', [DriverController::class, 'destroy'])->name('driver.destroy');
 });
 
-Route::group(['prefix'=>'/owner'], function(){
+Route::group(['prefix'=>'/owner', 'middleware'=>'admin'], function(){
     Route::get('/', [OwnerController::class, 'index'])->name('owner.index');
     Route::post('/store', [OwnerController::class, 'store'])->name('owner.store');
     Route::post('/update', [OwnerController::class, 'update'])->name('owner.update');
     Route::post('/destroy', [OwnerController::class, 'destroy'])->name('owner.destroy');
+});
+
+Route::group(['prefix'=>'/rent', 'middleware'=>'admin'], function(){
+    Route::get('/', [RentController::class, 'index'])->name('rent.index');
+    Route::get('/create', [OwnerController::class, 'create'])->name('rent.create');
+    Route::post('/store', [OwnerController::class, 'store'])->name('owner.store');
+    Route::get('/edit/{id}', [OwnerController::class, 'edit'])->name('rent.edit');
+    Route::post('/update/{id}', [OwnerController::class, 'update'])->name('rent.update');
+    Route::post('/destroy', [OwnerController::class, 'destroy'])->name('rent.destroy');
 });

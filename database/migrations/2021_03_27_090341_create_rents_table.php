@@ -22,8 +22,8 @@ class CreateRentsTable extends Migration
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->string('reg_number')->nullable();
             $table->integer('total_person')->nullable();
-            $table->tinyInteger('rent_type')->comment('1=test')->default(1);
-            $table->tinyInteger('status')->comment('1=test')->default(1);
+            $table->tinyInteger('rent_type')->comment('1=drop_only,2=round_trip,3=body_rent,4=monthly')->default(1);
+            $table->tinyInteger('status')->comment('1=upcoming,2=ongoing,3=complete,4=cancel')->default(1);
             $table->string('pickup_location')->nullable();
             $table->string('pickup_datetime')->nullable();
             $table->string('drop_location')->nullable();
