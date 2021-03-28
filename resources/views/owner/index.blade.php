@@ -316,6 +316,6 @@
 @section('scripts')
     <script src="{{ asset('assets/js/owner.js') }}"></script>
     <script>
-        $('.nav-driver').addClass('active');
+        $('.nav-owner').addClass('active');
     </script>
 @endsection

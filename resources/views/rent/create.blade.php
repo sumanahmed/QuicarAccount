@@ -1,10 +1,6 @@
 @extends('layout.admin')
 @section('title','Rent')
 
-@section('styles')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote-bs4.min.css" rel="stylesheet">
-@endsection
-
 @section('content')
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -162,7 +158,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="pickup_datetime">Pickup Date Time</label>
-                                                <input type="text" name="pickup_datetime" id="pickup_datetime" class="form-control" />
+                                                <input type="datetime-local" name="pickup_datetime" id="pickup_datetime" class="form-control" />
                                                 @if($errors->has('pickup_datetime'))
                                                     <span class="text-danger">{{ $errors->first('pickup_datetime') }}</span>
                                                 @endif
@@ -180,7 +176,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="drop_datetime">Drop Date Time</label>
-                                                <input type="text" name="drop_datetime" id="drop_datetime" class="form-control" />
+                                                <input type="datetime-local" name="drop_datetime" id="drop_datetime" class="form-control" />
                                                 @if($errors->has('drop_datetime'))
                                                     <span class="text-danger">{{ $errors->first('drop_datetime') }}</span>
                                                 @endif
@@ -243,7 +239,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="start_date">Start Date</label>
-                                                <input type="text" name="start_date" id="start_date" class="form-control"/>
+                                                <input type="date" name="start_date" id="start_date" class="form-control"/>
                                                 @if($errors->has('start_date'))
                                                     <span class="text-danger">{{ $errors->first('start_date') }}</span>
                                                 @endif
@@ -252,7 +248,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="billing_date">Billing Date</label>
-                                                <input type="text" name="billing_date" id="billing_date" class="form-control" />
+                                                <input type="date" name="billing_date" id="billing_date" class="form-control" />
                                                 @if($errors->has('billing_date'))
                                                     <span class="text-danger">{{ $errors->first('billing_date') }}</span>
                                                 @endif
@@ -286,12 +282,5 @@
 @section('scripts')
     <script>
         $('.nav-rent').addClass('active');
-    </script>
-    <script>
-        $('.textarea').summernote({
-            placeholder: '',
-            tabsize: 2,
-            height: 250
-        });
     </script>
 @endsection
