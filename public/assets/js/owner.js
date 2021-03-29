@@ -147,6 +147,33 @@ $("#destroy").click(function(){
     });
 });
 
+//open delete modal
+$(document).on('click', '#sms', function () {
+    $('#smsModal').modal('show');
+    $('#sms_owner_id').val($(this).data('id'));
+ });
+
+//destroy 
+$("#send").click(function(e){
+    e.preventDefault();
+
+    var owner_id= $('#sms_owner_id').val();
+    var sms = $('#message').val();
+    $.ajax({
+        type: 'POST',
+        url: '/owner/send-sms',
+        headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+        data: {
+            owner_id: owner_id,
+            sms: sms
+        },
+        success: function (data) {
+            $('#smsModal').modal('hide');
+            toastr.success('SMS Send Successfully')
+        }
+    });
+});
+
 // get car model
 $("#car_type_id").change(function(){
     var car_type_id = $(this).val();

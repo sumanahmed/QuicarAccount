@@ -107,7 +107,7 @@ class RentController extends Controller
     {        
         $rent      = Rent::find($id);
         $car_types = CarType::all();
-        $models    = CarModel::all();
+        $models    = CarModel::where('car_type_id', $rent->car_type_id)->get();
         $years     = Year::all(); 
         $customers = Customer::all(); 
         $drivers   = Driver::all(); 
@@ -162,21 +162,24 @@ class RentController extends Controller
     /**
      * status update
      */
-    public function statusUpdate ($rent_id, $status) 
+    public function statusUpdate (Request $request) 
     {
-        $rent = Rent::find($rent_id);
+        $rent = Rent::find($request->rent_id);
 
-        if ($status == 3) {
+        if ($request->status == 3) {
 
-            $income         = new Income();
-            $income->name   = 'Income From commission';
-            $income->date   = date('Y-m-d');
-            $income->amount = $rent->commission;
-            $income->amount = save();
+            $income             = new Income();
+            $income->name       = 'Income From commission';
+            $income->date       = date('Y-m-d');
+            $income->amount     = $rent->commission;
+            $income->amount     = $rent->commission;
+            $income->created_by = Auth::id();
+            $income->updated_by = Auth::id();
+            $income->save();
 
         }
 
-        $rent->status = $status;
+        $rent->status = $request->status;
         $rent->update();
     }
 

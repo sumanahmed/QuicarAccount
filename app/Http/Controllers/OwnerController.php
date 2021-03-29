@@ -9,6 +9,7 @@ use Response;
 use App\Models\Owner;
 use App\Models\Year;
 use App\Models\CarModel;
+use GuzzleHttp\Client;
 use DB;
 
 class OwnerController extends Controller
@@ -151,5 +152,15 @@ class OwnerController extends Controller
     public function destroy(Request $request){
         Owner::find($request->id)->delete();
         return response()->json();
+    }
+
+    /**
+     * send sms
+     */
+    public function sendSMS (Request $request) 
+    {  
+        $owner = Owner::find($request->owner_id); 
+        $client = new Client();            
+        $sms    = $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $owner->phone ."&message=".$request->sms);
     }
 }

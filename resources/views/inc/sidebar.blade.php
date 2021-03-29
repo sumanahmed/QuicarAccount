@@ -61,25 +61,25 @@
               <p>Rent</p>
             </a>
           </li>
-          <li class="nav-item has-treeview menu-product">
+          <li class="nav-item has-treeview menu-accounts">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-sitemap"></i>
               <p>Accounts<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link nav-income">
+                <a href="{{ route('accounts.income') }}" class="nav-link nav-income">
                   <p>Income</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link nav-expense">
+                <a href="{{ route('accounts.expense') }}" class="nav-link nav-expense">
                   <p>Expense</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link nav-expense">
-                  <p>Report</p>
+                <a href="{{ route('accounts.summary') }}" class="nav-link nav-summary">
+                  <p>Summary</p>
                 </a>
               </li>
             </ul>

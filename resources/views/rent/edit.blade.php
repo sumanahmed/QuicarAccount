@@ -34,7 +34,7 @@
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="name">Car Type</label>
-                                            <select name="car_type_id" class="form-control">
+                                            <select name="car_type_id" id="car_type_id" class="form-control">
                                                 <option value="0">Select</option>
                                                 @foreach($car_types as $car_type) 
                                                     <option value="{{ $car_type->id }}" @if($rent->car_type_id == $car_type->id) selected @endif>{{ $car_type->name }}</option>
@@ -48,7 +48,7 @@
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="model_id">Model</label>
-                                            <select name="model_id" class="form-control">
+                                            <select name="model_id" id="model_id" class="form-control">
                                                 <option value="0">Select</option>
                                                 @foreach($models as $model) 
                                                     <option value="{{ $model->id }}" @if($rent->model_id == $model->id) selected @endif>{{ $model->name }}</option>

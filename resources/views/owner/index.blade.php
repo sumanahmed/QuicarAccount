@@ -113,10 +113,11 @@
                               <td>{{ $owner->year_name }}</td>
                               <td>{{ $owner->contract_amount }}</td>
                               <td style="vertical-align: middle;text-align: center;">
-                                  <button class="btn btn-xs btn-warning" data-toggle="modal" id="edit" data-target="#editModal" data-id="{{ $owner->id }}" data-name="{{ $owner->name }}" data-phone="{{ $owner->phone }}"
-                                    data-car_type_id="{{ $owner->car_type_id }}" data-model_id="{{ $owner->model_id }}" data-year_id="{{ $owner->year_id }}"  data-contract_amount="{{ $owner->contract_amount }}"
-                                    data-address="{{ $owner->address }}" title="Edit">Edit</button>
-                                  <button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="{{ $owner->id }}" title="Delete">Delete</button>
+                                <button class="btn btn-xs btn-primary" data-toggle="modal" id="sms" data-id="{{ $owner->id }}" title="Delete">SMS</button>
+                                <button class="btn btn-xs btn-warning" data-toggle="modal" id="edit" data-target="#editModal" data-id="{{ $owner->id }}" data-name="{{ $owner->name }}" data-phone="{{ $owner->phone }}"
+                                  data-car_type_id="{{ $owner->car_type_id }}" data-model_id="{{ $owner->model_id }}" data-year_id="{{ $owner->year_id }}"  data-contract_amount="{{ $owner->contract_amount }}"
+                                  data-address="{{ $owner->address }}" title="Edit">Edit</button>
+                                <button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="{{ $owner->id }}" title="Delete">Delete</button>
                               </td>
                             </tr>
                           @endforeach
@@ -131,6 +132,31 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
+    <div class="modal fade" tabindex="-1" id="smsModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-default" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                  <h5 class="modal-title text-center w-100">Send SMS</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="col-form-label">SMS <span class="text-danger" title="Required">*</span></label>
+                                <textarea class="form-control" id="message" placeholder="Enter your sms" required></textarea>
+                                <input type="hidden" id="sms_owner_id" />
+                                <span class="errorSms text-danger text-bold"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" id="send">Send</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" tabindex="-1" id="createModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-default" role="document">
             <div class="modal-content">

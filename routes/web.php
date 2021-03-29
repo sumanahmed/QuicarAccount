@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarModelController;
 use App\Http\Controllers\CarTypeController;
@@ -75,6 +76,7 @@ Route::group(['prefix'=>'/owner', 'middleware'=>'admin'], function(){
     Route::post('/store', [OwnerController::class, 'store'])->name('owner.store');
     Route::post('/update', [OwnerController::class, 'update'])->name('owner.update');
     Route::post('/destroy', [OwnerController::class, 'destroy'])->name('owner.destroy');
+    Route::post('/send-sms', [OwnerController::class, 'sendSMS'])->name('owner.send.sms');
 });
 
 Route::group(['prefix'=>'/rent', 'middleware'=>'admin'], function(){
@@ -84,5 +86,11 @@ Route::group(['prefix'=>'/rent', 'middleware'=>'admin'], function(){
     Route::get('/edit/{id}', [RentController::class, 'edit'])->name('rent.edit');
     Route::post('/update/{id}', [RentController::class, 'update'])->name('rent.update');
     Route::post('/destroy', [RentController::class, 'destroy'])->name('rent.destroy');
-    Route::post('/status-update/{rent_id}/{status}', [RentController::class, 'statusUpdate'])->name('rent.stats.update');
+    Route::post('/status-update', [RentController::class, 'statusUpdate'])->name('rent.stats.update');
+});
+
+Route::group(['prefix'=>'/accounts', 'middleware'=>'admin'], function(){
+    Route::get('/income', [AccountsController::class, 'income'])->name('accounts.income');
+    Route::get('/expense', [AccountsController::class, 'expense'])->name('accounts.expense');
+    Route::get('/summary', [AccountsController::class, 'summary'])->name('accounts.summary');
 });
