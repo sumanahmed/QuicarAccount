@@ -35,9 +35,9 @@
                                         <div class="form-group">
                                             <label for="name">Car Type</label>
                                             <select name="car_type_id" id="car_type_id" class="form-control">
-                                                <option value="0">Select</option>
+                                                <option selected disabled>Select</option>
                                                 @foreach($car_types as $car_type) 
-                                                    <option value="{{ $car_type->id }}">{{ $car_type->name }}</option>
+                                                    <option value="{{ $car_type->id }}" @if(old("car_type_id") == $car_type->id) selected @endif>{{ $car_type->name }}</option>
                                                 @endforeach
                                             </select>
                                             @if($errors->has('car_type_id'))
@@ -49,7 +49,7 @@
                                         <div class="form-group">
                                             <label for="model_id">Model</label>
                                             <select name="model_id" id="model_id" class="form-control">
-                                                <option value="0">Select</option>
+                                                <option selected disabled>Select</option>
                                             </select>
                                             @if($errors->has('model_id'))
                                                 <span class="text-danger">{{ $errors->first('model_id') }}</span>
@@ -60,20 +60,23 @@
                                         <div class="form-group">
                                             <label for="year">Year</label>
                                             <select name="year_id" class="form-control">
-                                                <option value="0">Select</option>
+                                                <option selected disabled>Select</option>
                                                 @foreach($years as $year) 
                                                     <option value="{{ $year->id }}">{{ $year->name }}</option>
                                                 @endforeach
                                             </select>
+                                            @if($errors->has('year_id'))
+                                                <span class="text-danger"> {{ $errors->first('year_id') }}</span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="customer_id">Customer</label>
                                             <select name="customer_id" class="form-control">
-                                                <option value="0">Select</option>
+                                                <option selected disabled>Select</option>
                                                 @foreach($customers as $customer) 
-                                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                                    <option value="{{ $customer->id }}" @if(old("customer_id") == $customer->id) selected @endif>{{ $customer->name }}</option>
                                                 @endforeach
                                             </select>
                                             @if($errors->has('customer_id'))
@@ -85,9 +88,9 @@
                                         <div class="form-group">
                                             <label for="driver_id">Driver</label>
                                             <select name="driver_id" class="form-control">
-                                                <option value="0">Select</option>
+                                                <option selected disabled>Select</option>
                                                 @foreach($drivers as $driver) 
-                                                    <option value="{{ $driver->id }}">{{ $driver->name }}</option>
+                                                    <option value="{{ $driver->id }}" @if(old("driver_id") == $driver->id) selected @endif>{{ $driver->name }}</option>
                                                 @endforeach
                                             </select>
                                             @if($errors->has('driver_id'))
@@ -98,7 +101,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="reg_number">Registration No</label>
-                                            <input type="text" name="reg_number" class="form-control" placeholder="Enter registration no" />
+                                            <input type="text" name="reg_number" value="{{ old('reg_number') }}" class="form-control" placeholder="Enter registration no" />
                                             @if($errors->has('reg_number'))
                                                 <span class="text-danger">{{ $errors->first('reg_number') }}</span>
                                             @endif
@@ -107,7 +110,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="total_person">Total Person</label>
-                                            <input type="text" name="total_person" class="form-control" placeholder="Total Person" />
+                                            <input type="text" name="total_person" value="{{ old('total_person') }}" class="form-control" placeholder="Total Person" />
                                             @if($errors->has('total_person'))
                                                 <span class="text-danger">{{ $errors->first('total_person') }}</span>
                                             @endif
@@ -144,7 +147,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="pickup_location">Pickup Location</label>
-                                            <input type="text" name="pickup_location" id="pickup_location" class="form-control" placeholder="Pickup Location" />
+                                            <input type="text" name="pickup_location" value="{{ old('pickup_location') }}" id="pickup_location" class="form-control" placeholder="Pickup Location" />
                                             @if($errors->has('pickup_location'))
                                                 <span class="text-danger">{{ $errors->first('pickup_location') }}</span>
                                             @endif
@@ -153,7 +156,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="pickup_datetime">Pickup Date Time</label>
-                                            <input type="datetime-local" name="pickup_datetime" id="pickup_datetime" class="form-control" />
+                                            <input type="datetime-local" name="pickup_datetime" value="{{ old('pickup_datetime') }}" id="pickup_datetime" class="form-control" />
                                             @if($errors->has('pickup_datetime'))
                                                 <span class="text-danger">{{ $errors->first('pickup_datetime') }}</span>
                                             @endif
@@ -162,7 +165,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="drop_location">Drop Location</label>
-                                            <input type="text" name="drop_location" id="drop_location" class="form-control" placeholder="Drop Location" />
+                                            <input type="text" name="drop_location" value="{{ old('drop_location') }}" id="drop_location" class="form-control" placeholder="Drop Location" />
                                             @if($errors->has('drop_location'))
                                                 <span class="text-danger">{{ $errors->first('drop_location') }}</span>
                                             @endif
@@ -171,7 +174,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="drop_datetime">Drop Date Time</label>
-                                            <input type="datetime-local" name="drop_datetime" id="drop_datetime" class="form-control" />
+                                            <input type="datetime-local" name="drop_datetime" value="{{ old('drop_datetime') }}" id="drop_datetime" class="form-control" />
                                             @if($errors->has('drop_datetime'))
                                                 <span class="text-danger">{{ $errors->first('drop_datetime') }}</span>
                                             @endif
@@ -180,7 +183,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="price">Price</label>
-                                            <input type="text" name="price" id="price" class="form-control" placeholder="Enter price" />
+                                            <input type="text" name="price" id="price" value="{{ old('price') }}" class="form-control" placeholder="Enter price" />
                                             @if($errors->has('price'))
                                                 <span class="text-danger">{{ $errors->first('price') }}</span>
                                             @endif
@@ -189,7 +192,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="advance">Advance</label>
-                                            <input type="text" name="advance" id="advance" class="form-control" placeholder="Enter advance" />
+                                            <input type="text" name="advance" id="advance" value="{{ old('advance') }}" class="form-control" placeholder="Enter advance" />
                                             @if($errors->has('advance'))
                                                 <span class="text-danger">{{ $errors->first('advance') }}</span>
                                             @endif
@@ -198,7 +201,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="commission">Commission</label>
-                                            <input type="text" name="commission" id="commission" class="form-control" placeholder="Enter commission" />
+                                            <input type="text" name="commission" id="commission" value="{{ old('commission') }}" class="form-control" placeholder="Enter commission" />
                                             @if($errors->has('commission'))
                                                 <span class="text-danger">{{ $errors->first('commission') }}</span>
                                             @endif
@@ -207,7 +210,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="remaining">Remaining</label>
-                                            <input type="text" name="remaining" id="remaining" class="form-control" placeholder="Enter remaining" />
+                                            <input type="text" name="remaining" id="remaining" value="{{ old('remaining') }}" class="form-control" placeholder="Enter remaining" />
                                             @if($errors->has('remaining'))
                                                 <span class="text-danger">{{ $errors->first('remaining') }}</span>
                                             @endif
@@ -216,7 +219,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="driver_get">Driver get</label>
-                                            <input type="text" name="driver_get" id="driver_get" class="form-control" placeholder="Driver get" />
+                                            <input type="text" name="driver_get" id="driver_get" value="{{ old('driver_get') }}" class="form-control" placeholder="Driver get" />
                                             @if($errors->has('driver_get'))
                                                 <span class="text-danger">{{ $errors->first('driver_get') }}</span>
                                             @endif
@@ -225,7 +228,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="driver_accomodation">Driver Accomodation</label>
-                                            <input type="text" name="driver_accomodation" id="driver_accomodation" class="form-control" placeholder="Driver Accomodation" />
+                                            <input type="text" name="driver_accomodation" value="{{ old('driver_accomodation') }}" id="driver_accomodation" class="form-control" placeholder="Driver Accomodation" />
                                             @if($errors->has('driver_accomodation'))
                                                 <span class="text-danger">{{ $errors->first('driver_accomodation') }}</span>
                                             @endif
@@ -234,7 +237,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="start_date">Start Date</label>
-                                            <input type="date" name="start_date" id="start_date" class="form-control"/>
+                                            <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}" class="form-control"/>
                                             @if($errors->has('start_date'))
                                                 <span class="text-danger">{{ $errors->first('start_date') }}</span>
                                             @endif
@@ -243,7 +246,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="billing_date">Billing Date</label>
-                                            <input type="date" name="billing_date" id="billing_date" class="form-control" />
+                                            <input type="date" name="billing_date" id="billing_date" value="{{ old('billing_date') }}" class="form-control" />
                                             @if($errors->has('billing_date'))
                                                 <span class="text-danger">{{ $errors->first('billing_date') }}</span>
                                             @endif
@@ -252,7 +255,7 @@
                                     <div class="col-md-9">
                                         <div class="form-group">
                                             <label for="note">Note</label>
-                                            <input type="text" name="note" id="note" class="form-control" placeholder="note.." />
+                                            <input type="text" name="note" id="note" value="{{ old('note') }}" class="form-control" placeholder="Enter note.." />
                                             @if($errors->has('note'))
                                                 <span class="text-danger">{{ $errors->first('note') }}</span>
                                             @endif

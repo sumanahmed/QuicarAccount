@@ -16,4 +16,12 @@ class Rent extends Model
     public function updatedBy() {
     	return $this->belongsTo('App\Models\User', 'updated_by', 'id');
     }
+    
+    public function CarType() {
+    	return $this->belongsTo('App\Models\CarType', 'car_type_id');
+    } 
+    
+    public function CarModel() {
+    	return $this->belongsTo('App\Models\CarModel', 'model_id');
+    }
 }

@@ -76,6 +76,7 @@
                                 <th>Reg No</th>
                                 <th>Price</th>
                                 <th>Advance</th>
+                                <th>Status</th>
                                 <th style="vertical-align: middle;text-align: center;">Action</th>
                             </tr>
                         </thead>
@@ -86,6 +87,7 @@
                                 <th>Reg No</th>
                                 <th>Price</th>
                                 <th>Advance</th>
+                                <th>Status</th>
                               <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
@@ -97,6 +99,7 @@
                               <td>{{ $rent->reg_number }}</td>
                               <td>{{ $rent->price }}</td>
                               <td>{{ $rent->advance }}</td>
+                              <td>{{ getStatus($rent->status) }}</td>
                               <td style="vertical-align: middle;text-align: center;">
                                 <button class="btn btn-xs btn-info" data-toggle="modal" id="statusChange" data-id="{{ $rent->id }}" data-status="{{ $rent->status }}" title="Status">Status</button>
                                 <a href="{{ route('rent.edit', $rent->id) }}" class="btn btn-xs btn-warning" title="Edit">Edit</a>
@@ -162,6 +165,19 @@
             </div>
         </div>
     </div>
+    <?php
+        function getStatus ($status) {
+            if ($status == 1) {
+                echo "Upcoming";
+            } else if ($status == 2) {
+                echo "Ongoing";
+            } else if ($status == 3) {
+                echo "Complete";
+            } else if ($status == 4) {
+                echo "Cancel";
+            }
+        }
+    ?>
 @endsection
 @section('scripts')
     <script>

@@ -10,6 +10,8 @@ use App\Models\Driver;
 use App\Models\Income;
 use App\Models\Rent;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use Exception;
 use DB;
 use Auth;
 
@@ -68,36 +70,77 @@ class RentController extends Controller
      */
     public function store (Request $request) 
     {   
-        $rent                   = new Rent();
-        $rent->car_type_id      = $request->car_type_id;
-        $rent->model_id         = $request->model_id;
-        $rent->year_id          = $request->year_id;
-        $rent->customer_id      = $request->customer_id;
-        $rent->driver_id        = $request->driver_id;
-        $rent->reg_number       = $request->reg_number;
-        $rent->total_person     = $request->total_person;
-        $rent->rent_type        = $request->rent_type;
-        $rent->status           = $request->status;
-        $rent->pickup_location  = $request->pickup_location;
-        $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
-        $rent->drop_location    = $request->drop_location;
-        $rent->drop_datetime    = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
-        $rent->price            = $request->price;
-        $rent->advance          = $request->advance;
-        $rent->commission       = $request->commission;
-        $rent->remaining        = $request->remaining;
-        $rent->driver_accomodation = $request->driver_accomodation;
-        $rent->start_date       = date('Y-m-d', strtotime($request->start_date));
-        $rent->billing_date     = date('Y-m-d', strtotime($request->billing_date));
-        $rent->note             = $request->note;
-        $rent->created_by       = Auth::id();
-        $rent->updated_by       = Auth::id();
+        $this->validate($request,[
+            'car_type_id'   => 'required',    
+            'model_id'      => 'required',    
+            'year_id'       => 'required'
+        ]);
         
-        if ($rent->save()) {
-            return redirect()->route('rent.index')->with('message','Rent added successfully');
-        } else {
-            return redirect()->back()->with('error_message','Sorry, something went wrong');
+        DB::beginTransaction();
+        
+        try {
+            $rent                   = new Rent();
+            $rent->car_type_id      = $request->car_type_id;
+            $rent->model_id         = $request->model_id;
+            $rent->year_id          = $request->year_id;
+            $rent->customer_id      = $request->customer_id;
+            $rent->driver_id        = $request->driver_id;
+            $rent->reg_number       = $request->reg_number;
+            $rent->total_person     = $request->total_person;
+            $rent->rent_type        = $request->rent_type;
+            $rent->status           = $request->status;
+            $rent->pickup_location  = $request->pickup_location;
+            $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
+            $rent->drop_location    = $request->drop_location;
+            $rent->drop_datetime    = isset($request->drop_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
+            $rent->price            = $request->price;
+            $rent->advance          = $request->advance;
+            $rent->commission       = $request->commission;
+            $rent->remaining        = $request->remaining;
+            $rent->driver_accomodation = $request->driver_accomodation;
+            $rent->start_date       = date('Y-m-d', strtotime($request->start_date));
+            $rent->billing_date     = date('Y-m-d', strtotime($request->billing_date));
+            $rent->note             = $request->note;
+            $rent->created_by       = Auth::id();
+            $rent->updated_by       = Auth::id();
+            $rent->save();
+            
+            $customer = $request->customer_id != null ? Customer::find($request->customer_id) : '';
+            $driver = $request->driver_id != null ? Driver::find($request->driver_id) : '';
+            
+            
+            if ($request->rent_type == 1) {
+                $rentType = 'Drop Only';
+            }elseif ($request->rent_type == 2) {
+                $rentType = 'Round Trip';
+            }elseif ($request->rent_type == 3) {
+                $rentType = 'Body Rent';
+            }elseif ($request->rent_type == 4) {
+                $rentType = 'Monthly';
+            }
+            
+            $pickup_date_time = isset($request->pickup_datetime) ? date('Y-m-d H:i', strtotime($request->pickup_datetime)) : "";
+            $msg = "Booking Confirmation, Car Type: ".$rent->CarType->name.", Car Model: ".$rent->CarModel->name.", Car Number: ".$request->reg_number.", Rent Type: ".$rentType.", Pickup Location: ".$request->pickup_location.", Date and Time: ".$pickup_date_time.", Drop Location: ".$request->drop_location.", Price: ".$request->price.", Advance: ".$request->advance.", Remaining: ".$request->remaining.", Customer Number: ".$customer->phone.", Driver Number: ".$driver->phone.". __ Autospire Logistics
+01912278827";
+         
+            if ($request->customer_id != null) {
+                $client = new Client();            
+                $sms    = $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $customer->phone ."&message=".$msg);
+            } 
+            
+            if ($request->driver_id != null) {
+                $client = new Client();              
+                $sms    = $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $driver->phone ."&message=".$msg);
+            }
+            
+            DB::commit();
+            
+        } catch (Exception $ex) {
+            DB::rollback();
+            return redirect()->back()->with('error_message', $ex->getMessage());
         }
+        
+        return redirect()->route('rent.index')->with('message','Rent added successfully');
     }
 
     /**
@@ -120,6 +163,12 @@ class RentController extends Controller
      */
     public function update(Request $request, $id) 
     {
+        $this->validate($request,[
+            'car_type_id'   => 'required',    
+            'model_id'      => 'required',    
+            'year_id'       => 'required' 
+        ]);
+        
         $rent                   = Rent::find($id);
         $rent->car_type_id      = $request->car_type_id;
         $rent->model_id         = $request->model_id;
