@@ -10,6 +10,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\RentController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +56,15 @@ Route::group(['prefix'=>'/setting/car-year', 'middleware'=>'admin'], function(){
     Route::post('/store', [CarYearController::class, 'store'])->name('car_year.store');
     Route::post('/update', [CarYearController::class, 'update'])->name('car_year.update');
     Route::post('/destroy', [CarYearController::class, 'destroy'])->name('car_year.destroy');
+});
+
+Route::group(['prefix'=>'/reminder', 'middleware'=>'admin'], function(){
+    Route::get('/', [ReminderController::class, 'index'])->name('reminder.index');
+    Route::get('/create', [ReminderController::class, 'create'])->name('reminder.create');
+    Route::post('/store', [ReminderController::class, 'store'])->name('reminder.store');
+    Route::get('/edit/{id}', [ReminderController::class, 'edit'])->name('reminder.edit');
+    Route::post('/update', [ReminderController::class, 'update'])->name('reminder.update');
+    Route::post('/destroy', [ReminderController::class, 'destroy'])->name('reminder.destroy');
 });
 
 Route::group(['prefix'=>'/customer', 'middleware'=>'admin'], function(){

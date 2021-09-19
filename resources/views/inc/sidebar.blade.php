@@ -38,6 +38,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{ route('reminder.index') }}" class="nav-link nav-team nav-reminder">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Reminder</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{ route('customer.index') }}" class="nav-link nav-team nav-customer">
               <i class="nav-icon fas fa-users"></i>
               <p>Customer</p>
