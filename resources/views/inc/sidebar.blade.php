@@ -7,7 +7,13 @@
     
     <div class="sidebar">
       <nav>
-        <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">        
+        <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="{{ route('dashboard') }}" class="nav-link nav-dashboard">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>        
           <li class="nav-item has-treeview menu-setting">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cog"></i>
@@ -30,12 +36,6 @@
                 </a>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('dashboard') }}" class="nav-link nav-dashboard">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>Dashboard</p>
-            </a>
           </li>
           <li class="nav-item">
             <a href="{{ route('reminder.index') }}" class="nav-link nav-team nav-reminder">
@@ -73,7 +73,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link nav-rent-upcoming">
+                <a href="{{ route('rent.upcoming.index') }}" class="nav-link nav-rent-upcoming">
                   <p>Upcoming(Confirm)</p>
                 </a>
               </li>

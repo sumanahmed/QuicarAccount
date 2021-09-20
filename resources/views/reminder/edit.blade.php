@@ -74,6 +74,15 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label for="total_day">Total Day</label>
+                                            <input type="text" name="total_day" value="{{ $reminder->total_day }}" class="form-control" placeholder="Total Day" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('total_day'))
+                                                <span class="text-danger">{{ $errors->first('total_day') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
                                             <label for="status">Status</label>
                                             <select name="status" class="form-control">
                                                 <option value="1" @if($reminder->status == 1) selected @endif>Pending</option>
@@ -91,6 +100,7 @@
                                             <select name="rent_type" class="form-control">
                                                 <option value="1" @if($reminder->rent_type == 1) selected @endif>Drop Only</option>
                                                 <option value="2" @if($reminder->rent_type == 2) selected @endif>Round Trip</option>
+                                                <option value="3" @if($reminder->rent_type == 3) selected @endif>Body Rent</option>
                                             </select>
                                             @if($errors->has('rent_type'))
                                                 <span class="text-danger">{{ $errors->first('rent_type') }}</span>
@@ -157,6 +167,15 @@
                                             <input type="text" name="user_offered" id="user_offered" value="{{ $reminder->user_offered }}" class="form-control" placeholder="Enter User Offered Price" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                                             @if($errors->has('user_offered'))
                                                 <span class="text-danger">{{ $errors->first('user_offered') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="driver_accomodation">Driver Accomodation</label>
+                                            <input type="text" name="driver_accomodation" id="driver_accomodation" value="{{ $reminder->driver_accomodation }}" class="form-control" placeholder="Driver Accomodation" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                            @if($errors->has('driver_accomodation'))
+                                                <span class="text-danger">{{ $errors->first('driver_accomodation') }}</span>
                                             @endif
                                         </div>
                                     </div>

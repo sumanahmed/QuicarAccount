@@ -42,13 +42,13 @@ class RentController extends Controller
             $query = $query->where('year_id', $request->year_id);
         }
 
-        $rents = $query->paginate(12);
+        $rents = $query->paginate(12)->appends(request()->query());
 
         $car_types = CarType::all();
         $models    = CarModel::all();
         $years     = Year::all();     
 
-        return view('rent.index', compact('rents','car_types','models','years'));
+        return view('rent.new.index', compact('rents','car_types','models','years'));
     }
 
     /**
@@ -62,7 +62,7 @@ class RentController extends Controller
         $customers = Customer::all(); 
         $drivers   = Driver::all(); 
 
-        return view('rent.create', compact('car_types','models','years','customers','drivers'));
+        return view('rent.new.create', compact('car_types','models','years','customers','drivers'));
     }
 
     /**
@@ -97,7 +97,6 @@ class RentController extends Controller
             $rent->advance          = $request->advance;
             $rent->commission       = $request->commission;
             $rent->remaining        = $request->remaining;
-            $rent->driver_accomodation = $request->driver_accomodation;
             $rent->start_date       = date('Y-m-d', strtotime($request->start_date));
             $rent->billing_date     = date('Y-m-d', strtotime($request->billing_date));
             $rent->note             = $request->note;
@@ -154,7 +153,7 @@ class RentController extends Controller
         $customers = Customer::all(); 
         $drivers   = Driver::all(); 
 
-        return view('rent.edit', compact('rent','car_types','models','years','customers','drivers'));
+        return view('rent.new.edit', compact('rent','car_types','models','years','customers','drivers'));
     }
 
     /**
@@ -186,7 +185,6 @@ class RentController extends Controller
         $rent->advance          = $request->advance;
         $rent->commission       = $request->commission;
         $rent->remaining        = $request->remaining;
-        $rent->driver_accomodation = $request->driver_accomodation;
         $rent->start_date       = date('Y-m-d', strtotime($request->start_date));
         $rent->billing_date     = date('Y-m-d', strtotime($request->billing_date));
         $rent->note             = $request->note;
@@ -229,6 +227,106 @@ class RentController extends Controller
 
         $rent->status = $request->status;
         $rent->update();
+
+        return redirect()->route('rent.index')->with('message','Rent status update successfully');
+    }
+    
+    //show all upcoming rent
+    public function upcoming(Request $request)
+    {
+        $today = date('Y-m-d');
+        $query = DB::table('rents')
+                    ->select('*')
+                    ->whereDate('pickup_datetime', $today)
+                    ->orderBy('id', 'DESC');
+
+        if ($request->name) {
+            $query = $query->where('name', 'like', "{$request->name}%");
+        }
+
+        if ($request->phone) {
+            $query = $query->where('phone', $request->phone);
+        }
+
+        if ($request->car_type_id) {
+            $query = $query->where('car_type_id', $request->car_type_id);
+        }
+
+        if ($request->model_id) {
+            $query = $query->where('model_id', $request->model_id);
+        }
+
+        if ($request->year_id) {
+            $query = $query->where('year_id', $request->year_id);
+        }
+
+        $rents = $query->paginate(12)->appends(request()->query());
+
+        $car_types = CarType::all();
+        $models    = CarModel::all();
+        $years     = Year::all();     
+
+        return view('rent.upcoming.index', compact('rents','car_types','models','years'));
+    }
+    
+    /**
+     * show edit page
+     */
+    public function upcomingEdit ($id) 
+    {        
+        $rent      = Rent::find($id);
+        $car_types = CarType::all();
+        $models    = CarModel::where('car_type_id', $rent->car_type_id)->get();
+        $years     = Year::all(); 
+        $customers = Customer::all(); 
+        $drivers   = Driver::all(); 
+
+        return view('rent.upcoming.edit', compact('rent','car_types','models','years','customers','drivers'));
+    }
+    
+    /**
+     * upcoming rent update
+     */
+    public function upcomingUpdate(Request $request, $id) 
+    {
+        $this->validate($request,[
+            'car_type_id'   => 'required',    
+            'model_id'      => 'required',    
+            'year_id'       => 'required' 
+        ]);
+        
+        $rent                   = Rent::find($id);
+        $rent->car_type_id      = $request->car_type_id;
+        $rent->model_id         = $request->model_id;
+        $rent->year_id          = $request->year_id;
+        $rent->customer_id      = $request->customer_id;
+        $rent->driver_id        = $request->driver_id;
+        $rent->reg_number       = $request->reg_number;
+        $rent->total_person     = $request->total_person;
+        $rent->rent_type        = $request->rent_type;
+        $rent->status           = $request->status;
+        $rent->pickup_location  = $request->pickup_location;
+        $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
+        $rent->drop_location    = $request->drop_location;
+        $rent->drop_datetime    = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
+        $rent->price            = $request->price;
+        $rent->advance          = $request->advance;
+        $rent->commission       = $request->commission;
+        $rent->remaining        = $request->remaining;
+        $rent->driver_get       = $request->driver_get;
+        $rent->driver_accomodation  = $request->driver_accomodation;
+        $rent->fuel_cost        = $request->fuel_cost;
+        $rent->toll_charge      = $request->toll_charge;
+        $rent->start_date       = date('Y-m-d', strtotime($request->start_date));
+        $rent->billing_date     = date('Y-m-d', strtotime($request->billing_date));
+        $rent->note             = $request->note;
+        $rent->updated_by       = Auth::id();
+        
+        if ($rent->update()) {
+            return redirect()->route('upcoming.index')->with('message','Rent update successfully');
+        } else {
+            return redirect()->back()->with('error_message','Sorry, something went wrong');
+        }
     }
 
 }

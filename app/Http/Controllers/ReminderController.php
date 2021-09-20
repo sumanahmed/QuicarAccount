@@ -25,7 +25,7 @@ class ReminderController extends Controller
         if ($request->day != 0) {
             $day = (int)$request->day;
             $start_date = date('Y-m-d');
-            $end_date = date('Y-m-d', strtotime($start_date. " + $day days"));
+            $end_date = $day != 100 ? date('Y-m-d', strtotime($start_date. " + $day days")) : date('Y-m-d');
             $query = $query->where('next_contact_datetime', '!=', null)
                             ->whereDate('next_contact_datetime', '>=', $start_date)
                             ->whereDate('next_contact_datetime', '<=', $end_date);
@@ -35,15 +35,10 @@ class ReminderController extends Controller
             $query = $query->where('customer_id', $request->customer_id);
         }
 
-        if ($request->car_type_id) {
-            $query = $query->where('car_type_id', $request->car_type_id);
-        }
-
-        $reminders = $query->paginate(12);
-        $car_types = CarType::all();
+        $reminders = $query->paginate(12)->appends(request()->query());
         $customers = Customer::all();
 
-        return view('reminder.index', compact('reminders','car_types', 'customers'));
+        return view('reminder.index', compact('reminders','customers'));
     }
 
     /**
@@ -65,12 +60,6 @@ class ReminderController extends Controller
             'name' => 'required',
             'phone' => 'required',
         ]);
-
-        if ($request->rent_type == 2) {
-            $this->validate($request, [
-                'return_datetime' => 'required'
-            ]);
-        }
         
         DB::beginTransaction();
         
@@ -93,6 +82,7 @@ class ReminderController extends Controller
             $reminder->customer_id          = $customer_id;
             $reminder->car_type_id          = $request->car_type_id;
             $reminder->total_person         = $request->total_person;
+            $reminder->total_day            = $request->total_day;
             $reminder->rent_type            = $request->rent_type;
             $reminder->pickup_location      = $request->pickup_location;
             $reminder->status               = $request->status;
@@ -102,6 +92,7 @@ class ReminderController extends Controller
             $reminder->return_datetime      = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
             $reminder->asking_price         = $request->asking_price;
             $reminder->user_offered         = $request->user_offered;
+            $reminder->driver_accomodation  = $request->driver_accomodation;
             $reminder->next_contact_datetime= $request->next_contact_datetime;
             $reminder->note                 = $request->note;
             $reminder->created_by           = Auth::id();
@@ -141,16 +132,11 @@ class ReminderController extends Controller
             'phone' => 'required',
         ]);
 
-        if ($request->rent_type == 2) {
-            $this->validate($request, [
-                'return_datetime' => 'required'
-            ]);
-        }
-
         $reminder                       = Reminder::find($id);
         $reminder->customer_id          = $reminder->customer_id;
         $reminder->car_type_id          = $request->car_type_id;
         $reminder->total_person         = $request->total_person;
+        $reminder->total_day            = $request->total_day;
         $reminder->rent_type            = $request->rent_type;
         $reminder->pickup_location      = $request->pickup_location;
         $reminder->status               = $request->status;
@@ -160,6 +146,7 @@ class ReminderController extends Controller
         $reminder->return_datetime      = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
         $reminder->asking_price         = $request->asking_price;
         $reminder->user_offered         = $request->user_offered;
+        $reminder->driver_accomodation  = $request->driver_accomodation;
         $reminder->next_contact_datetime= $request->next_contact_datetime;
         $reminder->note                 = $request->note;
         $reminder->updated_by           = Auth::id();

@@ -23,7 +23,7 @@ class CreateRentsTable extends Migration
             $table->string('reg_number')->nullable();
             $table->integer('total_person')->nullable();
             $table->tinyInteger('rent_type')->comment('1=drop_only,2=round_trip,3=body_rent,4=monthly')->default(1);
-            $table->tinyInteger('status')->comment('1=upcoming,2=ongoing,3=complete,4=cancel')->default(1);
+            $table->tinyInteger('status')->comment('1=new,2=upcoming,3=complete,4=cancel')->default(1);
             $table->string('pickup_location')->nullable();
             $table->string('pickup_datetime')->nullable();
             $table->string('drop_location')->nullable();
@@ -36,6 +36,8 @@ class CreateRentsTable extends Migration
             $table->string('driver_accomodation')->nullable();
             $table->date('start_date')->nullable();
             $table->date('billing_date')->nullable();
+            $table->double('fuel_cost')->nullable();
+            $table->double('toll_charge')->nullable();
             $table->text('note')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
@@ -43,7 +45,7 @@ class CreateRentsTable extends Migration
             $table->foreign('car_type_id')->references('id')->on('car_types');
             $table->foreign('model_id')->references('id')->on('models');
             $table->foreign('year_id')->references('id')->on('years');
-            $table->foreign('customer_id')->references('id')->on('users');
+            $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('driver_id')->references('id')->on('years');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');

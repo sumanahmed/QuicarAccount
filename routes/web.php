@@ -100,6 +100,12 @@ Route::group(['prefix'=>'/rent', 'middleware'=>'admin'], function(){
     Route::post('/status-update', [RentController::class, 'statusUpdate'])->name('rent.stats.update');
 });
 
+Route::group(['prefix'=>'/rent/upcoming', 'middleware'=>'admin'], function(){
+    Route::get('/', [RentController::class, 'upcoming'])->name('rent.upcoming.index');
+    Route::get('/edit/{id}', [RentController::class, 'upcomingEdit'])->name('rent.upcoming.edit');
+    Route::post('/update/{id}', [RentController::class, 'upcomingUpdate'])->name('rent.upcoming.update');
+});
+
 Route::group(['prefix'=>'/accounts', 'middleware'=>'admin'], function(){
     Route::get('/income', [AccountsController::class, 'income'])->name('accounts.income');
     Route::get('/expense', [AccountsController::class, 'expense'])->name('accounts.expense');

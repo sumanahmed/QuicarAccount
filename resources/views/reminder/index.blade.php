@@ -39,20 +39,11 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="name">Car Type</label>
-                                    <select name="car_type_id" id="filter_car_type_id" class="form-control selectable">
-                                        <option value="0">Select</option>
-                                        @foreach($car_types as $car_type) 
-                                            <option value="{{ $car_type->id }}" @if(isset($_GET['car_type_id']) && $car_type->id == $_GET['car_type_id']) selected @endif>{{ $car_type->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
                                     <label for="name">Day </label>
                                     <select name="day" id="day" class="form-control">
                                         <option value="0">Select</option>
+                                        <option value="100" @if(isset($_GET['day']) && $_GET['day'] == 100) selected @endif>ToDay</option>
+                                        <option value="1" @if(isset($_GET['day']) && $_GET['day'] == 1) selected @endif>Next Day</option>
                                         <option value="3" @if(isset($_GET['day']) && $_GET['day'] == 3) selected @endif>3 days</option>
                                         <option value="7" @if(isset($_GET['day']) && $_GET['day'] == 7) selected @endif>7 days</option>
                                         <option value="15" @if(isset($_GET['day']) && $_GET['day'] == 15) selected @endif>15 days</option>
@@ -72,9 +63,11 @@
                       <table class="table table-sm table-bordered table-striped data_table">
                         <thead>
                             <tr>
+                                <th>Next Contact</th>
+                                <th>Customer</th>
+                                <th>Travel Date</th>
                                 <th>Pickup Location</th>
                                 <th>Drop Location</th>
-                                <th>Customer</th>
                                 <th>Asking Price</th>
                                 <th>User Offered Price</th>
                                 <th>Status</th>
@@ -83,21 +76,25 @@
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Next Contact</th>
+                                <th>Customer</th>
+                                <th>Travel Date</th>
                                 <th>Pickup Location</th>
                                 <th>Drop Location</th>
-                                <th>Customer</th>
                                 <th>Asking Price</th>
                                 <th>User Offered Price</th>
                                 <th>Status</th>
-                              <th style="vertical-align: middle;text-align: center;">Action</th>
+                                <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
                         <tbody id="allReminder">
                           @foreach($reminders as $reminder)
                             <tr class="reminder-{{ $reminder->id }}">
+                              <td>{{ date('d M, Y H:i:s a', strtotime($reminder->next_contact_datetime)) }}</td>
+                              <td>{{ $reminder->name }}({{ $reminder->phone }})</td>
+                              <td>{{ date('d M, Y H:i:s a', strtotime($reminder->pickup_datetime)) }}</td>
                               <td>{{ $reminder->pickup_location }}</td>
                               <td>{{ $reminder->drop_location }}</td>
-                              <td>{{ $reminder->name }}({{ $reminder->phone }})</td>
                               <td>{{ $reminder->asking_price }}</td>
                               <td>{{ $reminder->user_offered }}</td>
                               <td>{{ getStatus($reminder->status) }}</td>

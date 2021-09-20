@@ -18,7 +18,8 @@ class CreateRemindersTable extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('car_type_id')->nullable();
             $table->integer('total_person')->nullable();
-            $table->tinyInteger('rent_type')->comment('1=drop_only,2=round_tripy')->default(1);
+            $table->integer('total_day')->nullable();
+            $table->tinyInteger('rent_type')->comment('1=drop_only,2=round_trip,3=body rent')->default(1);
             $table->tinyInteger('status')->comment('1=Pending, 2=Schedule Contact 3=Not Agree')->default(1);
             $table->string('pickup_location')->nullable();
             $table->string('pickup_datetime')->nullable();
@@ -27,6 +28,7 @@ class CreateRemindersTable extends Migration
             $table->string('return_datetime')->nullable();
             $table->double('asking_price')->nullable();
             $table->double('user_offered')->nullable();
+            $table->double('driver_accomodation')->nullable();
             $table->string('next_contact_datetime')->nullable();
             $table->text('note')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();

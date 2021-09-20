@@ -59,7 +59,7 @@
                                 </select>
                             </div>
                           </div>
-                          <div class="col-md-4">
+                          <div class="col-md-3">
                             <div class="form-group">
                               <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 30px;" />
                             </div>
