@@ -72,11 +72,11 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="customer_id">Customer</label>
-                                            <select name="customer_id" class="form-control">
+                                            <label for="customer_id">Customer <a href="{{ route('customer.index') }}" target="_blank">Add New</a></label>
+                                            <select name="customer_id" class="form-control selectable">
                                                 <option selected disabled>Select</option>
                                                 @foreach($customers as $customer) 
-                                                    <option value="{{ $customer->id }}" @if(old("customer_id") == $customer->id) selected @endif>{{ $customer->name }}</option>
+                                                    <option value="{{ $customer->id }}" @if(old("customer_id") == $customer->id) selected @endif>{{ $customer->name }} ({{ $customer->phone}})</option>
                                                 @endforeach
                                             </select>
                                             @if($errors->has('customer_id'))
@@ -87,10 +87,10 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="driver_id">Driver</label>
-                                            <select name="driver_id" class="form-control">
+                                            <select name="driver_id" class="form-control selectable">
                                                 <option selected disabled>Select</option>
                                                 @foreach($drivers as $driver) 
-                                                    <option value="{{ $driver->id }}" @if(old("driver_id") == $driver->id) selected @endif>{{ $driver->name }}</option>
+                                                    <option value="{{ $driver->id }}" @if(old("driver_id") == $driver->id) selected @endif>{{ $driver->name }} ({{ $driver->phone }})</option>
                                                 @endforeach
                                             </select>
                                             @if($errors->has('driver_id'))

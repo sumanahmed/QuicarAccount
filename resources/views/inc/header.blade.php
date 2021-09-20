@@ -8,7 +8,7 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="css/all.css">
+  <link rel="stylesheet" href="{{ asset('assets/css/all.css') }}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bbootstrap 4 -->
@@ -23,7 +23,9 @@
   <link rel="stylesheet" href="{{ asset('assets/css/daterangepicker.css') }}">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/toastr.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/toastr.css') }}"><link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <!-- Custom css -->
+  <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   @yield('styles')

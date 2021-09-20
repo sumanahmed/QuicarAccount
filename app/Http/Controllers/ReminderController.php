@@ -6,6 +6,7 @@ use App\Models\CarType;
 use App\Models\Customer;
 use App\Models\Reminder;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 use Auth;
 use DB;
 
@@ -16,7 +17,10 @@ class ReminderController extends Controller
      */
     public function index (Request $request) 
     {
-        $query = DB::table('reminders');
+        $query = DB::table('reminders')
+                    ->join('customers','reminders.customer_id','customers.id')
+                    ->select('reminders.*','customers.name','customers.phone')
+                    ->orderBy('reminders.id','desc');
 
         if ($request->customer_id) {
             $query = $query->where('customer_id', $request->customer_id);
@@ -39,7 +43,6 @@ class ReminderController extends Controller
     public function create () 
     {        
         $car_types = CarType::all();
-
         return view('reminder.create', compact('car_types'));
     }
 
@@ -48,9 +51,6 @@ class ReminderController extends Controller
      */
     public function store (Request $request) 
     {   
-        $this->validate($request,[
-            'car_type_id'   => 'required'
-        ]);
         
         DB::beginTransaction();
         
@@ -102,20 +102,17 @@ class ReminderController extends Controller
     public function edit ($id) 
     {        
         $reminder   = Reminder::find($id);
+        $customer   = Customer::find($reminder->customer_id);        
         $car_types  = CarType::all();
 
-        return view('reminder.edit', compact('reminder','car_types'));
+        return view('reminder.edit', compact('reminder', 'customer', 'car_types'));
     }
 
     /**
      * rent update
      */
     public function update(Request $request, $id) 
-    {
-        $this->validate($request,[
-            'car_type_id'   => 'required'
-        ]);
-        
+    {        
         $reminder                       = Reminder::find($id);
         $reminder->customer_id          = $reminder->customer_id;
         $reminder->car_type_id          = $request->car_type_id;
@@ -144,5 +141,16 @@ class ReminderController extends Controller
     public function destroy(Request $request){ 
         Reminder::find($request->id)->delete();
         return response()->json();
+    }
+
+    /**
+     * send sms
+    */
+    public function sendSMS (Request $request) 
+    {
+        $phone = $request->phone;
+        $msg = $request->message;
+        $client = new Client();            
+        $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $phone ."&message=".$msg);
     }
 }

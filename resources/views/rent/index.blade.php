@@ -181,7 +181,8 @@
 @endsection
 @section('scripts')
     <script>
-        $('.nav-rent').addClass('active');
+      $('.menu-rent').addClass('menu-open');
+      $('.nav-rent-new').addClass('active');
     </script>
     <script src="{{ asset('assets/js/rent.js') }}"></script>
 @endsection

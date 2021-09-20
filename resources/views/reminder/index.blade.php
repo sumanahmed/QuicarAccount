@@ -80,19 +80,18 @@
                               <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
-                        <tbody id="allRent">
+                        <tbody id="allReminder">
                           @foreach($reminders as $reminder)
-                            <tr class="rent-{{ $reminder->id }}">
+                            <tr class="reminder-{{ $reminder->id }}">
                               <td>{{ $reminder->pickup_location }}</td>
                               <td>{{ $reminder->drop_location }}</td>
-                              <td>11</td>
+                              <td>{{ $reminder->name }}({{ $reminder->phone }})</td>
                               <td>{{ $reminder->asking_price }}</td>
                               <td>{{ $reminder->user_offered }}</td>
                               <td>{{ getStatus($reminder->status) }}</td>
                               <td style="vertical-align: middle;text-align: center;">
-                                <button class="btn btn-xs btn-info" data-toggle="modal" id="statusChange" data-id="{{ $reminder->id }}" data-status="{{ $reminder->status }}" title="Status">Status</button>
                                 <a href="{{ route('reminder.edit', $reminder->id) }}" class="btn btn-xs btn-warning" title="Edit">Edit</a>
-                                <button class="btn btn-xs btn-success" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $reminder->id }}" title="SMS">SMS</button>                                  
+                                <button class="btn btn-xs btn-success" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $reminder->id }}" data-name="{{ $reminder->name }}" data-phone="{{ $reminder->phone }}" title="SMS">SMS</button>                                  
                                 <button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="{{ $reminder->id }}" title="Delete">Delete</button>                                  
                               </td>
                             </tr>
@@ -108,31 +107,40 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-    <div class="modal fade" tabindex="-1" id="statusUpdateModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade" tabindex="-1" id="smsModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-default" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
-                  <h5 class="modal-title text-center w-100">Update Status</h5>
+                  <h5 class="modal-title text-center w-100">Send SMS</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label class="col-form-label">Status <span class="text-danger" title="Required">*</span></label>
-                                <select id="status" class="form-control" required>
-                                  <option value="1">Upcoming</option>
-                                  <option value="2">Ongoing</option>
-                                  <option value="3">Complete</option>
-                                  <option value="4">Cancel</option>
-                                </select>
-                                <input type="hidden" id="rent_id" />
-                                <span class="errorSms text-danger text-bold"></span>
+                                <label class="col-form-label">Customer Name <span class="text-danger" title="Required">*</span></label>                                
+                                <input type="text" id="customerName" class="form-control" readonly/>
+                                <input type="hidden" id="reminderId" />
+                                <span class="errorCustomerName text-danger text-bold"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Customer Phone <span class="text-danger" title="Required">*</span></label>                                                                
+                                <input type="text" id="customerPhone" class="form-control" readonly/>
+                                <span class="errorCustomerPhone text-danger text-bold"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Message <span class="text-danger" title="Required">*</span></label>                                                                
+                                <textarea class="form-control" id="message"></textarea>
+                                <span class="errorCustomerPhone text-danger text-bold"></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" id="changeRentStatus">Send</button>
+                    <button type="submit" class="btn btn-success" id="sendSMS">Send</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

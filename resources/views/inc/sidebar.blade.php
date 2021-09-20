@@ -61,11 +61,33 @@
               <p>Owner</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{{ route('rent.index') }}" class="nav-link nav-team nav-rent">
-              <i class="nav-icon fas fa-users"></i>
-              <p>Rent</p>
+          <li class="nav-item has-treeview menu-rent">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-sitemap"></i>
+              <p>Rent<i class="fas fa-angle-left right"></i></p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('rent.index') }}" class="nav-link nav-rent-new">
+                  <p>New</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link nav-rent-upcoming">
+                  <p>Upcoming(Confirm)</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link nav-rent-cancel">
+                  <p>Cancel</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link nav-rent-complete">
+                  <p>Complete</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item has-treeview menu-accounts">
             <a href="#" class="nav-link">

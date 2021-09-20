@@ -73,10 +73,10 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="customer_id">Customer</label>
-                                            <select name="customer_id" class="form-control">
+                                            <select name="customer_id" class="form-control selectable">
                                                 <option value="0">Select</option>
                                                 @foreach($customers as $customer) 
-                                                    <option value="{{ $customer->id }}" @if($rent->customer_id == $customer->id) selected @endif>{{ $customer->name }}</option>
+                                                    <option value="{{ $customer->id }}" @if($rent->customer_id == $customer->id) selected @endif>{{ $customer->name }} ({{ $customer->phone}})</option>
                                                 @endforeach
                                             </select>
                                             @if($errors->has('customer_id'))
@@ -87,10 +87,10 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="driver_id">Driver</label>
-                                            <select name="driver_id" class="form-control">
+                                            <select name="driver_id" class="form-control selectable">
                                                 <option value="0">Select</option>
                                                 @foreach($drivers as $driver) 
-                                                    <option value="{{ $driver->id }}" @if($rent->driver_id == $driver->id) selected @endif>{{ $driver->name }}</option>
+                                                    <option value="{{ $driver->id }}" @if($rent->driver_id == $driver->id) selected @endif>{{ $driver->name }} ({{ $driver->phone }})</option>
                                                 @endforeach
                                             </select>
                                             @if($errors->has('driver_id'))
