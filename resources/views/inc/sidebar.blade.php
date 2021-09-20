@@ -10,7 +10,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">        
           <li class="nav-item has-treeview menu-setting">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-sitemap"></i>
+              <i class="nav-icon fas fa-cog"></i>
               <p>Setting<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
@@ -39,7 +39,7 @@
           </li>
           <li class="nav-item">
             <a href="{{ route('reminder.index') }}" class="nav-link nav-team nav-reminder">
-              <i class="nav-icon fas fa-users"></i>
+              <i class="nav-icon fas fa-bell"></i>
               <p>Reminder</p>
             </a>
           </li>
@@ -51,7 +51,7 @@
           </li>
           <li class="nav-item">
             <a href="{{ route('driver.index') }}" class="nav-link nav-team nav-driver">
-              <i class="nav-icon fas fa-users"></i>
+              <i class="nav-icon fas fa-car"></i>
               <p>Driver</p>
             </a>
           </li>
@@ -63,7 +63,7 @@
           </li>
           <li class="nav-item has-treeview menu-rent">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-sitemap"></i>
+              <i class="nav-icon fas fa-truck-moving"></i>
               <p>Rent<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
@@ -91,7 +91,7 @@
           </li>
           <li class="nav-item has-treeview menu-accounts">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-sitemap"></i>
+              <i class="nav-icon fas fa-dollar-sign"></i>
               <p>Accounts<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">

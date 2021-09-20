@@ -22,6 +22,15 @@ class ReminderController extends Controller
                     ->select('reminders.*','customers.name','customers.phone')
                     ->orderBy('reminders.id','desc');
 
+        if ($request->day != 0) {
+            $day = (int)$request->day;
+            $start_date = date('Y-m-d');
+            $end_date = date('Y-m-d', strtotime($start_date. " + $day days"));
+            $query = $query->where('next_contact_datetime', '!=', null)
+                            ->whereDate('next_contact_datetime', '>=', $start_date)
+                            ->whereDate('next_contact_datetime', '<=', $end_date);
+        }        
+
         if ($request->customer_id) {
             $query = $query->where('customer_id', $request->customer_id);
         }
@@ -51,6 +60,17 @@ class ReminderController extends Controller
      */
     public function store (Request $request) 
     {   
+        $this->validate($request, [
+            'car_type_id' => 'required',
+            'name' => 'required',
+            'phone' => 'required',
+        ]);
+
+        if ($request->rent_type == 2) {
+            $this->validate($request, [
+                'return_datetime' => 'required'
+            ]);
+        }
         
         DB::beginTransaction();
         
@@ -75,9 +95,11 @@ class ReminderController extends Controller
             $reminder->total_person         = $request->total_person;
             $reminder->rent_type            = $request->rent_type;
             $reminder->pickup_location      = $request->pickup_location;
+            $reminder->status               = $request->status;
             $reminder->pickup_datetime      = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
             $reminder->drop_location        = $request->drop_location;
             $reminder->drop_datetime        = isset($request->drop_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
+            $reminder->return_datetime      = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
             $reminder->asking_price         = $request->asking_price;
             $reminder->user_offered         = $request->user_offered;
             $reminder->next_contact_datetime= $request->next_contact_datetime;
@@ -112,16 +134,30 @@ class ReminderController extends Controller
      * rent update
      */
     public function update(Request $request, $id) 
-    {        
+    {      
+        $this->validate($request, [
+            'car_type_id' => 'required',
+            'name' => 'required',
+            'phone' => 'required',
+        ]);
+
+        if ($request->rent_type == 2) {
+            $this->validate($request, [
+                'return_datetime' => 'required'
+            ]);
+        }
+
         $reminder                       = Reminder::find($id);
         $reminder->customer_id          = $reminder->customer_id;
         $reminder->car_type_id          = $request->car_type_id;
         $reminder->total_person         = $request->total_person;
         $reminder->rent_type            = $request->rent_type;
         $reminder->pickup_location      = $request->pickup_location;
+        $reminder->status               = $request->status;
         $reminder->pickup_datetime      = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
         $reminder->drop_location        = $request->drop_location;
         $reminder->drop_datetime        = isset($request->drop_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
+        $reminder->return_datetime      = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
         $reminder->asking_price         = $request->asking_price;
         $reminder->user_offered         = $request->user_offered;
         $reminder->next_contact_datetime= $request->next_contact_datetime;

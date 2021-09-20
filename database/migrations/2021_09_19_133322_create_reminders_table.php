@@ -24,6 +24,7 @@ class CreateRemindersTable extends Migration
             $table->string('pickup_datetime')->nullable();
             $table->string('drop_location')->nullable();
             $table->string('drop_datetime')->nullable();
+            $table->string('return_datetime')->nullable();
             $table->double('asking_price')->nullable();
             $table->double('user_offered')->nullable();
             $table->string('next_contact_datetime')->nullable();

@@ -33,7 +33,7 @@
                                 <div class="row">
                                     <div class="col-3">
                                         <div class="form-group">
-                                            <label for="name">Car Type</label>
+                                            <label for="name">Car Type <span class="text-danger" title="Required">*</span></label>
                                             <select name="car_type_id" id="car_type_id" class="form-control">
                                                 <option selected disabled>Select</option>
                                                 @foreach($car_types as $car_type) 
@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="name">Name</label>
+                                            <label for="name">Name <span class="text-danger" title="Required">*</span></label>
                                             <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="Customer Name" />
                                             @if($errors->has('name'))
                                                 <span class="text-danger">{{ $errors->first('name') }}</span>
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="phone">Phone</label>
+                                            <label for="phone">Phone <span class="text-danger" title="Required">*</span></label>
                                             <input type="text" name="phone" value="{{ old('phone') }}" class="form-control" placeholder="Customer Phone no" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
                                             @if($errors->has('phone'))
                                                 <span class="text-danger">{{ $errors->first('phone') }}</span>
@@ -88,7 +88,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="rent_type">Rent Type</label>
-                                            <select name="rent_type" class="form-control">
+                                            <select name="rent_type" class="form-control" id="rentType">
                                                 <option value="1">Drop Only</option>
                                                 <option value="2">Round Trip</option>
                                             </select>
@@ -133,6 +133,15 @@
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="col-md-3" id="returnDateTime" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="return_datetime">Return Date Time</label>
+                                            <input type="datetime-local" name="return_datetime" value="{{ old('return_datetime') }}" id="return_datetime" class="form-control" />
+                                            @if($errors->has('return_datetime'))
+                                                <span class="text-danger">{{ $errors->first('return_datetime') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="asking_price">Asking Price</label>
@@ -148,6 +157,15 @@
                                             <input type="text" name="user_offered" id="user_offered" value="{{ old('user_offered') }}" class="form-control" placeholder="Enter User Offered Price" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                                             @if($errors->has('user_offered'))
                                                 <span class="text-danger">{{ $errors->first('user_offered') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="next_contact_datetime">Next Contact Date Time</label>
+                                            <input type="datetime-local" name="next_contact_datetime" value="{{ old('next_contact_datetime') }}" id="next_contact_datetime" class="form-control" />
+                                            @if($errors->has('next_contact_datetime'))
+                                                <span class="text-danger">{{ $errors->first('next_contact_datetime') }}</span>
                                             @endif
                                         </div>
                                     </div>

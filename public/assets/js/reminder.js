@@ -1,3 +1,12 @@
+$("#rentType").change(function () {
+  var rentType = $("#rentType :selected").val();
+  if (rentType == 2) {
+    $("#returnDateTime").show();
+  } else {
+    $("#returnDateTime").hide();
+  }
+});
+
 $("#delete").click(function(){
     $('#deleteModal').modal('show');
     $('input[name=del_id]').val($(this).data('id'));

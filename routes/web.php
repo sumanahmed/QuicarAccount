@@ -63,7 +63,7 @@ Route::group(['prefix'=>'/reminder', 'middleware'=>'admin'], function(){
     Route::get('/create', [ReminderController::class, 'create'])->name('reminder.create');
     Route::post('/store', [ReminderController::class, 'store'])->name('reminder.store');
     Route::get('/edit/{id}', [ReminderController::class, 'edit'])->name('reminder.edit');
-    Route::post('/update', [ReminderController::class, 'update'])->name('reminder.update');
+    Route::post('/update/{id}', [ReminderController::class, 'update'])->name('reminder.update');
     Route::post('/destroy', [ReminderController::class, 'destroy'])->name('reminder.destroy');
     Route::post('/send-sms', [ReminderController::class, 'sendSMS'])->name('reminder.send_sms');
 });

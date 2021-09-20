@@ -29,7 +29,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="customer_id">Customer</label>
-                                    <select name="customer_id" id="customer_id" class="form-control select2">
+                                    <select name="customer_id" id="customer_id" class="form-control selectable">
                                         <option value="0">Select</option>
                                         @foreach($customers as $customer) 
                                             <option value="{{ $customer->id }}" @if(isset($_GET['customer_id']) && $customer->id == $_GET['customer_id']) selected @endif>{{ $customer->name }}({{ $customer->phone }})</option>
@@ -40,7 +40,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="name">Car Type</label>
-                                    <select name="car_type_id" id="filter_car_type_id" class="form-control select2">
+                                    <select name="car_type_id" id="filter_car_type_id" class="form-control selectable">
                                         <option value="0">Select</option>
                                         @foreach($car_types as $car_type) 
                                             <option value="{{ $car_type->id }}" @if(isset($_GET['car_type_id']) && $car_type->id == $_GET['car_type_id']) selected @endif>{{ $car_type->name }}</option>
@@ -48,7 +48,19 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="name">Day </label>
+                                    <select name="day" id="day" class="form-control">
+                                        <option value="0">Select</option>
+                                        <option value="3" @if(isset($_GET['day']) && $_GET['day'] == 3) selected @endif>3 days</option>
+                                        <option value="7" @if(isset($_GET['day']) && $_GET['day'] == 7) selected @endif>7 days</option>
+                                        <option value="15" @if(isset($_GET['day']) && $_GET['day'] == 15) selected @endif>15 days</option>
+                                        <option value="31" @if(isset($_GET['day']) && $_GET['day'] == 31) selected @endif>31 days</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
                                 <div class="form-group">
                                 <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 30px;" />
                                 </div>
