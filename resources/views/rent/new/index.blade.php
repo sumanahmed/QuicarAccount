@@ -101,6 +101,7 @@
                               <td>{{ $rent->advance }}</td>
                               <td>{{ getStatus($rent->status) }}</td>
                               <td style="vertical-align: middle;text-align: center;">
+                                <a href="{{ route('rent.invoice', $rent->id) }}" class="btn btn-xs btn-success" title="Edit">Invoice</a>
                                 <button class="btn btn-xs btn-info" data-toggle="modal" id="statusChange" data-id="{{ $rent->id }}" data-status="{{ $rent->status }}" title="Status">Status</button>
                                 <a href="{{ route('rent.edit', $rent->id) }}" class="btn btn-xs btn-warning" title="Edit">Edit</a>
                                 <button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="{{ $rent->id }}" title="Delete">Delete</button>                                  

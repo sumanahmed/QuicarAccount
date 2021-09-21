@@ -92,6 +92,7 @@ Route::group(['prefix'=>'/owner', 'middleware'=>'admin'], function(){
 
 Route::group(['prefix'=>'/rent', 'middleware'=>'admin'], function(){
     Route::get('/', [RentController::class, 'index'])->name('rent.index');
+    Route::get('/invoice/{id}', [RentController::class, 'invoice'])->name('rent.invoice');
     Route::get('/create', [RentController::class, 'create'])->name('rent.create');
     Route::post('/store', [RentController::class, 'store'])->name('rent.store');
     Route::get('/edit/{id}', [RentController::class, 'edit'])->name('rent.edit');

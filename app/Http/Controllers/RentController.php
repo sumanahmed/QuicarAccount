@@ -14,6 +14,7 @@ use GuzzleHttp\Client;
 use Exception;
 use DB;
 use Auth;
+use PDF;
 
 class RentController extends Controller
 {
@@ -49,6 +50,21 @@ class RentController extends Controller
         $years     = Year::all();     
 
         return view('rent.new.index', compact('rents','car_types','models','years'));
+    }
+
+    /**
+     * show invoice
+    */
+    public function invoice ($id)
+    {
+        $rent = Rent::find($id);
+        $pdf = PDF::loadView('invoice', $rent);
+
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
+        // $pdf = PDF::loadView('invoice', compact('rent'));
+        // $pdf->setPaper('A4', 'Portrait');
+        // return $pdf->stream("Invoice-AS".$id.".pdf");
     }
 
     /**
