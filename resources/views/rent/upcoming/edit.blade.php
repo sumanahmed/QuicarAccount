@@ -33,7 +33,7 @@
                                 <div class="row">
                                     <div class="col-3">
                                         <div class="form-group">
-                                            <label for="name">Car Type</label>
+                                            <label for="name">Car Type <span class="text-danger" title="Required">*</span></label>
                                             <select name="car_type_id" id="car_type_id" class="form-control">
                                                 <option value="0">Select</option>
                                                 @foreach($car_types as $car_type) 
@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="col-3">
                                         <div class="form-group">
-                                            <label for="model_id">Model</label>
+                                            <label for="model_id">Model <span class="text-danger" title="Required">*</span></label>
                                             <select name="model_id" id="model_id" class="form-control">
                                                 <option value="0">Select</option>
                                                 @foreach($models as $model) 
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="year">Year</label>
+                                            <label for="year">Year <span class="text-danger" title="Required">*</span></label>
                                             <select name="year_id" class="form-control">
                                                 <option value="0">Select</option>
                                                 @foreach($years as $year) 
@@ -177,6 +177,15 @@
                                             <input type="datetime-local" name="drop_datetime" @if($rent->drop_datetime != null) value="{{ date('Y-m-d\TH:i:s', strtotime($rent->drop_datetime)) }}" @endif id="drop_datetime" class="form-control" />
                                             @if($errors->has('drop_datetime'))
                                                 <span class="text-danger">{{ $errors->first('drop_datetime') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="returnDateTime" @if($rent->rent_type == 1) style="display: none;" @endif>
+                                        <div class="form-group">
+                                            <label for="return_datetime">Return Date Time</label>
+                                            <input type="datetime-local" name="return_datetime" @if($rent->return_datetime != null) value="{{ date('Y-m-d\TH:i:s', strtotime($rent->return_datetime)) }}" @endif id="return_datetime" class="form-control" />
+                                            @if($errors->has('return_datetime'))
+                                                <span class="text-danger">{{ $errors->first('return_datetime') }}</span>
                                             @endif
                                         </div>
                                     </div>

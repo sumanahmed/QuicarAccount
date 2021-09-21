@@ -143,7 +143,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-3" id="returnDateTime" @if($reminder->rent_type != 1) style="display: none;" @endif>
+                                    <div class="col-md-3" id="returnDateTime" @if($reminder->rent_type == 1) style="display: none;" @endif>
                                         <div class="form-group">
                                             <label for="return_datetime">Return Date Time</label>
                                             <input type="datetime-local" name="return_datetime" @if($reminder->return_datetime != null) value="{{ date('Y-m-d\TH:i:s', strtotime($reminder->return_datetime)) }}" @endif id="return_datetime" class="form-control" />

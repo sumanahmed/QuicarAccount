@@ -33,7 +33,7 @@
                                 <div class="row">
                                     <div class="col-3">
                                         <div class="form-group">
-                                            <label for="name">Car Type</label>
+                                            <label for="name">Car Type <span class="text-danger" title="Required">*</span></label>
                                             <select name="car_type_id" id="car_type_id" class="form-control">
                                                 <option selected disabled>Select</option>
                                                 @foreach($car_types as $car_type) 
@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="col-3">
                                         <div class="form-group">
-                                            <label for="model_id">Model</label>
+                                            <label for="model_id">Model <span class="text-danger" title="Required">*</span></label>
                                             <select name="model_id" id="model_id" class="form-control">
                                                 <option selected disabled>Select</option>
                                             </select>
@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="year">Year</label>
+                                            <label for="year">Year <span class="text-danger" title="Required">*</span></label>
                                             <select name="year_id" class="form-control selectable">
                                                 <option selected disabled>Select</option>
                                                 @foreach($years as $year) 
@@ -119,7 +119,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="rent_type">Rent Type</label>
-                                            <select name="rent_type" class="form-control">
+                                            <select name="rent_type" class="form-control" id="rentType">
                                                 <option value="1">Drop Only</option>
                                                 <option value="2">Round Trip</option>
                                                 <option value="3">Body Rent</option>
@@ -180,6 +180,15 @@
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="col-md-3" id="returnDateTime" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="return_datetime">Return Date Time</label>
+                                            <input type="datetime-local" name="return_datetime" value="{{ old('return_datetime') }}" id="return_datetime" class="form-control" />
+                                            @if($errors->has('return_datetime'))
+                                                <span class="text-danger">{{ $errors->first('return_datetime') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="price">Price</label>
@@ -213,24 +222,6 @@
                                             <input type="text" name="remaining" id="remaining" value="{{ old('remaining') }}" class="form-control" placeholder="Enter remaining" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
                                             @if($errors->has('remaining'))
                                                 <span class="text-danger">{{ $errors->first('remaining') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="start_date">Start Date</label>
-                                            <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}" class="form-control"/>
-                                            @if($errors->has('start_date'))
-                                                <span class="text-danger">{{ $errors->first('start_date') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="billing_date">Billing Date</label>
-                                            <input type="date" name="billing_date" id="billing_date" value="{{ old('billing_date') }}" class="form-control" />
-                                            @if($errors->has('billing_date'))
-                                                <span class="text-danger">{{ $errors->first('billing_date') }}</span>
                                             @endif
                                         </div>
                                     </div>

@@ -28,14 +28,13 @@ class CreateRentsTable extends Migration
             $table->string('pickup_datetime')->nullable();
             $table->string('drop_location')->nullable();
             $table->string('drop_datetime')->nullable();
+            $table->string('return_datetime')->nullable();
             $table->double('price')->nullable();
             $table->double('advance')->nullable();
             $table->double('commission')->nullable();
             $table->double('remaining')->nullable();
             $table->double('driver_get')->nullable();
             $table->string('driver_accomodation')->nullable();
-            $table->date('start_date')->nullable();
-            $table->date('billing_date')->nullable();
             $table->double('fuel_cost')->nullable();
             $table->double('toll_charge')->nullable();
             $table->text('note')->nullable();

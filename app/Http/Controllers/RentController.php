@@ -93,12 +93,11 @@ class RentController extends Controller
             $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
             $rent->drop_location    = $request->drop_location;
             $rent->drop_datetime    = isset($request->drop_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
+            $rent->return_datetime  = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
             $rent->price            = $request->price;
             $rent->advance          = $request->advance;
             $rent->commission       = $request->commission;
             $rent->remaining        = $request->remaining;
-            $rent->start_date       = date('Y-m-d', strtotime($request->start_date));
-            $rent->billing_date     = date('Y-m-d', strtotime($request->billing_date));
             $rent->note             = $request->note;
             $rent->created_by       = Auth::id();
             $rent->updated_by       = Auth::id();
@@ -181,12 +180,11 @@ class RentController extends Controller
         $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
         $rent->drop_location    = $request->drop_location;
         $rent->drop_datetime    = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
+        $rent->return_datetime  = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
         $rent->price            = $request->price;
         $rent->advance          = $request->advance;
         $rent->commission       = $request->commission;
         $rent->remaining        = $request->remaining;
-        $rent->start_date       = date('Y-m-d', strtotime($request->start_date));
-        $rent->billing_date     = date('Y-m-d', strtotime($request->billing_date));
         $rent->note             = $request->note;
         $rent->updated_by       = Auth::id();
         
@@ -309,6 +307,7 @@ class RentController extends Controller
         $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
         $rent->drop_location    = $request->drop_location;
         $rent->drop_datetime    = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
+        $rent->return_datetime  = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
         $rent->price            = $request->price;
         $rent->advance          = $request->advance;
         $rent->commission       = $request->commission;
@@ -317,8 +316,6 @@ class RentController extends Controller
         $rent->driver_accomodation  = $request->driver_accomodation;
         $rent->fuel_cost        = $request->fuel_cost;
         $rent->toll_charge      = $request->toll_charge;
-        $rent->start_date       = date('Y-m-d', strtotime($request->start_date));
-        $rent->billing_date     = date('Y-m-d', strtotime($request->billing_date));
         $rent->note             = $request->note;
         $rent->updated_by       = Auth::id();
         
