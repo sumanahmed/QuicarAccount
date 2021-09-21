@@ -14,18 +14,27 @@ class DashboardController extends Controller
      */
     public function index (Request $request) 
     {
-        $start_date = date('Y-m-d');
-        $end_date   = date('Y-m-d', strtotime($start_date. " +3 days"));
-        $reminders  = DB::table('reminders')
-                        ->join('customers','reminders.customer_id','customers.id')
-                        ->select('reminders.*','customers.name','customers.phone')
-                        ->orderBy('reminders.id','desc')
-                        ->where('next_contact_datetime', '!=', null)
-                        ->whereDate('next_contact_datetime', '>=', $start_date)
-                        ->whereDate('next_contact_datetime', '<=', $end_date)
-                        ->orderBy('next_contact_datetime','ASC')
-                        ->get();
+        $query = DB::table('reminders')
+                    ->join('customers','reminders.customer_id','customers.id')
+                    ->select('reminders.*','customers.name','customers.phone')
+                    ->orderBy('reminders.id','desc');
 
-        return view("dashboard.index", compact('reminders'));
+        if ($request->day != 0) {
+            $day = (int)$request->day;
+            $start_date = date('Y-m-d');
+            $end_date = $day != 100 ? date('Y-m-d', strtotime($start_date. " + $day days")) : date('Y-m-d');
+            $query = $query->where('next_contact_datetime', '!=', null)
+                            ->whereDate('next_contact_datetime', '>=', $start_date)
+                            ->whereDate('next_contact_datetime', '<=', $end_date);
+        }        
+
+        if ($request->customer_id) {
+            $query = $query->where('customer_id', $request->customer_id);
+        }
+
+        $reminders = $query->paginate(12)->appends(request()->query());
+        $customers = Customer::all();
+
+        return view("dashboard.index", compact('reminders', 'customers'));
     }
 }

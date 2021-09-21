@@ -92,7 +92,41 @@
               <div class="col-12">
                   <div class="card">
                       <div class="car-header">
-                        <h4 class="mt-4 ml-4">Last 3 Days Reminder List</h4>
+                        <h4 class="mt-4 ml-4">Reminder List</h4>
+                        <form class="form" action="{{ route('dashboard') }}" method="get" style="padding:10px 20px;">
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <div class="form-group">
+                                      <label for="customer_id">Customer</label>
+                                      <select name="customer_id" id="customer_id" class="form-control selectable">
+                                          <option value="0">Select</option>
+                                          @foreach($customers as $customer) 
+                                              <option value="{{ $customer->id }}" @if(isset($_GET['customer_id']) && $customer->id == $_GET['customer_id']) selected @endif>{{ $customer->name }}({{ $customer->phone }})</option>
+                                          @endforeach
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="col-md-3">
+                                  <div class="form-group">
+                                      <label for="name">Day </label>
+                                      <select name="day" id="day" class="form-control">
+                                          <option value="0">Select</option>
+                                          <option value="100" @if(isset($_GET['day']) && $_GET['day'] == 100) selected @endif>ToDay</option>
+                                          <option value="1" @if(isset($_GET['day']) && $_GET['day'] == 1) selected @endif>Next Day</option>
+                                          <option value="3" @if(isset($_GET['day']) && $_GET['day'] == 3) selected @endif>3 days</option>
+                                          <option value="7" @if(isset($_GET['day']) && $_GET['day'] == 7) selected @endif>7 days</option>
+                                          <option value="15" @if(isset($_GET['day']) && $_GET['day'] == 15) selected @endif>15 days</option>
+                                          <option value="31" @if(isset($_GET['day']) && $_GET['day'] == 31) selected @endif>31 days</option>
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="col-md-2">
+                                  <div class="form-group">
+                                  <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 30px;" />
+                                  </div>
+                              </div>
+                          </div>
+                        </form>
                       </div>
                       <div class="card-body">
                         <table class="table table-sm table-bordered table-striped data_table">
@@ -141,6 +175,9 @@
                             @endforeach
                           </tbody>
                         </table>
+                        <div class="d-felx justify-content-center mt-3">
+                          {{ $reminders->links('pagination::bootstrap-4') }}
+                        </div>
                       </div>
                   </div>
               </div>
