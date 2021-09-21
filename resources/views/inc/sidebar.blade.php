@@ -78,12 +78,12 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link nav-rent-cancel">
+                <a href="{{ route('rent.cancel.index') }}" class="nav-link nav-rent-cancel">
                   <p>Cancel</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link nav-rent-complete">
+                <a href="{{ route('rent.complete.index') }}" class="nav-link nav-rent-complete">
                   <p>Complete</p>
                 </a>
               </li>

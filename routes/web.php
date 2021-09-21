@@ -107,6 +107,14 @@ Route::group(['prefix'=>'/rent/upcoming', 'middleware'=>'admin'], function(){
     Route::post('/update/{id}', [RentController::class, 'upcomingUpdate'])->name('rent.upcoming.update');
 });
 
+Route::group(['prefix'=>'/rent/cancel', 'middleware'=>'admin'], function(){
+    Route::get('/', [RentController::class, 'cancel'])->name('rent.cancel.index');
+});
+
+Route::group(['prefix'=>'/rent/complete', 'middleware'=>'admin'], function(){
+    Route::get('/', [RentController::class, 'complete'])->name('rent.complete.index');
+});
+
 Route::group(['prefix'=>'/accounts', 'middleware'=>'admin'], function(){
     Route::get('/income', [AccountsController::class, 'income'])->name('accounts.income');
     Route::get('/expense', [AccountsController::class, 'expense'])->name('accounts.expense');

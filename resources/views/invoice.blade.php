@@ -12,76 +12,50 @@
                         <div class="row">
                             <div class="col-md-4"> <img class="img" alt="Invoce Template" src="{{ asset('assets/images/logo.png') }}" /> </div>
                             <div class="col-md-8 text-right">
-                                <h4><strong>Suman Ahmed</strong></h4>
-                                <p>6 June 2019</p>
-                                <p>Tejgaon, Dhaka-1212</p>
-                                <p>example@gmail.com</p>
+                                <h4><strong>{{ $rent->name }}</strong></h4>
+                                <p>{{ $rent->phone }}</p>
+                                <p>Invoice date: {{ date('d M, Y') }}</p>
                             </div>
                         </div> <br />
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <h2>INVOICE</h2>
-                                <h5>04854654101</h5>
+                                <h2>Invoice-AS-{{ $rent->id }}</h2>
                             </div>
                         </div> <br />
                         <div>
                             <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="col-md-7">Product Name</th>
-                                        <th class="col-md-2">Quantity</th>
-                                        <th class="col-md-3">Amount</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="col-md-7">Babay Diaper</td>
-                                        <td class="col-md-2">3</td>
-                                        <td class="col-md-3">50,000 </td>
+                                        <td class="col-md-3">Pickup</td>
+                                        <td class="col-md-2">:</td>
+                                        <td class="col-md-7">{{ $rent->pickup_location }} at {{ date('d M, Y', strtotime($rent->pickup_datetime)) }} </td>
                                     </tr>
                                     <tr>
-                                        <td class="col-md-7">Food</td>
-                                        <td class="col-md-2">4</td>
-                                        <td class="col-md-3">5,200 </td>
+                                        <td class="col-md-3">Drop</td>
+                                        <td class="col-md-2">:</td>
+                                        <td class="col-md-7">{{ $rent->drop_location }} at {{ date('d M, Y', strtotime($rent->drop_datetime)) }} </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-right" colspan="2">
-                                            <strong>Sub Total:</strong>
-                                        </td>
-                                        <td class="text-left">
-                                            <strong>79,900 </strong>
-                                        </td>
+                                        <td class="col-md-3">Price</td>
+                                        <td class="col-md-2">:</td>
+                                        <td class="col-md-7">{{ $rent->price }} </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-right" colspan="2">
-                                            <strong>Discount:</strong>
-                                        </td>
-                                        <td class="text-left">
-                                            <strong>100 </strong>
-                                        </td>
+                                        <td class="col-md-3">Advanced</td>
+                                        <td class="col-md-2">:</td>
+                                        <td class="col-md-7">{{ $rent->advance }} </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-right" colspan="2">
-                                            <strong>Delivery Charge:</strong>
-                                        </td>
-                                        <td class="text-left">
-                                            <strong>100 </strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-right" colspan="2">
-                                            <strong>Total Payable Amount:</strong>
-                                        </td>
-                                        <td class="text-left">
-                                            <strong>79,900 </strong>
-                                        </td>
+                                        <td class="col-md-3">Due</td>
+                                        <td class="col-md-2">:</td>
+                                        <td class="col-md-7">{{ (float)($rent->price - $rent->advance) }} </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div>
-                            <div class="col-md-12">
-                                <p><b>Signature</b></p>
+                        <div style="margin-top:80px;">
+                            <div class="col-md-12 text-center">
+                                <p><b>[No Signature is required. This is an auto generated invoice.]</b></p>
                             </div>
                         </div>
                     </div>

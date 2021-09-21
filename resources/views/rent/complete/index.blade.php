@@ -1,6 +1,6 @@
 
 @extends('layout.admin')
-@section('title','Upcoming Rent')
+@section('title','Complete Rent')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Upcoming Rent</h1>
+            <h1 class="m-0 text-dark">Complete Rent</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -21,7 +21,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="car-header">
-                      <form class="form" action="{{ route('rent.upcoming.index') }}" method="get" style="padding:10px 20px;">
+                      <form class="form" action="{{ route('rent.complete.index') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
                           <div class="col-md-3">
                             <div class="form-group">
@@ -73,7 +73,7 @@
                                 <th>Reg No</th>
                                 <th>Price</th>
                                 <th>Advance</th>
-                                <th>Status</th>
+                                <th>Remaining</th>
                                 <th style="vertical-align: middle;text-align: center;">Action</th>
                             </tr>
                         </thead>
@@ -84,7 +84,7 @@
                                 <th>Reg No</th>
                                 <th>Price</th>
                                 <th>Advance</th>
-                                <th>Status</th>
+                                <th>Remaining</th>
                               <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
@@ -96,11 +96,9 @@
                               <td>{{ $rent->reg_number }}</td>
                               <td>{{ $rent->price }}</td>
                               <td>{{ $rent->advance }}</td>
-                              <td>{{ getStatus($rent->status) }}</td>
+                              <td>{{ $rent->remaining }}</td>
                               <td style="vertical-align: middle;text-align: center;">
                                 <a href="{{ route('rent.invoice', $rent->id) }}" class="btn btn-xs btn-success" title="Edit">Invoice</a>
-                                <button class="btn btn-xs btn-info" data-toggle="modal" id="statusChange" data-id="{{ $rent->id }}" data-status="{{ $rent->status }}" title="Status">Status</button>
-                                <a href="{{ route('rent.upcoming.edit', $rent->id) }}" class="btn btn-xs btn-warning" title="Edit">Edit</a>
                                 <button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="{{ $rent->id }}" title="Delete">Delete</button>                                  
                               </td>
                             </tr>
@@ -163,24 +161,11 @@
             </div>
         </div>
     </div>
-    <?php
-        function getStatus ($status) {
-            if ($status == 1) {
-                echo "Upcoming";
-            } else if ($status == 2) {
-                echo "Ongoing";
-            } else if ($status == 3) {
-                echo "Complete";
-            } else if ($status == 4) {
-                echo "Cancel";
-            }
-        }
-    ?>
 @endsection
 @section('scripts')
     <script>
       $('.menu-rent').addClass('menu-open');
-      $('.nav-rent-upcoming').addClass('active');
+      $('.nav-rent-complete').addClass('active');
     </script>
     <script src="{{ asset('assets/js/rent.js') }}"></script>
 @endsection

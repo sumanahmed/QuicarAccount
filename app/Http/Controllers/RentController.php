@@ -57,14 +57,14 @@ class RentController extends Controller
     */
     public function invoice ($id)
     {
-        $rent = Rent::find($id);
-        $pdf = PDF::loadView('invoice', $rent);
-
-        // download PDF file with download method
-        return $pdf->download('pdf_file.pdf');
-        // $pdf = PDF::loadView('invoice', compact('rent'));
-        // $pdf->setPaper('A4', 'Portrait');
-        // return $pdf->stream("Invoice-AS".$id.".pdf");
+        $rent = Rent::join('customers','rents.customer_id','customers.id')
+                    ->select('customers.name','customers.phone','rents.*')
+                    ->where('rents.id', $id)->first();
+        
+        $pdf = PDF::loadView('invoice', compact('rent'));
+        $pdf->setPaper('A4', 'Portrait');
+        //return $pdf->stream("Invoice-AS".$id.".pdf");
+        return $pdf->download("Invoice-AS-".$id.".pdf");
     }
 
     /**
@@ -283,6 +283,7 @@ class RentController extends Controller
         return view('rent.upcoming.index', compact('rents','car_types','models','years'));
     }
     
+    
     /**
      * show edit page
      */
@@ -342,4 +343,81 @@ class RentController extends Controller
         }
     }
 
+    //show all cancel rent
+    public function cancel(Request $request)
+    {
+        $today = date('Y-m-d');
+        $query = DB::table('rents')
+                    ->select('*')
+                    ->whereDate('pickup_datetime', $today)
+                    ->where('status', 4)
+                    ->orderBy('id', 'DESC');
+
+        if ($request->name) {
+            $query = $query->where('name', 'like', "{$request->name}%");
+        }
+
+        if ($request->phone) {
+            $query = $query->where('phone', $request->phone);
+        }
+
+        if ($request->car_type_id) {
+            $query = $query->where('car_type_id', $request->car_type_id);
+        }
+
+        if ($request->model_id) {
+            $query = $query->where('model_id', $request->model_id);
+        }
+
+        if ($request->year_id) {
+            $query = $query->where('year_id', $request->year_id);
+        }
+
+        $rents = $query->paginate(12)->appends(request()->query());
+
+        $car_types = CarType::all();
+        $models    = CarModel::all();
+        $years     = Year::all();     
+
+        return view('rent.cancel.index', compact('rents','car_types','models','years'));
+    }
+
+    //show all cancel rent
+    public function complete(Request $request)
+    {
+        $today = date('Y-m-d');
+        $query = DB::table('rents')
+                    ->select('*')
+                    ->whereDate('pickup_datetime', $today)
+                    ->where('status', 3)
+                    ->orderBy('id', 'DESC');
+
+        if ($request->name) {
+            $query = $query->where('name', 'like', "{$request->name}%");
+        }
+
+        if ($request->phone) {
+            $query = $query->where('phone', $request->phone);
+        }
+
+        if ($request->car_type_id) {
+            $query = $query->where('car_type_id', $request->car_type_id);
+        }
+
+        if ($request->model_id) {
+            $query = $query->where('model_id', $request->model_id);
+        }
+
+        if ($request->year_id) {
+            $query = $query->where('year_id', $request->year_id);
+        }
+
+        $rents = $query->paginate(12)->appends(request()->query());
+
+        $car_types = CarType::all();
+        $models    = CarModel::all();
+        $years     = Year::all();     
+
+        return view('rent.complete.index', compact('rents','car_types','models','years'));
+    }
 }
