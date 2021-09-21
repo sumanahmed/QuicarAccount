@@ -15,6 +15,7 @@ use Exception;
 use DB;
 use Auth;
 use PDF;
+use Mail;
 
 class RentController extends Controller
 {
@@ -65,6 +66,23 @@ class RentController extends Controller
         $pdf->setPaper('A4', 'Portrait');
         //return $pdf->stream("Invoice-AS".$id.".pdf");
         return $pdf->download("Invoice-AS-".$id.".pdf");
+        
+        
+        /** Email Send Code Start */
+        
+            // $data["email"] = "suman777333@gmail.com";
+            // $data["title"] = "From Autospire";
+            // $data["body"] = "This is Demo mail";
+      
+            // $pdf = PDF::loadView('invoice', $rent);
+      
+            // Mail::send('invoice', $rent, function($message)use($data, $pdf) {
+            //     $message->to($data["email"], $data["email"])
+            //             ->subject($data["title"])
+            //             ->attachData($pdf->output(), "Invoice-AS-".$id.".pdf");
+            // });
+            
+        /** Email Send Code  End*/
     }
 
     /**
