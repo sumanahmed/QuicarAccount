@@ -99,6 +99,7 @@ Route::group(['prefix'=>'/rent', 'middleware'=>'admin'], function(){
     Route::post('/update/{id}', [RentController::class, 'update'])->name('rent.update');
     Route::post('/destroy', [RentController::class, 'destroy'])->name('rent.destroy');
     Route::post('/status-update', [RentController::class, 'statusUpdate'])->name('rent.stats.update');
+    Route::post('/send-sms', [RentController::class, 'sendSMS'])->name('rent.send_sms');
 });
 
 Route::group(['prefix'=>'/rent/upcoming', 'middleware'=>'admin'], function(){

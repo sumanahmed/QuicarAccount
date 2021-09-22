@@ -101,6 +101,7 @@
                               <td>{{ $rent->advance }}</td>
                               <td>{{ getStatus($rent->status) }}</td>
                               <td style="vertical-align: middle;text-align: center;">
+                                <button class="btn btn-xs btn-primary" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $rent->id }}" title="SMS">SMS</button>                                  
                                 <a href="{{ route('rent.invoice', $rent->id) }}" class="btn btn-xs btn-success" title="Edit">Invoice</a>
                                 <button class="btn btn-xs btn-info" data-toggle="modal" id="statusChange" data-id="{{ $rent->id }}" data-status="{{ $rent->status }}" title="Status">Status</button>
                                 <a href="{{ route('rent.edit', $rent->id) }}" class="btn btn-xs btn-warning" title="Edit">Edit</a>
@@ -119,6 +120,42 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
+    
+    <div class="modal fade" tabindex="-1" id="smsModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-default" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                  <h5 class="modal-title text-center w-100">Send SMS</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-form-label">SMS For <span class="text-danger" title="Required">*</span></label>                                                                
+                                <select id="smsFor" class="form-control">
+                                  <option value="1">Customer</option>
+                                  <option value="2">Driver</option>
+                                </select>
+                                <input type="hidden" id="rentId" />
+                                <span class="errorCustomerPhone text-danger text-bold"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Message <span class="text-danger" title="Required">*</span></label>                                                                
+                                <textarea class="form-control" id="message"></textarea>
+                                <span class="errorCustomerPhone text-danger text-bold"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" id="sendSMS">Send</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" tabindex="-1" id="statusUpdateModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-default" role="document">
             <div class="modal-content">

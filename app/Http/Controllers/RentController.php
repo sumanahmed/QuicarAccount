@@ -154,15 +154,15 @@ class RentController extends Controller
             $pickup_date_time = isset($request->pickup_datetime) ? date('Y-m-d H:i', strtotime($request->pickup_datetime)) : "";
             $msg = "Booking Confirmation, Car Type: ".$rent->CarType->name.", Car Model: ".$rent->CarModel->name.", Car Number: ".$request->reg_number.", Rent Type: ".$rentType.", Pickup Location: ".$request->pickup_location.", Date and Time: ".$pickup_date_time.", Drop Location: ".$request->drop_location.", Price: ".$request->price.", Advance: ".$request->advance.", Remaining: ".$request->remaining.", Customer Number: ".$customer->phone.", Driver Number: ".$driver->phone.". __ Autospire Logistics 01912278827";
          
-            if ($request->customer_id != null) {
-                $client = new Client();            
-                $sms    = $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $customer->phone ."&message=".$msg);
-            } 
+            // if ($request->customer_id != null) {
+            //     $client = new Client();            
+            //     $sms    = $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $customer->phone ."&message=".$msg);
+            // } 
             
-            if ($request->driver_id != null) {
-                $client = new Client();              
-                $sms    = $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $driver->phone ."&message=".$msg);
-            }
+            // if ($request->driver_id != null) {
+            //     $client = new Client();              
+            //     $sms    = $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $driver->phone ."&message=".$msg);
+            // }
             
             DB::commit();
             
@@ -437,5 +437,27 @@ class RentController extends Controller
         $years     = Year::all();     
 
         return view('rent.complete.index', compact('rents','car_types','models','years'));
+    }
+
+    /**
+     * send sms
+    */
+    public function sendSMS (Request $request) 
+    {  
+        $sms_for = $request->smsFor;
+        $msg = $request->message;
+
+        $client = new Client();
+
+        if ($sms_for == 2) {
+            $driver = Driver::find(Rent::find($request->rent_id)->driver_id);
+            $phone = $driver->phone;
+        } else {
+            $customer = Customer::find(Rent::find($request->rent_id)->customer_id);
+            $phone = $customer->phone;
+        }
+        
+        $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $phone ."&message=".$msg);            
+        
     }
 }

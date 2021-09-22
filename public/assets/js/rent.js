@@ -80,3 +80,32 @@ $("#filter_car_type_id").change(function(){
       }
   });
 });
+
+
+$("#sms").click(function(){
+  $('#smsModal').modal('show');
+  $('#rentId').val($(this).data('id'));
+});
+
+$("#sendSMS").click(function(e){
+  e.preventDefault();
+  
+  var rent_id = $("#rentId").val();
+  var smsFor = $("#smsFor :selected").val();
+  var message = $("#message").val();
+  
+  $.ajax({
+      type: 'POST',
+      url: '/rent/send-sms',
+      headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+      data: {
+        rent_id : rent_id,
+        smsFor : smsFor,
+        message : message
+      },
+      success: function (data) {
+        $('#smsModal').modal('hide');
+        toastr.success('SMS Send Successfully')
+      }
+  });
+});

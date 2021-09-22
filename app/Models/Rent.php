@@ -24,4 +24,8 @@ class Rent extends Model
     public function CarModel() {
     	return $this->belongsTo('App\Models\CarModel', 'model_id');
     }
+    
+    public function driver() {
+    	return $this->belongsTo('App\Models\Driver', 'driver_id');
+    }
 }
