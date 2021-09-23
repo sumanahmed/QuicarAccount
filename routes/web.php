@@ -66,6 +66,7 @@ Route::group(['prefix'=>'/reminder', 'middleware'=>'admin'], function(){
     Route::post('/update/{id}', [ReminderController::class, 'update'])->name('reminder.update');
     Route::post('/destroy', [ReminderController::class, 'destroy'])->name('reminder.destroy');
     Route::post('/send-sms', [ReminderController::class, 'sendSMS'])->name('reminder.send_sms');
+    Route::get('/details/{id}', [ReminderController::class, 'details'])->name('reminder.details');
 });
 
 Route::group(['prefix'=>'/customer', 'middleware'=>'admin'], function(){

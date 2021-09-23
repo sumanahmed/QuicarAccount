@@ -181,6 +181,27 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label for="interested">Interested</label>
+                                            <select name="interested" class="form-control">
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                            </select>
+                                            @if($errors->has('interested'))
+                                                <span class="text-danger">{{ $errors->first('interested') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="contact_date">Contact Date</label>
+                                            <input type="date" name="contact_date" value="{{ old('contact_date') }}" id="contact_date" class="form-control" />
+                                            @if($errors->has('contact_date'))
+                                                <span class="text-danger">{{ $errors->first('contact_date') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
                                             <label for="next_contact_datetime">Next Contact Date Time</label>
                                             <input type="datetime-local" name="next_contact_datetime" value="{{ old('next_contact_datetime') }}" id="next_contact_datetime" class="form-control" />
                                             @if($errors->has('next_contact_datetime'))

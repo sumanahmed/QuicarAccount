@@ -21,6 +21,8 @@ class CreateRemindersTable extends Migration
             $table->integer('total_day')->nullable();
             $table->tinyInteger('rent_type')->comment('1=drop_only,2=round_trip,3=body rent')->default(1);
             $table->tinyInteger('status')->comment('1=Pending, 2=Schedule Contact 3=Not Agree')->default(1);
+            $table->tinyInteger('interested')->comment('1=Yes, 2=No')->default(1);
+            $table->date('contact_date')->nullable();
             $table->string('pickup_location')->nullable();
             $table->string('pickup_datetime')->nullable();
             $table->string('drop_location')->nullable();

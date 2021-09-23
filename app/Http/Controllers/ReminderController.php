@@ -92,6 +92,8 @@ class ReminderController extends Controller
             $reminder->return_datetime      = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
             $reminder->asking_price         = $request->asking_price;
             $reminder->user_offered         = $request->user_offered;
+            $reminder->interested           = $request->interested;
+            $reminder->contact_date         = date('Y-m-d', strtotime($request->contact_date));
             $reminder->driver_accomodation  = $request->driver_accomodation;
             $reminder->next_contact_datetime= $request->next_contact_datetime;
             $reminder->note                 = $request->note;
@@ -146,6 +148,8 @@ class ReminderController extends Controller
         $reminder->return_datetime      = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
         $reminder->asking_price         = $request->asking_price;
         $reminder->user_offered         = $request->user_offered;
+        $reminder->interested           = $request->interested;
+        $reminder->contact_date         = date('Y-m-d', strtotime($request->contact_date));
         $reminder->driver_accomodation  = $request->driver_accomodation;
         $reminder->next_contact_datetime= $request->next_contact_datetime;
         $reminder->note                 = $request->note;
@@ -175,5 +179,17 @@ class ReminderController extends Controller
         $msg = $request->message;
         $client = new Client();            
         $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $phone ."&message=".$msg);
+    }
+
+    /**
+     * details
+    */
+    public function details($id) 
+    {
+        $reminder = Reminder::find($id);
+        $customer   = Customer::find($reminder->customer_id);        
+        $car_types  = CarType::all();
+
+        return view('reminder.details', compact('reminder', 'customer', 'car_types'));
     }
 }

@@ -167,6 +167,7 @@
                                 <td>{{ $reminder->user_offered }}</td>
                                 <td>{{ getStatus($reminder->status) }}</td>                                
                                 <td style="vertical-align: middle;text-align: center;">
+                                <a href="{{ route('reminder.details', $reminder->id) }}" target="_blank" class="btn btn-xs btn-secondary" title="Edit">Details</a>
                                   <a target="_blank" href="{{ route('reminder.edit', $reminder->id) }}" class="btn btn-xs btn-warning" title="Edit">Edit</a>
                                   <button class="btn btn-xs btn-success" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $reminder->id }}" data-name="{{ $reminder->name }}" data-phone="{{ $reminder->phone }}" title="SMS">SMS</button>                                  
                                   <button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="{{ $reminder->id }}" title="Delete">Delete</button>                                  
