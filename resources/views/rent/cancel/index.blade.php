@@ -98,7 +98,7 @@
                                 <button class="btn btn-xs btn-primary" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $rent->id }}" title="SMS">SMS</button>                                  
                                 <a href="{{ route('rent.invoice', $rent->id) }}" class="btn btn-xs btn-success" title="Edit">Invoice</a>
                                 <button class="btn btn-xs btn-info" data-toggle="modal" id="statusChange" data-id="{{ $rent->id }}" data-status="{{ $rent->status }}" title="Status">Status</button>
-                                <button class="btn btn-xs btn-danger" data-toggle="modal" id="delete" data-target="#deleteModal" data-id="{{ $rent->id }}" title="Delete">Delete</button>                                  
+                                <button class="btn btn-xs btn-danger" data-toggle="modal" id="rentDelete" data-target="#rentDeleteModal" data-id="{{ $rent->id }}" title="Delete">Delete</button>                                                         
                               </td>
                             </tr>
                           @endforeach
@@ -148,37 +148,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" id="statusUpdateModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-default" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-success text-white">
-                  <h5 class="modal-title text-center w-100">Update Status</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="col-form-label">Status <span class="text-danger" title="Required">*</span></label>
-                                <select id="status" class="form-control" required>
-                                  <option value="1">Upcoming</option>
-                                  <option value="2">Ongoing</option>
-                                  <option value="3">Complete</option>
-                                  <option value="4">Cancel</option>
-                                </select>
-                                <input type="hidden" id="rent_id" />
-                                <span class="errorSms text-danger text-bold"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" id="changeRentStatus">Send</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" tabindex="-1" id="deleteModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade" tabindex="-1" id="rentDeleteModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-default" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
@@ -189,7 +159,7 @@
                     <h3 class="text-center">Are you sure to delete ?</h3>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="destroy">Delete</button>
+                    <button type="button" class="btn btn-success" id="rentDestroy">Delete</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

@@ -134,8 +134,8 @@
                                         <div class="form-group">
                                             <label for="status">Status</label>
                                             <select name="status" class="form-control">
-                                                <option value="1" @if($rent->status == 1) selected @endif>Upcoming</option>
-                                                <option value="2" @if($rent->status == 2) selected @endif>Ongoing</option>
+                                                <option value="1" @if($rent->status == 1) selected @endif>New</option>
+                                                <option value="2" @if($rent->status == 2) selected @endif>Upcoming</option>
                                                 <option value="3" @if($rent->status == 3) selected @endif>Complete</option>
                                                 <option value="4" @if($rent->status == 4) selected @endif>Cancel</option>
                                             </select>

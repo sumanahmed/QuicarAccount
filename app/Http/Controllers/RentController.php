@@ -22,7 +22,7 @@ class RentController extends Controller
     //show all
     public function index(Request $request)
     {
-        $query = DB::table('rents')->select('*')->orderBy('id', 'DESC');
+        $query = DB::table('rents')->select('*')->orderBy('id', 'DESC')->where('status', 1);
 
         if ($request->name) {
             $query = $query->where('name', 'like', "{$request->name}%");
@@ -122,7 +122,6 @@ class RentController extends Controller
             $rent->reg_number       = $request->reg_number;
             $rent->total_person     = $request->total_person;
             $rent->rent_type        = $request->rent_type;
-            $rent->status           = $request->status;
             $rent->pickup_location  = $request->pickup_location;
             $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
             $rent->drop_location    = $request->drop_location;
@@ -209,7 +208,6 @@ class RentController extends Controller
         $rent->reg_number       = $request->reg_number;
         $rent->total_person     = $request->total_person;
         $rent->rent_type        = $request->rent_type;
-        $rent->status           = $request->status;
         $rent->pickup_location  = $request->pickup_location;
         $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
         $rent->drop_location    = $request->drop_location;
@@ -232,7 +230,8 @@ class RentController extends Controller
     /**
      * rent destroy
      */
-    public function destroy(Request $request){ 
+    public function destroy(Request $request)
+    { 
         Rent::find($request->id)->delete();
         return response()->json();
     }
@@ -244,7 +243,7 @@ class RentController extends Controller
     {
         $rent = Rent::find($request->rent_id);
 
-        if ($request->status == 3) {
+        if ($request->status == 3 && $rent->commission != null) {
 
             $income             = new Income();
             $income->name       = 'Income From commission';
@@ -259,7 +258,7 @@ class RentController extends Controller
 
         $rent->status = $request->status;
         $rent->update();
-
+        
         return redirect()->route('rent.index')->with('message','Rent status update successfully');
     }
     
@@ -270,7 +269,8 @@ class RentController extends Controller
         $query = DB::table('rents')
                     ->select('*')
                     ->whereDate('pickup_datetime', $today)
-                    ->orderBy('id', 'DESC');
+                    ->orderBy('id', 'DESC')
+                    ->where('status', 2);
 
         if ($request->name) {
             $query = $query->where('name', 'like', "{$request->name}%");
@@ -443,7 +443,7 @@ class RentController extends Controller
      * send sms
     */
     public function sendSMS (Request $request) 
-    {  
+    {
         $sms_for = $request->smsFor;
         $msg = $request->message;
 

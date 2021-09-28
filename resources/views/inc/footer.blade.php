@@ -26,19 +26,18 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('assets/js/adminlte.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('assets/js/dashboard.js') }}"></script>
 <script src="{{ asset('assets/js/toastr.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $('.selectable').select2();
 </script>
 <script>
-  $('.datePicker').daterangepicker({
-      singleDatePicker: true,
-      locale: {
-          format: 'YYYY-MM-DD'
-      }
-  });
+    $('.datePicker').daterangepicker({
+        singleDatePicker: true,
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
+    });
 </script>
 @if(Session::has('error_message'))
     <script>

@@ -7,12 +7,13 @@ $("#rentType").change(function () {
   }
 });
 
-$("#delete").click(function(){
-    $('#deleteModal').modal('show');
+$(document).on('click', '#rentDelete', function () {
+    console.log('id = ')
+    $('#rentDeleteModal').modal('show');
     $('input[name=del_id]').val($(this).data('id'));
 });
 
-$("#destroy").click(function(){
+$("#rentDestroy").click(function(){
   $.ajax({
       type: 'POST',
       url: '/rent/destroy',
@@ -21,14 +22,14 @@ $("#destroy").click(function(){
         id: $('input[name=del_id]').val()
       },
       success: function (data) {
-          $('#deleteModal').modal('hide');
+          $('#rentDeleteModal').modal('hide');
           $('.rent-' + $('input[name=del_id]').val()).remove();
           toastr.success('Rent Deleted')
       }
   });
 });
 
-$("#statusChange").click(function(){
+$(document).on('click', '#statusChange', function () {
   $('#statusUpdateModal').modal('show');
   $('#rent_id').val($(this).data('id'));
   $('#status').val($(this).data('status'));
@@ -81,8 +82,7 @@ $("#filter_car_type_id").change(function(){
   });
 });
 
-
-$("#sms").click(function(){
+$(document).on('click', '#sms', function () {
   $('#smsModal').modal('show');
   $('#rentId').val($(this).data('id'));
 });

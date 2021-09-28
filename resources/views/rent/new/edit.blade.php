@@ -132,20 +132,6 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="status">Status</label>
-                                            <select name="status" class="form-control">
-                                                <option value="1" @if($rent->status == 1) selected @endif>Upcoming</option>
-                                                <option value="2" @if($rent->status == 2) selected @endif>Ongoing</option>
-                                                <option value="3" @if($rent->status == 3) selected @endif>Complete</option>
-                                                <option value="4" @if($rent->status == 4) selected @endif>Cancel</option>
-                                            </select>
-                                            @if($errors->has('status'))
-                                                <span class="text-danger">{{ $errors->first('status') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
                                             <label for="pickup_location">Pickup Location</label>
                                             <input type="text" name="pickup_location" id="pickup_location" value="{{ $rent->pickup_location }}" class="form-control" placeholder="Pickup Location" />
                                             @if($errors->has('pickup_location'))
