@@ -168,8 +168,8 @@
                             <div class="form-group">
                                 <label class="col-form-label">Status <span class="text-danger" title="Required">*</span></label>
                                 <select id="status" class="form-control" required>
-                                  <option value="1">Upcoming</option>
-                                  <option value="2">Ongoing</option>
+                                  <option value="1">New</option>
+                                  <option value="2">Upcoming</option>
                                   <option value="3">Complete</option>
                                   <option value="4">Cancel</option>
                                 </select>
@@ -206,9 +206,9 @@
     <?php
         function getStatus ($status) {
             if ($status == 1) {
-                echo "Upcoming";
+                echo "New";
             } else if ($status == 2) {
-                echo "Ongoing";
+                echo "Upcoming";
             } else if ($status == 3) {
                 echo "Complete";
             } else if ($status == 4) {

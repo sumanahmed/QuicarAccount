@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="year">Year <span class="text-danger" title="Required">*</span></label>
+                                            <label for="year">Year </label>
                                             <select name="year_id" class="form-control selectable">
                                                 <option selected disabled>Select</option>
                                                 @foreach($years as $year) 
@@ -113,6 +113,15 @@
                                             <input type="text" name="total_person" value="{{ old('total_person') }}" class="form-control" placeholder="Total Person" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
                                             @if($errors->has('total_person'))
                                                 <span class="text-danger">{{ $errors->first('total_person') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="total_day">Total Day</label>
+                                            <input type="text" name="total_day" value="{{ old('total_day') }}" class="form-control" placeholder="Total Day" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('total_day'))
+                                                <span class="text-danger">{{ $errors->first('total_day') }}</span>
                                             @endif
                                         </div>
                                     </div>

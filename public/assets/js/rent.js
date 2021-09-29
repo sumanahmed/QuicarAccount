@@ -52,6 +52,7 @@ $("#changeRentStatus").click(function(e){
       success: function (data) {
           $('#statusUpdateModal').modal('hide');
           toastr.success('Status Update Successfully')
+          location.reload();
       }
   });
 });

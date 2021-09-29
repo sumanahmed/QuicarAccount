@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="year">Year <span class="text-danger" title="Required">*</span></label>
+                                            <label for="year">Year</label>
                                             <select name="year_id" class="form-control">
                                                 <option value="0">Select</option>
                                                 @foreach($years as $year) 
@@ -236,10 +236,10 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="toll_charge">Toll Charge</label>
-                                            <input type="text" name="toll_charge" id="toll_charge" value="{{ $rent->toll_charge }}" class="form-control" placeholder="Toll Charge" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
-                                            @if($errors->has('toll_charge'))
-                                                <span class="text-danger">{{ $errors->first('toll_charge') }}</span>
+                                            <label for="other_cost">Others Cost</label>
+                                            <input type="text" name="other_cost" id="other_cost" value="{{ $rent->other_cost }}" class="form-control" placeholder="Others Cost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('other_cost'))
+                                                <span class="text-danger">{{ $errors->first('other_cost') }}</span>
                                             @endif
                                         </div>
                                     </div>

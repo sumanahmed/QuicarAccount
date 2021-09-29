@@ -7,6 +7,7 @@ use App\Models\CarType;
 use App\Models\Year;
 use App\Models\Customer;
 use App\Models\Driver;
+use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Rent;
 use Illuminate\Http\Request;
@@ -106,8 +107,7 @@ class RentController extends Controller
     {   
         $this->validate($request,[
             'car_type_id'   => 'required',    
-            'model_id'      => 'required',    
-            'year_id'       => 'required'
+            'model_id'      => 'required'
         ]);
         
         DB::beginTransaction();
@@ -116,11 +116,12 @@ class RentController extends Controller
             $rent                   = new Rent();
             $rent->car_type_id      = $request->car_type_id;
             $rent->model_id         = $request->model_id;
-            $rent->year_id          = $request->year_id;
-            $rent->customer_id      = $request->customer_id;
-            $rent->driver_id        = $request->driver_id;
+            $rent->year_id          = $request->year_id ? $request->year_id : null;
+            $rent->customer_id      = $request->customer_id ? $request->customer_id : null;
+            $rent->driver_id        = $request->driver_id ? $request->driver_id : null;
             $rent->reg_number       = $request->reg_number;
             $rent->total_person     = $request->total_person;
+            $rent->total_day        = (int)$request->total_day;
             $rent->rent_type        = $request->rent_type;
             $rent->pickup_location  = $request->pickup_location;
             $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
@@ -136,22 +137,21 @@ class RentController extends Controller
             $rent->updated_by       = Auth::id();
             $rent->save();
             
-            $customer = $request->customer_id != null ? Customer::find($request->customer_id) : '';
-            $driver = $request->driver_id != null ? Driver::find($request->driver_id) : '';
+            // $customer = $request->customer_id != null ? Customer::find($request->customer_id) : '';
+            // $driver = $request->driver_id != null ? Driver::find($request->driver_id) : '';
+                        
+            // if ($request->rent_type == 1) {
+            //     $rentType = 'Drop Only';
+            // }elseif ($request->rent_type == 2) {
+            //     $rentType = 'Round Trip';
+            // }elseif ($request->rent_type == 3) {
+            //     $rentType = 'Body Rent';
+            // }elseif ($request->rent_type == 4) {
+            //     $rentType = 'Monthly';
+            // }
             
-            
-            if ($request->rent_type == 1) {
-                $rentType = 'Drop Only';
-            }elseif ($request->rent_type == 2) {
-                $rentType = 'Round Trip';
-            }elseif ($request->rent_type == 3) {
-                $rentType = 'Body Rent';
-            }elseif ($request->rent_type == 4) {
-                $rentType = 'Monthly';
-            }
-            
-            $pickup_date_time = isset($request->pickup_datetime) ? date('Y-m-d H:i', strtotime($request->pickup_datetime)) : "";
-            $msg = "Booking Confirmation, Car Type: ".$rent->CarType->name.", Car Model: ".$rent->CarModel->name.", Car Number: ".$request->reg_number.", Rent Type: ".$rentType.", Pickup Location: ".$request->pickup_location.", Date and Time: ".$pickup_date_time.", Drop Location: ".$request->drop_location.", Price: ".$request->price.", Advance: ".$request->advance.", Remaining: ".$request->remaining.", Customer Number: ".$customer->phone.", Driver Number: ".$driver->phone.". __ Autospire Logistics 01912278827";
+            // $pickup_date_time = isset($request->pickup_datetime) ? date('Y-m-d H:i', strtotime($request->pickup_datetime)) : "";
+            // $msg = "Booking Confirmation, Car Type: ".$rent->CarType->name.", Car Model: ".$rent->CarModel->name.", Car Number: ".$request->reg_number.", Rent Type: ".$rentType.", Pickup Location: ".$request->pickup_location.", Date and Time: ".$pickup_date_time.", Drop Location: ".$request->drop_location.", Price: ".$request->price.", Advance: ".$request->advance.", Remaining: ".$request->remaining.", Customer Number: ".$customer->phone.", Driver Number: ".$driver->phone.". __ Autospire Logistics 01912278827";
          
             // if ($request->customer_id != null) {
             //     $client = new Client();            
@@ -195,18 +195,18 @@ class RentController extends Controller
     {
         $this->validate($request,[
             'car_type_id'   => 'required',    
-            'model_id'      => 'required',    
-            'year_id'       => 'required' 
+            'model_id'      => 'required'
         ]);
         
         $rent                   = Rent::find($id);
         $rent->car_type_id      = $request->car_type_id;
         $rent->model_id         = $request->model_id;
-        $rent->year_id          = $request->year_id;
-        $rent->customer_id      = $request->customer_id;
-        $rent->driver_id        = $request->driver_id;
+        $rent->year_id          = $request->year_id ? $request->year_id : null;
+        $rent->customer_id      = $request->customer_id ? $request->customer_id : null;
+        $rent->driver_id        = $request->driver_id ? $request->driver_id : null;
         $rent->reg_number       = $request->reg_number;
         $rent->total_person     = $request->total_person;
+        $rent->total_day        = (int)$request->total_day;
         $rent->rent_type        = $request->rent_type;
         $rent->pickup_location  = $request->pickup_location;
         $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
@@ -249,11 +249,48 @@ class RentController extends Controller
             $income->name       = 'Income From commission';
             $income->date       = date('Y-m-d');
             $income->amount     = $rent->commission;
-            $income->amount     = $rent->commission;
+            $income->rent_id    = $request->rent_id;
             $income->created_by = Auth::id();
             $income->updated_by = Auth::id();
             $income->save();
 
+        }
+        if ($request->status == 3 && $rent->price != null) {
+            $total_cost = (float)$rent->fuel_cost + (float)$rent->driver_get;
+
+            $income             = new Income();
+            $income->name       = 'Income From Price';
+            $income->date       = date('Y-m-d');
+            $income->amount     = (float)($rent->price - $total_cost);
+            $income->rent_id    = $request->rent_id;
+            $income->created_by = Auth::id();
+            $income->updated_by = Auth::id();
+            $income->save();
+
+        }
+
+        if ($request->status == 4 && $rent->driver_get != null) {
+
+            $expense             = new Expense();
+            $expense->name       = 'Expense to driver cost';
+            $expense->date       = date('Y-m-d');
+            $expense->amount     = $rent->driver_get;
+            $expense->rent_id    = $request->rent_id;
+            $expense->created_by = Auth::id();
+            $expense->updated_by = Auth::id();
+            $expense->save();
+        }
+
+        if ($request->status == 4 && $rent->other_cost != null) {
+
+            $expense             = new Expense();
+            $expense->name       = 'Expense to other cost';
+            $expense->date       = date('Y-m-d');
+            $expense->amount     = $rent->other_cost;
+            $expense->rent_id    = $request->rent_id;
+            $expense->created_by = Auth::id();
+            $expense->updated_by = Auth::id();
+            $expense->save();
         }
 
         $rent->status = $request->status;
@@ -268,7 +305,7 @@ class RentController extends Controller
         $today = date('Y-m-d');
         $query = DB::table('rents')
                     ->select('*')
-                    ->whereDate('pickup_datetime', $today)
+                    // ->whereDate('pickup_datetime', $today)
                     ->orderBy('id', 'DESC')
                     ->where('status', 2);
 
@@ -324,18 +361,18 @@ class RentController extends Controller
     {
         $this->validate($request,[
             'car_type_id'   => 'required',    
-            'model_id'      => 'required',    
-            'year_id'       => 'required' 
+            'model_id'      => 'required'
         ]);
         
         $rent                   = Rent::find($id);
         $rent->car_type_id      = $request->car_type_id;
         $rent->model_id         = $request->model_id;
-        $rent->year_id          = $request->year_id;
-        $rent->customer_id      = $request->customer_id;
-        $rent->driver_id        = $request->driver_id;
+        $rent->year_id          = $request->year_id ? $request->year_id : null;
+        $rent->customer_id      = $request->customer_id ? $request->customer_id : null;
+        $rent->driver_id        = $request->driver_id ? $request->driver_id : null;
         $rent->reg_number       = $request->reg_number;
         $rent->total_person     = $request->total_person;
+        $rent->total_day        = (int)$request->total_day;
         $rent->rent_type        = $request->rent_type;
         $rent->status           = $request->status;
         $rent->pickup_location  = $request->pickup_location;
@@ -350,12 +387,12 @@ class RentController extends Controller
         $rent->driver_get       = $request->driver_get;
         $rent->driver_accomodation  = $request->driver_accomodation;
         $rent->fuel_cost        = $request->fuel_cost;
-        $rent->toll_charge      = $request->toll_charge;
+        $rent->other_cost       = $request->other_cost;
         $rent->note             = $request->note;
         $rent->updated_by       = Auth::id();
         
         if ($rent->update()) {
-            return redirect()->route('upcoming.index')->with('message','Rent update successfully');
+            return redirect()->route('rent.upcoming.index')->with('message','Rent update successfully');
         } else {
             return redirect()->back()->with('error_message','Sorry, something went wrong');
         }
@@ -366,8 +403,6 @@ class RentController extends Controller
     {
         $today = date('Y-m-d');
         $query = DB::table('rents')
-                    ->select('*')
-                    ->whereDate('pickup_datetime', $today)
                     ->where('status', 4)
                     ->orderBy('id', 'DESC');
 
@@ -405,8 +440,6 @@ class RentController extends Controller
     {
         $today = date('Y-m-d');
         $query = DB::table('rents')
-                    ->select('*')
-                    ->whereDate('pickup_datetime', $today)
                     ->where('status', 3)
                     ->orderBy('id', 'DESC');
 

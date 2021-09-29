@@ -22,6 +22,7 @@ class CreateRentsTable extends Migration
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->string('reg_number')->nullable();
             $table->integer('total_person')->nullable();
+            $table->integer('total_day')->nullable();
             $table->tinyInteger('rent_type')->comment('1=drop_only,2=round_trip,3=body_rent,4=monthly')->default(1);
             $table->tinyInteger('status')->comment('1=new,2=upcoming,3=complete,4=cancel')->default(1);
             $table->string('pickup_location')->nullable();
@@ -36,7 +37,7 @@ class CreateRentsTable extends Migration
             $table->double('driver_get')->nullable();
             $table->string('driver_accomodation')->nullable();
             $table->double('fuel_cost')->nullable();
-            $table->double('toll_charge')->nullable();
+            $table->double('other_cost')->nullable();
             $table->text('note')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

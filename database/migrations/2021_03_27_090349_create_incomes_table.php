@@ -18,9 +18,11 @@ class CreateIncomesTable extends Migration
             $table->string('name');
             $table->date('date');
             $table->double('amount');
+            $table->unsignedBigInteger('rent_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
+            $table->foreign('rent_id')->references('id')->on('rents');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
         });
