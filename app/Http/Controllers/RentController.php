@@ -33,8 +33,8 @@ class RentController extends Controller
             $query = $query->where('phone', $request->phone);
         }
 
-        if ($request->car_type_id) {
-            $query = $query->where('car_type_id', $request->car_type_id);
+        if ($request->pickup_datetime) {
+            $query = $query->whereDate('pickup_datetime', $request->pickup_datetime);
         }
 
         if ($request->model_id) {
@@ -45,13 +45,9 @@ class RentController extends Controller
             $query = $query->where('year_id', $request->year_id);
         }
 
-        $rents = $query->paginate(12)->appends(request()->query());
+        $rents = $query->paginate(12)->appends(request()->query()); 
 
-        $car_types = CarType::all();
-        $models    = CarModel::all();
-        $years     = Year::all();     
-
-        return view('rent.new.index', compact('rents','car_types','models','years'));
+        return view('rent.new.index', compact('rents'));
     }
 
     /**
@@ -316,6 +312,10 @@ class RentController extends Controller
         if ($request->phone) {
             $query = $query->where('phone', $request->phone);
         }
+        
+        if ($request->pickup_datetime) {
+            $query = $query->whereDate('pickup_datetime', $request->pickup_datetime);
+        }
 
         if ($request->car_type_id) {
             $query = $query->where('car_type_id', $request->car_type_id);
@@ -331,11 +331,7 @@ class RentController extends Controller
 
         $rents = $query->paginate(12)->appends(request()->query());
 
-        $car_types = CarType::all();
-        $models    = CarModel::all();
-        $years     = Year::all();     
-
-        return view('rent.upcoming.index', compact('rents','car_types','models','years'));
+        return view('rent.upcoming.index', compact('rents'));
     }
     
     
@@ -413,6 +409,10 @@ class RentController extends Controller
         if ($request->phone) {
             $query = $query->where('phone', $request->phone);
         }
+        
+        if ($request->pickup_datetime) {
+            $query = $query->whereDate('pickup_datetime', $request->pickup_datetime);
+        }
 
         if ($request->car_type_id) {
             $query = $query->where('car_type_id', $request->car_type_id);
@@ -426,13 +426,9 @@ class RentController extends Controller
             $query = $query->where('year_id', $request->year_id);
         }
 
-        $rents = $query->paginate(12)->appends(request()->query());
+        $rents = $query->paginate(12)->appends(request()->query()); 
 
-        $car_types = CarType::all();
-        $models    = CarModel::all();
-        $years     = Year::all();     
-
-        return view('rent.cancel.index', compact('rents','car_types','models','years'));
+        return view('rent.cancel.index', compact('rents'));
     }
 
     //show all cancel rent
@@ -450,6 +446,10 @@ class RentController extends Controller
         if ($request->phone) {
             $query = $query->where('phone', $request->phone);
         }
+        
+        if ($request->pickup_datetime) {
+            $query = $query->whereDate('pickup_datetime', $request->pickup_datetime);
+        }
 
         if ($request->car_type_id) {
             $query = $query->where('car_type_id', $request->car_type_id);
@@ -463,13 +463,9 @@ class RentController extends Controller
             $query = $query->where('year_id', $request->year_id);
         }
 
-        $rents = $query->paginate(12)->appends(request()->query());
+        $rents = $query->paginate(12)->appends(request()->query());   
 
-        $car_types = CarType::all();
-        $models    = CarModel::all();
-        $years     = Year::all();     
-
-        return view('rent.complete.index', compact('rents','car_types','models','years'));
+        return view('rent.complete.index', compact('rents'));
     }
 
     /**

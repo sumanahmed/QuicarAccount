@@ -134,6 +134,15 @@ class ReminderController extends Controller
             'phone' => 'required',
         ]);
 
+        $reminder = Reminder::find($id);
+
+        if ($reminder->customer_id != null) {
+            $customer = Customer::find($reminder->customer_id);
+            $customer->name = $request->name;
+            $customer->phone = $request->phone;
+            $customer->update();
+        }
+
         $reminder                       = Reminder::find($id);
         $reminder->customer_id          = $reminder->customer_id;
         $reminder->car_type_id          = $request->car_type_id;
