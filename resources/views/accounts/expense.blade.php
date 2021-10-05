@@ -26,19 +26,19 @@
                         <div class="row">
                           <div class="col-md-4">
                             <div class="form-group">
-                              <label for="date">Date</label>
-                              <input type="date" name="date" class="form-control" @if(isset($_GET['date'])) value="{{ date('Y-m-d', strtotime($_GET['date'])) }}" @endif />
+                              <label for="date">Pickup Date</label>
+                              <input type="date" name="pickup_datetime" @if(isset($_GET['pickup_datetime'])) value="{{ $_GET['pickup_datetime'] }}" @endif class="form-control">
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div class="form-group">
-                              <label for="user_id">Expense By</label>
-                              <select name="user_id" class="form-control">
-                                <option value="0">Select</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}" @if(isset($_GET['user_id']) && $_GET['user_id'] == $user->id)) selected @endif>{{ $user->name }}</option>
-                                @endforeach
-                              </select>
+                                <label for="customer_id">Customer</label>
+                                <select name="customer_id" id="customer_id" class="form-control selectable">
+                                    <option value="0">Select</option>
+                                    @foreach($customers as $customer) 
+                                        <option value="{{ $customer->id }}" @if(isset($_GET['customer_id']) && $customer->id == $_GET['customer_id']) selected @endif>{{ $customer->name }}({{ $customer->phone }})</option>
+                                    @endforeach
+                                </select>
                             </div>
                           </div>
                           <div class="col-md-4">
@@ -53,7 +53,9 @@
                       <table class="table table-sm table-bordered table-striped data_table">
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>Travel Date & Time</th>
+                                <th>Car Type</th>
+                                <th>Expense For</th>
                                 <th>Date</th>
                                 <th>Expense By</th>
                                 <th style="vertical-align: middle;text-align: right;">Amount</th>
@@ -63,6 +65,8 @@
                             @php $total_amount = 0; @endphp
                             @foreach($expenses as $expense)
                                 <tr>
+                                    <td>{{ date('d M, Y h:i:s a', strtotime($expense->pickup_datetime)) }}</td>
+                                    <td>{{ $expense->car_type_name }}</td>
                                     <td>{{ $expense->name }}</td>
                                     <td>{{ $expense->date }}</td>
                                     <td>{{ $expense->expense_by }}</td>
@@ -73,7 +77,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                              <th colspan="3">Total Amount</th>
+                              <th colspan="5">Total Amount</th>
                               <th style="vertical-align: middle;text-align: right;">{{ $total_amount }}</th>
                           </tr>
                         </tfoot>

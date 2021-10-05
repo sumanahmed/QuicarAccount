@@ -23,26 +23,22 @@ class RentController extends Controller
     //show all
     public function index(Request $request)
     {
-        $query = DB::table('rents')->select('*')->orderBy('id', 'DESC')->where('status', 1);
+        $query = DB::table('rents')
+                    ->join('car_types','rents.car_type_id','car_types.id')
+                    ->join('customers','rents.customer_id','customers.id')
+                    ->select('rents.*','customers.name as customer_name','customers.phone as customer_phone','car_types.name as car_type_name')
+                    ->orderBy('rents.id', 'DESC')->where('rents.status', 1);
 
         if ($request->name) {
-            $query = $query->where('name', 'like', "{$request->name}%");
+            $query = $query->where('rents.name', 'like', "{$request->name}%");
         }
 
         if ($request->phone) {
-            $query = $query->where('phone', $request->phone);
+            $query = $query->where('rents.phone', $request->phone);
         }
 
         if ($request->pickup_datetime) {
-            $query = $query->whereDate('pickup_datetime', $request->pickup_datetime);
-        }
-
-        if ($request->model_id) {
-            $query = $query->where('model_id', $request->model_id);
-        }
-
-        if ($request->year_id) {
-            $query = $query->where('year_id', $request->year_id);
+            $query = $query->whereDate('rents.pickup_datetime', $request->pickup_datetime);
         }
 
         $rents = $query->paginate(12)->appends(request()->query()); 
@@ -300,9 +296,10 @@ class RentController extends Controller
     {
         $today = date('Y-m-d');
         $query = DB::table('rents')
-                    ->select('*')
-                    // ->whereDate('pickup_datetime', $today)
-                    ->orderBy('id', 'DESC')
+                    ->join('car_types','rents.car_type_id','car_types.id')
+                    ->join('customers','rents.customer_id','customers.id')
+                    ->select('rents.*','customers.name as customer_name','customers.phone as customer_phone','car_types.name as car_type_name')
+                    ->orderBy('rents.id', 'DESC')
                     ->where('status', 2);
 
         if ($request->name) {
@@ -319,14 +316,6 @@ class RentController extends Controller
 
         if ($request->car_type_id) {
             $query = $query->where('car_type_id', $request->car_type_id);
-        }
-
-        if ($request->model_id) {
-            $query = $query->where('model_id', $request->model_id);
-        }
-
-        if ($request->year_id) {
-            $query = $query->where('year_id', $request->year_id);
         }
 
         $rents = $query->paginate(12)->appends(request()->query());
@@ -399,8 +388,11 @@ class RentController extends Controller
     {
         $today = date('Y-m-d');
         $query = DB::table('rents')
-                    ->where('status', 4)
-                    ->orderBy('id', 'DESC');
+                    ->join('car_types','rents.car_type_id','car_types.id')
+                    ->join('customers','rents.customer_id','customers.id')
+                    ->select('rents.*','customers.name as customer_name','customers.phone as customer_phone','car_types.name as car_type_name')
+                    ->orderBy('rents.id', 'DESC')
+                    ->where('status', 4);
 
         if ($request->name) {
             $query = $query->where('name', 'like', "{$request->name}%");
@@ -436,8 +428,11 @@ class RentController extends Controller
     {
         $today = date('Y-m-d');
         $query = DB::table('rents')
-                    ->where('status', 3)
-                    ->orderBy('id', 'DESC');
+                    ->join('car_types','rents.car_type_id','car_types.id')
+                    ->join('customers','rents.customer_id','customers.id')
+                    ->select('rents.*','customers.name as customer_name','customers.phone as customer_phone','car_types.name as car_type_name')
+                    ->orderBy('rents.id', 'DESC')
+                    ->where('status', 3);
 
         if ($request->name) {
             $query = $query->where('name', 'like', "{$request->name}%");
