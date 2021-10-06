@@ -11,12 +11,14 @@ use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Rent;
 use Illuminate\Http\Request;
+use Validator;
 use GuzzleHttp\Client;
 use Exception;
 use DB;
 use Auth;
 use PDF;
 use Mail;
+use Response;
 
 class RentController extends Controller
 {
@@ -233,6 +235,18 @@ class RentController extends Controller
      */
     public function statusUpdate (Request $request) 
     {
+        if ($request->status == 3) {
+            $validators = Validator::make($request->all(),[
+                'driver_get'    => 'required',
+                'fuel_cost'    => 'required',
+                'other_cost'    => 'required',
+            ]);
+            
+            if($validators->fails()){
+                return Response::json(['errors' => $validators->getMessageBag()->toArray()]);
+            }
+        }
+        
         $rent = Rent::find($request->rent_id);
 
         if ($request->status == 3 && $rent->commission != null) {
@@ -251,7 +265,7 @@ class RentController extends Controller
             $total_cost = (float)$rent->fuel_cost + (float)$rent->driver_get;
 
             $income             = new Income();
-            $income->name       = 'Income From Price';
+            $income->name       = 'Net Income After Cost';
             $income->date       = date('Y-m-d');
             $income->amount     = (float)($rent->price - $total_cost);
             $income->rent_id    = $request->rent_id;
@@ -261,31 +275,49 @@ class RentController extends Controller
 
         }
 
-        if ($request->status == 4 && $rent->driver_get != null) {
+        if ($request->status == 3 && $request->driver_get != null) {
 
             $expense             = new Expense();
-            $expense->name       = 'Expense to driver cost';
+            $expense->name       = 'Driver cost';
             $expense->date       = date('Y-m-d');
-            $expense->amount     = $rent->driver_get;
+            $expense->amount     = $request->driver_get;
             $expense->rent_id    = $request->rent_id;
+            $expense->user_id    = Auth::id();
             $expense->created_by = Auth::id();
             $expense->updated_by = Auth::id();
             $expense->save();
         }
 
-        if ($request->status == 4 && $rent->other_cost != null) {
+        if ($request->status == 3 && $request->other_cost != null) {
 
             $expense             = new Expense();
-            $expense->name       = 'Expense to other cost';
+            $expense->name       = 'other cost';
             $expense->date       = date('Y-m-d');
-            $expense->amount     = $rent->other_cost;
+            $expense->amount     = $request->other_cost;
             $expense->rent_id    = $request->rent_id;
+            $expense->user_id    = Auth::id();
+            $expense->created_by = Auth::id();
+            $expense->updated_by = Auth::id();
+            $expense->save();
+        }
+        
+        if ($request->status == 3 && $request->fuel_cost != null) {
+
+            $expense             = new Expense();
+            $expense->name       = 'Fuel cost';
+            $expense->date       = date('Y-m-d');
+            $expense->amount     = $rent->fuel_cost;
+            $expense->rent_id    = $request->rent_id;
+            $expense->user_id    = Auth::id();
             $expense->created_by = Auth::id();
             $expense->updated_by = Auth::id();
             $expense->save();
         }
 
         $rent->status = $request->status;
+        $rent->driver_get = $request->driver_get;
+        $rent->fuel_cost = $request->fuel_cost;
+        $rent->other_cost = $request->other_cost;
         $rent->update();
         
         return redirect()->route('rent.index')->with('message','Rent status update successfully');

@@ -51,6 +51,7 @@
                                 <th>Car Type</th>
                                 <th>Price</th>
                                 <th>Advance</th>
+                                <th>Remaining</th>
                                 <th style="vertical-align: middle;text-align: center;">Action</th>
                             </tr>
                         </thead>
@@ -63,6 +64,7 @@
                                 <th>Car Type</th>
                                 <th>Price</th>
                                 <th>Advance</th>
+                                <th>Remaining</th>
                               <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
@@ -76,6 +78,7 @@
                               <td>{{ $rent->car_type_name }}</td>
                               <td>{{ $rent->price }}</td>
                               <td>{{ $rent->advance }}</td>
+                              <td>{{ $rent->remaining }}</td>
                               <td style="vertical-align: middle;text-align: center;">
                                 <button class="btn btn-xs btn-primary" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $rent->id }}" title="SMS">SMS</button>                                  
                                 <a href="{{ route('rent.invoice', $rent->id) }}" class="btn btn-xs btn-success" title="Edit">Invoice</a>
@@ -151,6 +154,29 @@
                                 </select>
                                 <input type="hidden" id="rent_id" />
                                 <span class="errorSms text-danger text-bold"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="showCost" style="display:none">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="col-form-label">Driver Cost <span class="text-danger" title="Required">*</span></label>
+                                <input type="text" id="driverCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                <span class="errorDriverCost text-danger text-bold"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="col-form-label">Fuel Cost <span class="text-danger" title="Required">*</span></label>
+                                <input type="text" id="fuelCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                <span class="errorFuelCost text-danger text-bold"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="col-form-label">Other Cost <span class="text-danger" title="Required">*</span></label>
+                                <input type="text" id="otherCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                <span class="errorOtherCost text-danger text-bold"></span>
                             </div>
                         </div>
                     </div>

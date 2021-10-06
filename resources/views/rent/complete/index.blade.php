@@ -41,41 +41,38 @@
                       <table class="table table-sm table-bordered table-striped data_table">
                         <thead>
                             <tr>
-                                <th>Pickup Location</th>
                                 <th>Travel Date & Time</th>
+                                <th>Pickup Location</th>
                                 <th>Drop Location</th>
                                 <th>Customer</th>
                                 <th>Car Type</th>
                                 <th>Price</th>
                                 <th>Advance</th>
-                                <th>Remaining</th>
                                 <th style="vertical-align: middle;text-align: center;">Action</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Pickup Location</th>
                                 <th>Travel Date & Time</th>
+                                <th>Pickup Location</th>
                                 <th>Drop Location</th>
                                 <th>Customer</th>
                                 <th>Car Type</th>
                                 <th>Price</th>
                                 <th>Advance</th>
-                                <th>Remaining</th>
                               <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
                         <tbody id="allRent">
                           @foreach($rents as $rent)
                             <tr class="rent-{{ $rent->id }}">
-                              <td>{{ $rent->pickup_location }}</td>
                               <td>{{ date('d M, Y h:i:s a', strtotime($rent->pickup_datetime)) }}</td>
+                              <td>{{ $rent->pickup_location }}</td>
                               <td>{{ $rent->drop_location }}</td>
                               <td>@if($rent->customer_id != null) {{ $rent->customer_name }} ({{ $rent->customer_phone }}) @endif</td>
                               <td>{{ $rent->car_type_name }}</td>
                               <td>{{ $rent->price }}</td>
                               <td>{{ $rent->advance }}</td>
-                              <td>{{ $rent->remaining }}</td>
                               <td style="vertical-align: middle;text-align: center;">
                                 <button class="btn btn-xs btn-primary" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $rent->id }}" title="SMS">SMS</button>                                  
                                 <a href="{{ route('rent.invoice', $rent->id) }}" class="btn btn-xs btn-success" title="Edit">Invoice</a>
