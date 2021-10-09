@@ -138,7 +138,12 @@
                 <div class="modal-header bg-success text-white">
                   <h5 class="modal-title text-center w-100">Update Status</h5>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="loader" style="display: none;">
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+                <div class="modal-body" id="hideStatusModalyBody">
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
@@ -157,21 +162,21 @@
                     <div class="row" id="showCost" style="display:none">
                         <div class="col">
                             <div class="form-group">
-                                <label class="col-form-label">Driver Cost <span class="text-danger" title="Required">*</span></label>
+                                <label class="col-form-label">Driver Cost</label>
                                 <input type="text" id="driverCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                                 <span class="errorDriverCost text-danger text-bold"></span>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label class="col-form-label">Fuel Cost <span class="text-danger" title="Required">*</span></label>
+                                <label class="col-form-label">Fuel Cost</label>
                                 <input type="text" id="fuelCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                                 <span class="errorFuelCost text-danger text-bold"></span>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label class="col-form-label">Other Cost <span class="text-danger" title="Required">*</span></label>
+                                <label class="col-form-label">Other Cost</label>
                                 <input type="text" id="otherCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                                 <span class="errorOtherCost text-danger text-bold"></span>
                             </div>

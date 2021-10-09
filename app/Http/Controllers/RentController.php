@@ -226,6 +226,8 @@ class RentController extends Controller
      */
     public function destroy(Request $request)
     { 
+        Income::where('rent_id', $request->id)->delete();
+        Expense::where('rent_id', $request->id)->delete();
         Rent::find($request->id)->delete();
         return response()->json();
     }
@@ -234,19 +236,19 @@ class RentController extends Controller
      * status update
      */
     public function statusUpdate (Request $request) 
-    {
-        if ($request->status == 3) {
-            $validators = Validator::make($request->all(),[
-                'driver_get'    => 'required',
-                'fuel_cost'    => 'required',
-                'other_cost'    => 'required',
-            ]);
+    {   
+        // if ($request->status == 3) {
+        //     $validators = Validator::make($request->all(),[
+        //         'driver_get'    => 'required',
+        //         'fuel_cost'    => 'required',
+        //         'other_cost'    => 'required',
+        //     ]);
             
-            if($validators->fails()){
-                return Response::json(['errors' => $validators->getMessageBag()->toArray()]);
-            }
-        }
-        
+        //     if($validators->fails()){
+        //         return Response::json(['errors' => $validators->getMessageBag()->toArray()]);
+        //     }
+        // }
+
         $rent = Rent::find($request->rent_id);
 
         if ($request->status == 3 && $rent->commission != null) {
@@ -261,6 +263,7 @@ class RentController extends Controller
             $income->save();
 
         }
+
         if ($request->status == 3 && $rent->price != null) {
             $total_cost = (float)$rent->fuel_cost + (float)$rent->driver_get;
 
@@ -275,7 +278,7 @@ class RentController extends Controller
 
         }
 
-        if ($request->status == 3 && $request->driver_get != null) {
+        if ($request->status == 3 && (float)$request->driver_get != null) {
 
             $expense             = new Expense();
             $expense->name       = 'Driver cost';
@@ -288,7 +291,7 @@ class RentController extends Controller
             $expense->save();
         }
 
-        if ($request->status == 3 && $request->other_cost != null) {
+        if ($request->status == 3 && (float)$request->other_cost != null) {
 
             $expense             = new Expense();
             $expense->name       = 'other cost';
@@ -301,7 +304,7 @@ class RentController extends Controller
             $expense->save();
         }
         
-        if ($request->status == 3 && $request->fuel_cost != null) {
+        if ($request->status == 3 && (float)$request->fuel_cost != null) {
 
             $expense             = new Expense();
             $expense->name       = 'Fuel cost';
@@ -314,11 +317,11 @@ class RentController extends Controller
             $expense->save();
         }
 
-        $rent->status = $request->status;
-        $rent->driver_get = $request->driver_get;
-        $rent->fuel_cost = $request->fuel_cost;
-        $rent->other_cost = $request->other_cost;
-        $rent->update();
+        $rent->status = (int)$request->status;
+        $rent->driver_get = (float)$request->driver_get;
+        $rent->fuel_cost = (float)$request->fuel_cost;
+        $rent->other_cost = (float)$request->other_cost;
+        $rent->update();      
         
         return redirect()->route('rent.index')->with('message','Rent status update successfully');
     }

@@ -38,55 +38,59 @@ $.ajax({
 });
 
 $(document).on('click', '#statusChange', function () {
-$('#statusUpdateModal').modal('show');
-$('#rent_id').val($(this).data('id'));
-$('#status').val($(this).data('status'));
+  $('#statusUpdateModal').modal('show');
+  $('#rent_id').val($(this).data('id'));
+  $('#status').val($(this).data('status'));
 });
 
 $("#changeRentStatus").click(function(e){
-e.preventDefault();
+  e.preventDefault();
 
-var rent_id       = $("#rent_id").val();
-var status        = $("#status :selected").val();
-var driver_get    = $("#driverCost").val();
-var fuel_cost     = $("#fuelCost").val();
-var other_cost    = $("#otherCost").val();
+  var rent_id       = parseInt($("#rent_id").val());
+  var status        = parseInt($("#status :selected").val());
+  var driver_get    = parseFloat($("#driverCost").val());
+  var fuel_cost     = parseFloat($("#fuelCost").val());
+  var other_cost    = parseFloat($("#otherCost").val());
 
-$.ajax({
-    type: 'POST',
-    url: '/rent/status-update',
-    headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
-    data: {
-      rent_id : rent_id,
-      status : status,
-      driver_get : driver_get,
-      fuel_cost : fuel_cost,
-      other_cost : other_cost,
-    },
-    success: function (response) {
-       if((response.errors)){
-          if(response.errors.driver_get){
-              $('.errorDriverCost').text(response.errors.driver_get);
-          }else{
-              $('.errorDriverCost').text('');
-          } 
-          if(response.errors.fuel_cost){
-              $('.errorFuelCost').text(response.errors.fuel_cost);
-          }else{
-              $('.errorFuelCost').text('');
-          }
-          if(response.errors.other_cost){
-              $('.errorOtherCost').text(response.errors.other_cost);
-          }else{
-              $('.errorOtherCost').text('');
-          }
-      } else {
-          $('#statusUpdateModal').modal('hide');
-          toastr.success('Status Update Successfully')
-          location.reload();
+  $.ajax({
+      type: 'POST',
+      url: '/rent/status-update',
+      headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+      data: {
+        rent_id : rent_id,
+        status : status,
+        driver_get : driver_get,
+        fuel_cost : fuel_cost,
+        other_cost : other_cost,
+      },
+      success: function (response) {
+        $("#hideStatusModalyBody").hide();
+        $("#loader").show();
+        // if((response.errors)){
+        //     if(response.errors.driver_get){
+        //         $('.errorDriverCost').text(response.errors.driver_get);
+        //     }else{
+        //         $('.errorDriverCost').text('');
+        //     } 
+        //     if(response.errors.fuel_cost){
+        //         $('.errorFuelCost').text(response.errors.fuel_cost);
+        //     }else{
+        //         $('.errorFuelCost').text('');
+        //     }
+        //     if(response.errors.other_cost){
+        //         $('.errorOtherCost').text(response.errors.other_cost);
+        //     }else{
+        //         $('.errorOtherCost').text('');
+        //     }
+        // } else {
+            $('#statusUpdateModal').modal('hide');
+            toastr.success('Status Update Successfully')
+            // location.reload();
+            $("#loader").hide();
+        // }
+        // $("#loader").hide();
       }
-    }
-});
+  });
 });
 
 
