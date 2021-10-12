@@ -6,6 +6,7 @@ use App\Models\Expense;
 use App\Models\Income;
 use App\Models\User;
 use App\Models\Customer;
+use App\Models\CarType;
 use Illuminate\Http\Request;
 use DB;
 
@@ -14,62 +15,68 @@ class AccountsController extends Controller
     /**
      * show income
      */
-    public function income (Request $request) {
+    public function income (Request $request) 
+    {
+        $today = date('Y-m-d');
+        $start_date = isset($request->start_date) ? $request->start_date : date('Y-m-d', strtotime('-31 days', strtotime($today)));
+        $end_date = isset($request->end_date) ? $request->end_date : $today;
+        
         $query = DB::table('incomes')
                     ->join('rents','incomes.rent_id','rents.id')
                     ->join('car_types','rents.car_type_id','car_types.id')
                     ->select('incomes.*','rents.pickup_datetime','car_types.name as car_type_name',
                         'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost',
-                        'rents.customer_id'
+                        'rents.car_type_id'
                     )
+                    ->whereBetween('date', [$start_date, $end_date])
                     ->orderBy('incomes.id','DESC');
 
         if ($request->date) {
             $query = $query->where('incomes.date', 'like', date('Y-m-d', strtotime($request->date)));
         }
         
-        if ($request->customer_id) {
-            $query = $query->where('rents.customer_id', $request->customer_id);
+        if ($request->car_type_id) {
+            $query = $query->where('rents.car_type_id', $request->car_type_id);
         }
-
-        $incomes = $query->get();
-        $customers = Customer::all();
         
-        return view('accounts.income', compact('incomes','customers'));
+        
+        $car_types = CarType::all();
+        $incomes = $query->get();
+        
+        return view('accounts.income', compact('car_types','incomes'));
     }
 
     /**
      * show expense
      */
-    public function expense (Request $request) {
-
+    public function expense (Request $request) 
+    {
+        $today = date('Y-m-d');
+        $start_date = isset($request->start_date) ? $request->start_date : date('Y-m-d', strtotime('-31 days', strtotime($today)));
+         $end_date = isset($request->end_date) ? $request->end_date : $today;
+        
         $query = DB::table('expenses')
                     ->join('users','expenses.user_id','users.id')
                     ->join('rents','expenses.rent_id','rents.id')
                     ->join('car_types','rents.car_type_id','car_types.id')
                     ->select('expenses.*','rents.pickup_datetime','car_types.name as car_type_name',
                         'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost',
-                        'rents.customer_id', 'users.name as expense_by'
+                        'rents.car_type_id', 'users.name as expense_by'
                     )
                     ->orderBy('expenses.id','DESC');
 
         if ($request->date) {
             $query = $query->where('expenses.date', 'like', date('Y-m-d', strtotime($request->date)));
         }
-        
-        if ($request->customer_id) {
-            $query = $query->where('rents.customer_id', $request->customer_id);
-        }
 
-        if ($request->user_id) {
-            $query = $query->where('expenses.user_id', $request->user_id);
+        if ($request->car_type_id) {
+            $query = $query->where('expenses.car_type_id', $request->car_type_id);
         }
 
         $expenses   = $query->get();
-        $users      = User::all();
-        $customers  = Customer::all();
+        $car_types  = CarType::all();
         
-        return view('accounts.expense', compact('expenses','users','customers'));
+        return view('accounts.expense', compact('expenses','car_types'));
     }
 
     /**

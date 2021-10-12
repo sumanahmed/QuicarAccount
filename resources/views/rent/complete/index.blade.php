@@ -66,7 +66,7 @@
                         <tbody id="allRent">
                           @foreach($rents as $rent)
                             <tr class="rent-{{ $rent->id }}">
-                              <td>{{ date('d M, Y h:i:s a', strtotime($rent->pickup_datetime)) }}</td>
+                              <td>{{ date('d M, Y h:i a', strtotime($rent->pickup_datetime)) }}</td>
                               <td>{{ $rent->pickup_location }}</td>
                               <td>{{ $rent->drop_location }}</td>
                               <td>@if($rent->customer_id != null) {{ $rent->customer_name }} ({{ $rent->customer_phone }}) @endif</td>

@@ -220,10 +220,12 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-9">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="note">Note</label>
-                                            <input type="text" name="note" id="note" value="{{ $rent->note }}" class="form-control" placeholder="note.." />
+                                            <textarea name="note" id="note" class="form-control" placeholder="note..">{{ $rent->note }}</textarea>
                                             @if($errors->has('note'))
                                                 <span class="text-danger">{{ $errors->first('note') }}</span>
                                             @endif
@@ -231,9 +233,11 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-sm btn-success">Submit</button>
-                                        <button type="reset" class="btn btn-sm btn-danger">Cancel</button>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                            <button type="reset" class="btn btn-sm btn-danger">Cancel</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

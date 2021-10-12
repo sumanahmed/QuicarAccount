@@ -46,6 +46,7 @@
                             <tr>
                                 <th>Pickup Location</th>
                                 <th>Travel Date & Time</th>
+                                <th>Return Date & Time</th>
                                 <th>Drop Location</th>
                                 <th>Customer</th>
                                 <th>Car Type</th>
@@ -59,6 +60,7 @@
                             <tr>
                                 <th>Pickup Location</th>
                                 <th>Travel Date & Time</th>
+                                <th>Return Date & Time</th>
                                 <th>Drop Location</th>
                                 <th>Customer</th>
                                 <th>Car Type</th>
@@ -72,7 +74,8 @@
                           @foreach($rents as $rent)
                             <tr class="rent-{{ $rent->id }}">
                               <td>{{ $rent->pickup_location }}</td>
-                              <td>{{ date('d M, Y h:i:s a', strtotime($rent->pickup_datetime)) }}</td>
+                              <td>{{ date('d M, Y h:i a', strtotime($rent->pickup_datetime)) }}</td>
+                              <td>{{ date('d M, Y h:i a', strtotime($rent->return_datetime)) }}</td>
                               <td>{{ $rent->drop_location }}</td>
                               <td>@if($rent->customer_id != null) {{ $rent->customer_name }} ({{ $rent->customer_phone }}) @endif</td>
                               <td>{{ $rent->car_type_name }}</td>

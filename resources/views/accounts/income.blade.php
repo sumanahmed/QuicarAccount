@@ -24,24 +24,30 @@
                     <div class="car-header">
                       <form class="form" action="{{ route('accounts.income') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
-                          <div class="col-md-4">
+                          <div class="col-md-3">
                             <div class="form-group">
-                              <label for="date">Pickup Date</label>
-                              <input type="date" name="pickup_datetime" @if(isset($_GET['pickup_datetime'])) value="{{ $_GET['pickup_datetime'] }}" @endif class="form-control">
+                              <label for="start_date">Start Date</label>
+                              <input type="date" name="start_date" @if(isset($_GET['start_date'])) value="{{ $_GET['start_date'] }}" @endif class="form-control">
                             </div>
                           </div>
-                          <div class="col-md-4">
+                          <div class="col-md-3">
                             <div class="form-group">
-                                <label for="customer_id">Customer</label>
-                                <select name="customer_id" id="customer_id" class="form-control selectable">
+                              <label for="end_date">End Date</label>
+                              <input type="date" name="end_date" @if(isset($_GET['end_date'])) value="{{ $_GET['end_date'] }}" @endif class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="car_type_id">Car Type</label>
+                                <select name="car_type_id" id="car_type_id" class="form-control selectable">
                                     <option value="0">Select</option>
-                                    @foreach($customers as $customer) 
-                                        <option value="{{ $customer->id }}" @if(isset($_GET['customer_id']) && $customer->id == $_GET['customer_id']) selected @endif>{{ $customer->name }}({{ $customer->phone }})</option>
+                                    @foreach($car_types as $car_type) 
+                                        <option value="{{ $car_type->id }}" @if(isset($_GET['car_type_id']) && $car_type->id == $_GET['car_type_id']) selected @endif>{{ $car_type->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                           </div>
-                          <div class="col-md-4">
+                          <div class="col-md-3">
                             <div class="form-group">
                               <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 32px;" />
                             </div>
@@ -66,7 +72,7 @@
                             @foreach($incomes as $income)
                                 @php 
                                     $price = $income->price;
-                                    $cost  = ($income->fuel_cost + $income->fuel_cost + $income->fuel_cost);
+                                    $cost  = (float)($income->fuel_cost + $income->other_cost + $income->driver_get);
                                     $netincome = ($price - $cost);
                                 @endphp
                                 <tr>

@@ -11,7 +11,7 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4"> 
-                                    <!--<img class="img" alt="Invoce Template" src="{{ asset('assets/images/logo.png') }}" /> -->
+                                    <img class="img" alt="Invoce Template" src="{{ asset('assets/images/logo.png') }}" />
                                     <h3>Autospire Logistics</h3>
                                     <p>150/1, Crescent Homes, Mirpur-1, Dhaka 1216</p>
                                     <p>01912278827 / 01611822829</p>

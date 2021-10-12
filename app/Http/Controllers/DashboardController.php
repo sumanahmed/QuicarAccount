@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Expense;
+use App\Models\Income;
 use App\Models\Reminder;
+use App\Models\Rent;
 use Illuminate\Http\Request;
 use DB;
 
@@ -14,6 +17,21 @@ class DashboardController extends Controller
      */
     public function index (Request $request) 
     {
+        $start_date = date('Y-m-d');
+        $next_date  = date('Y-m-d', strtotime($start_date. " +1 days"));
+
+        $days_ago_31 = date('Y-m-d', strtotime('-31 days', strtotime($start_date)));
+
+        $data['new_rent'] = Rent::where('status', 1)->count('id');
+        $data['complete_rent'] = Rent::where('status', 3)->count('id');
+        $data['tomorrow_reminder'] =  DB::table('reminders')->whereDate('next_contact_datetime', '=', $next_date)->count('id');
+        $current_month_income =  Income::whereBetween('date', [$days_ago_31, $start_date])->sum('amount');
+        $current_month_expense =  Expense::whereBetween('date', [$days_ago_31, $start_date])->sum('amount');
+        $data['current_month_earn'] =  ($current_month_income - $current_month_expense);
+        $total_income =  Income::sum('amount');
+        $total_expense =  Expense::sum('amount');
+        $data['total_earn'] = ($total_income - $total_expense);
+
         $query = DB::table('reminders')
                     ->join('customers','reminders.customer_id','customers.id')
                     ->select('reminders.*','customers.name','customers.phone')
@@ -21,7 +39,6 @@ class DashboardController extends Controller
 
         if ($request->day != 0) {
             $day = (int)$request->day;
-            $start_date = date('Y-m-d');
             $end_date = $day != 100 ? date('Y-m-d', strtotime($start_date. " + $day days")) : date('Y-m-d');
             $query = $query->where('next_contact_datetime', '!=', null)
                             ->whereDate('next_contact_datetime', '>=', $start_date)
@@ -35,6 +52,6 @@ class DashboardController extends Controller
         $reminders = $query->paginate(12)->appends(request()->query());
         $customers = Customer::all();
 
-        return view("dashboard.index", compact('reminders', 'customers'));
+        return view("dashboard.index", compact('data', 'reminders', 'customers'));
     }
 }
