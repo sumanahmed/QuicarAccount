@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CustomerExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Validator;
 use Response;
@@ -98,5 +100,13 @@ class CustomerController extends Controller
     public function destroy(Request $request){
         Customer::find($request->id)->delete();
         return response()->json();
+    }
+
+    /**
+     * Export Customer
+    */
+    public function export ()
+    {
+        return Excel::download(new CustomerExport, 'customer.xlsx');
     }
 }

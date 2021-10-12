@@ -25,21 +25,22 @@
                     <div class="car-header">
                       <form class="form" action="{{ route('customer.index') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
-                          <div class="col-md-4">
+                          <div class="col-md-3">
                             <div class="form-group">
                               <label for="name">Name</label>
                               <input type="text" name="name" class="form-control" @if(isset($_GET['name'])) value="{{ $_GET['name'] }}" @endif placeholder="Enter name" />
                             </div>
                           </div>
-                          <div class="col-md-4">
+                          <div class="col-md-3">
                             <div class="form-group">
                               <label for="phone">Phone</label>
                               <input type="text" name="phone" class="form-control" @if(isset($_GET['phone'])) value="{{ $_GET['phone'] }}" @endif placeholder="Enter phone no" />
                             </div>
                           </div>
-                          <div class="col-md-4">
-                            <div class="form-group">
-                              <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 30px;" />
+                          <div class="col-md-3">
+                            <div class="form-group" style="margin-top: 30px;">
+                              <input type="submit" class="btn btn-info btn-sm" value="Search" />
+                              <a href="{{ route('customer.export') }}" class="btn btn-warning btn-sm">Export <i class="fa fa-download"></i></a>
                             </div>
                           </div>
                         </div>

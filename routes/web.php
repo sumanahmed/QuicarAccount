@@ -74,6 +74,7 @@ Route::group(['prefix'=>'/customer', 'middleware'=>'admin'], function(){
     Route::post('/store', [CustomerController::class, 'store'])->name('customer.store');
     Route::post('/update', [CustomerController::class, 'update'])->name('customer.update');
     Route::post('/destroy', [CustomerController::class, 'destroy'])->name('customer.destroy');
+    Route::get('/export', [CustomerController::class, 'export'])->name('customer.export');
 });
 
 Route::group(['prefix'=>'/driver', 'middleware'=>'admin'], function(){
