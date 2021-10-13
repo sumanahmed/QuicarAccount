@@ -18,8 +18,8 @@ class AccountsController extends Controller
     public function income (Request $request) 
     {
         $today = date('Y-m-d');
-        $start_date = isset($request->start_date) ? $request->start_date : date('Y-m-d', strtotime('-31 days', strtotime($today)));
-        $end_date = isset($request->end_date) ? $request->end_date : $today;
+        $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
+        $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
         
         $query = DB::table('incomes')
                     ->join('rents','incomes.rent_id','rents.id')
@@ -52,8 +52,8 @@ class AccountsController extends Controller
     public function expense (Request $request) 
     {
         $today = date('Y-m-d');
-        $start_date = isset($request->start_date) ? $request->start_date : date('Y-m-d', strtotime('-31 days', strtotime($today)));
-         $end_date = isset($request->end_date) ? $request->end_date : $today;
+        $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
+        $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
         
         $query = DB::table('expenses')
                     ->join('users','expenses.user_id','users.id')
@@ -82,21 +82,25 @@ class AccountsController extends Controller
     /**
      * show summary
      */
-    public function summary (Request $request) {
+    public function summary (Request $request) 
+    {
+        $today = date('Y-m-d');
+        $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date)) : date('Y-m-d', strtotime('-31 days', strtotime($today)));
+        $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
 
-        $start_date = isset($request->start_date) ? date('Y-m-d',strtotime($request->start_date)) : '1971-01-01';
-        $end_date   = isset($request->end_date) ? date('Y-m-d',strtotime($request->end_date)) : date('Y-m-d');
-
-        $expenses = DB::table('expenses')->join('users','expenses.user_id','users.id')
-                    ->select('expenses.*','users.name as expense_by')
-                    ->orderBy('expenses.id','DESC')
-                    ->whereBetween('expenses.date', [$start_date, $end_date])
+        $expenses = DB::table('expenses')
+                    ->select('rent_id', DB::raw('SUM(amount) as amount'))
+                    ->groupBy('rent_id')
+                    ->whereBetween('date', [$start_date, $end_date])
+                    ->orderBy('rent_id', 'DESC')
                     ->get();
 
         $incomes = DB::table('incomes')
-                    ->select('*')
+                    ->select('rent_id', DB::raw('SUM(amount) as amount'))
+                    ->groupBy('rent_id')
                     ->orderBy('id','DESC')
                     ->whereBetween('date', [$start_date, $end_date])
+                    ->orderBy('rent_id', 'DESC')
                     ->get();
 
         $total_expense = Expense::whereBetween('date', [$start_date, $end_date])->sum('amount');

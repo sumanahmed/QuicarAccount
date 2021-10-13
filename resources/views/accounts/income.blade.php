@@ -59,6 +59,7 @@
                       <table class="table table-sm table-bordered table-striped data_table">
                         <thead>
                             <tr>
+                                <th>Rent</th>
                                 <th>Travel Date & Time</th>
                                 <th>Car Type</th>
                                 <th>Income From</th>
@@ -76,6 +77,7 @@
                                     $netincome = ($price - $cost);
                                 @endphp
                                 <tr>
+                                    <td>{{ "Rent-".$income->rent_id }}</td>
                                     <td>{{ date('d M, Y h:i:s a', strtotime($income->pickup_datetime)) }}</td>
                                     <td>{{ $income->car_type_name }}</td>
                                     <td>{{ $income->name }}</td>
@@ -88,7 +90,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                              <th colspan="5">Total Net Income Amount</th>
+                              <th colspan="6">Total Net Income Amount</th>
                               <th style="vertical-align: middle;text-align: right;">{{ $total_amount }}</th>
                           </tr>
                         </tfoot>
