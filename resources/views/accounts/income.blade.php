@@ -61,6 +61,7 @@
                             <tr>
                                 <th>Rent</th>
                                 <th>Travel Date & Time</th>
+                                <th>Income Date</th>
                                 <th>Car Type</th>
                                 <th>Income From</th>
                                 <th>Price</th>
@@ -78,7 +79,8 @@
                                 @endphp
                                 <tr>
                                     <td>{{ "Rent-".$income->rent_id }}</td>
-                                    <td>{{ date('d M, Y h:i:s a', strtotime($income->pickup_datetime)) }}</td>
+                                    <td>{{ date('d M, Y h:i a', strtotime($income->pickup_datetime)) }}</td>
+                                    <td>{{ date('d M, Y h:i a', strtotime($income->date)) }}</td>
                                     <td>{{ $income->car_type_name }}</td>
                                     <td>{{ $income->name }}</td>
                                     <td>{{ $income->price }}</td>
