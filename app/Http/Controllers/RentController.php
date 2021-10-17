@@ -237,91 +237,97 @@ class RentController extends Controller
      */
     public function statusUpdate (Request $request) 
     {   
-        // if ($request->status == 3) {
-        //     $validators = Validator::make($request->all(),[
-        //         'driver_get'    => 'required',
-        //         'fuel_cost'    => 'required',
-        //         'other_cost'    => 'required',
-        //     ]);
-            
-        //     if($validators->fails()){
-        //         return Response::json(['errors' => $validators->getMessageBag()->toArray()]);
-        //     }
-        // }
-
-        $rent = Rent::find($request->rent_id);
-
-        if ($request->status == 3 && $rent->commission != null) {
-
-            $income             = new Income();
-            $income->name       = 'Income From commission';
-            $income->date       = date('Y-m-d');
-            $income->amount     = $rent->commission;
-            $income->rent_id    = $request->rent_id;
-            $income->created_by = Auth::id();
-            $income->updated_by = Auth::id();
-            $income->save();
-
-        }
-
-        if ($request->status == 3 && $rent->price != null) {
-            $total_cost = (float)$rent->fuel_cost + (float)$rent->driver_get;
-
-            $income             = new Income();
-            $income->name       = 'Net Income After Cost';
-            $income->date       = date('Y-m-d');
-            $income->amount     = (float)($rent->price - $total_cost);
-            $income->rent_id    = $request->rent_id;
-            $income->created_by = Auth::id();
-            $income->updated_by = Auth::id();
-            $income->save();
-
-        }
-
-        if ($request->status == 3 && (float)$request->driver_get != null) {
-
-            $expense             = new Expense();
-            $expense->name       = 'Driver cost';
-            $expense->date       = date('Y-m-d');
-            $expense->amount     = $request->driver_get;
-            $expense->rent_id    = $request->rent_id;
-            $expense->user_id    = Auth::id();
-            $expense->created_by = Auth::id();
-            $expense->updated_by = Auth::id();
-            $expense->save();
-        }
-
-        if ($request->status == 3 && (float)$request->other_cost != null) {
-
-            $expense             = new Expense();
-            $expense->name       = 'other cost';
-            $expense->date       = date('Y-m-d');
-            $expense->amount     = $request->other_cost;
-            $expense->rent_id    = $request->rent_id;
-            $expense->user_id    = Auth::id();
-            $expense->created_by = Auth::id();
-            $expense->updated_by = Auth::id();
-            $expense->save();
-        }
+        $status = (int)$request->status;
+        $driver_get = (float)$request->driver_get;
+        $other_cost = (float)$request->other_cost;
+        $fuel_cost  = (float)$request->fuel_cost;
+       
         
-        if ($request->status == 3 && (float)$request->fuel_cost != null) {
+        DB::beginTransaction();
+        
+        try {
 
-            $expense             = new Expense();
-            $expense->name       = 'Fuel cost';
-            $expense->date       = date('Y-m-d');
-            $expense->amount     = $rent->fuel_cost;
-            $expense->rent_id    = $request->rent_id;
-            $expense->user_id    = Auth::id();
-            $expense->created_by = Auth::id();
-            $expense->updated_by = Auth::id();
-            $expense->save();
+            $rent = Rent::find($request->rent_id);
+
+            if ($status == 3 && $rent->commission != 0) {
+    
+                $income             = new Income();
+                $income->name       = 'Income From commission';
+                $income->date       = date('Y-m-d');
+                $income->amount     = $rent->commission;
+                $income->rent_id    = $request->rent_id;
+                $income->created_by = Auth::id();
+                $income->updated_by = Auth::id();
+                $income->save();
+    
+            }
+    
+            if ($status == 3 && $rent->price != 0) {
+                $total_cost = $other_cost + $fuel_cost + $driver_get;
+    
+                $income             = new Income();
+                $income->name       = 'Net Income After Cost';
+                $income->date       = date('Y-m-d');
+                $income->amount     = (float)($rent->price - $total_cost);
+                $income->rent_id    = $request->rent_id;
+                $income->created_by = Auth::id();
+                $income->updated_by = Auth::id();
+                $income->save();
+    
+            }
+    
+            if ($status == 3 && $driver_get != 0) {
+    
+                $expense             = new Expense();
+                $expense->name       = 'Driver cost';
+                $expense->date       = date('Y-m-d');
+                $expense->amount     = $driver_get;
+                $expense->rent_id    = $request->rent_id;
+                $expense->user_id    = Auth::id();
+                $expense->created_by = Auth::id();
+                $expense->updated_by = Auth::id();
+                $expense->save();
+            }
+    
+            if ($status == 3 && $other_cost != 0) {
+    
+                $expense             = new Expense();
+                $expense->name       = 'other cost';
+                $expense->date       = date('Y-m-d');
+                $expense->amount     = $other_cost;
+                $expense->rent_id    = $request->rent_id;
+                $expense->user_id    = Auth::id();
+                $expense->created_by = Auth::id();
+                $expense->updated_by = Auth::id();
+                $expense->save();
+            }
+            
+            if ($status == 3 && $fuel_cost != 0) {
+    
+                $expense             = new Expense();
+                $expense->name       = 'Fuel cost';
+                $expense->date       = date('Y-m-d');
+                $expense->amount     = $fuel_cost;
+                $expense->rent_id    = $request->rent_id;
+                $expense->user_id    = Auth::id();
+                $expense->created_by = Auth::id();
+                $expense->updated_by = Auth::id();
+                $expense->save();
+            }
+    
+            $rent->status       = $status;
+            $rent->driver_get   = $driver_get;
+            $rent->fuel_cost    = $fuel_cost;
+            $rent->other_cost   = $other_cost;
+            $rent->update();   
+            
+            DB::commit();
+        } catch (Exception $e) {
+            
+            DB::rollback();
+            
+            return redirect()->route('rent.index')->with('message','Something went wrong');
         }
-
-        $rent->status = (int)$request->status;
-        $rent->driver_get = (float)$request->driver_get;
-        $rent->fuel_cost = (float)$request->fuel_cost;
-        $rent->other_cost = (float)$request->other_cost;
-        $rent->update();      
         
         return redirect()->route('rent.index')->with('message','Rent status update successfully');
     }
