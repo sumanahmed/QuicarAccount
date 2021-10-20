@@ -51,6 +51,20 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                   <div class="inner">
+                    <h3>{{ $data['today_reminder'] }}</h3>
+                    <p>Today Reminder</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                  </div>
+                  <a href="{{ route('reminder.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                  <div class="inner">
                     <h3>{{ $data['tomorrow_reminder'] }}</h3>
                     <p>Tomorrow Reminder</p>
                   </div>
@@ -58,6 +72,20 @@
                     <i class="ion ion-person-add"></i>
                   </div>
                   <a href="{{ route('reminder.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>{{ $data['prev_month_earn'] }}</h3>
+                    <p>Previous Month Earning</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
               </div>
               <!-- ./col -->

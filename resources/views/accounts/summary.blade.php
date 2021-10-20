@@ -46,71 +46,59 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6"><h5>Expense Summary</h5></div>
-                            <div class="col-md-6"><h5>Income Summary</h5></div>
+                            <div class="col-md-6"><h5>Summary</h5></div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <table class="table table-sm table-bordered table-striped data_table">
                                     <thead>
                                         <tr>
                                             <th>Rent</th>
-                                            <th style="vertical-align: middle;text-align: right;">Amount</th>
+                                            <th style="vertical-align: middle;">Travel Date</th>
+                                            <th style="vertical-align: middle;text-align: right;">Price</th>
+                                            <th style="vertical-align: middle;text-align: right;">Income</th>
+                                            <th style="vertical-align: middle;text-align: right;">Expense</th>
+                                            <th style="vertical-align: middle;text-align: right;">Net Income</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php $total_expense = 0; @endphp
-                                        @foreach($expenses as $expense)
+                                        @php 
+                                            $total_price = 0; 
+                                            $total_income = 0; 
+                                            $total_expense = 0; 
+                                        @endphp
+                                        @foreach($records as $record)
                                             <tr>
-                                                <td>{{ "Rent-".$expense->rent_id }}</td>
-                                                <td style="vertical-align: middle;text-align: right;">{{ $expense->amount }}</td>
+                                                <td>{{ "Rent-".$record->rent_id }}</td>
+                                                <td>{{ date('d M, Y h:i a', strtotime($record->pickup_datetime)) }}</td>
+                                                <td style="vertical-align: middle;text-align: right;">{{ $record->price }}</td>
+                                                <td style="vertical-align: middle;text-align: right;">{{ $record->income }}</td>
+                                                <td style="vertical-align: middle;text-align: right;">{{ $record->expense }}</td>
+                                                <td style="vertical-align: middle;text-align: right;">{{ $record->price - $record->expense }}</td>
                                             </tr>
-                                            @php $total_expense += $expense->amount @endphp
+                                            @php 
+                                                $total_price += $record->price;
+                                                $total_income += $record->income;
+                                                $total_expense += $record->expense;
+                                            @endphp
                                         @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th>Total Expense</th>
-                                            <th style="vertical-align: middle;text-align: right;">{{ $total_expense }}</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <div class="col-md-6">
-                                <table class="table table-sm table-bordered table-striped data_table">
-                                    <thead>
-                                        <tr>
-                                            <th>Rent</th>
-                                            <th style="vertical-align: middle;text-align: right;">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php $total_income = 0; @endphp
-                                        @foreach($incomes as $income)
-                                            <tr>
-                                                <td>{{ "Rent-".$income->rent_id }}</td>
-                                                <td style="vertical-align: middle;text-align: right;">{{ $income->amount }}</td>
-                                            </tr>
-                                            @php $total_income += $income->amount @endphp
-                                        @endforeach
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Total Income</th>
-                                            <th style="vertical-align: middle;text-align: right;">{{ $total_income }}</th>
+                                            <td colspan="2">Grand Total</td>
+                                            <td style="vertical-align: middle;text-align: right;">{{ $total_price }}</td>
+                                            <td style="vertical-align: middle;text-align: right;">{{ $total_income }}</td>
+                                            <td style="vertical-align: middle;text-align: right;">{{ $total_expense }}</td>
+                                            <td style="vertical-align: middle;text-align: right;">{{ $total_price - $total_expense }}</td>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-md-10"><h5>Final Amount : {{ $total_income - $total_expense }}</h5></div>
                     </div>
                 </div>
             </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        </div><!-- /.container-fluid -->
     </section>
 @endsection
 @section('scripts')

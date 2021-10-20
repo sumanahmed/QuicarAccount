@@ -24,19 +24,19 @@
                     <div class="car-header">
                       <form class="form" action="{{ route('accounts.income') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                             <div class="form-group">
                               <label for="start_date">Start Date</label>
                               <input type="date" name="start_date" @if(isset($_GET['start_date'])) value="{{ $_GET['start_date'] }}" @endif class="form-control">
                             </div>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                             <div class="form-group">
                               <label for="end_date">End Date</label>
                               <input type="date" name="end_date" @if(isset($_GET['end_date'])) value="{{ $_GET['end_date'] }}" @endif class="form-control">
                             </div>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                             <div class="form-group">
                                 <label for="car_type_id">Car Type</label>
                                 <select name="car_type_id" id="car_type_id" class="form-control selectable">
@@ -44,6 +44,15 @@
                                     @foreach($car_types as $car_type) 
                                         <option value="{{ $car_type->id }}" @if(isset($_GET['car_type_id']) && $car_type->id == $_GET['car_type_id']) selected @endif>{{ $car_type->name }}</option>
                                     @endforeach
+                                </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="search_type">Search Type</label>
+                                <select name="search_type" id="search_type" class="form-control selectable">
+                                    <option value="1" @if(isset($_GET['search_type']) && $_GET['search_type'] == 1) selected @endif>Travel Date</option>
+                                    <option value="2" @if(isset($_GET['search_type']) && $_GET['search_type'] == 2) selected @endif>Income Date</option>
                                 </select>
                             </div>
                           </div>
@@ -92,7 +101,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                              <th colspan="6">Total Net Income Amount</th>
+                              <th colspan="7">Total Net Income Amount</th>
                               <th style="vertical-align: middle;text-align: right;">{{ $total_amount }}</th>
                           </tr>
                         </tfoot>
