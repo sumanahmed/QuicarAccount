@@ -21,21 +21,44 @@ class DashboardController extends Controller
         $next_date  = date('Y-m-d', strtotime($start_date. " +1 days"));
 
         $days_ago_31 = date('Y-m-d', strtotime('-31 days', strtotime($start_date)));
-
+        
+        $current_month_first_date = date('Y-m-01');
+        $current_month_last_date = date('Y-m-d');
+        
         $data['new_rent'] = Rent::where('status', 1)->count('id');
         $data['complete_rent'] = Rent::where('status', 3)->count('id');
         $data['today_reminder'] =  DB::table('reminders')->whereDate('next_contact_datetime', '=', $start_date)->count('id');
         $data['tomorrow_reminder'] =  DB::table('reminders')->whereDate('next_contact_datetime', '=', $next_date)->count('id');
         
-        $days_ago_61 = date('Y-m-d', strtotime('-61 days', strtotime($start_date)));
-        $days_after_31  = date('Y-m-d', strtotime($days_ago_61. " +31 days"));
-
-        $prev_month_income =  Income::whereBetween('date', [$days_ago_61, $days_after_31])->sum('amount');
-        $prev_month_expense =  Expense::whereBetween('date', [$days_ago_61, $days_after_31])->sum('amount');
-        $data['prev_month_earn'] =  ($prev_month_income - $prev_month_expense);
+        $first_date_prev_month = date("Y-n-j", strtotime("first day of previous month"));
+        $last_date_prev_month  = date("Y-n-j", strtotime("last day of previous month"));
         
-        $current_month_income =  Income::whereBetween('date', [$days_ago_31, $start_date])->sum('amount');
-        $current_month_expense =  Expense::whereBetween('date', [$days_ago_31, $start_date])->sum('amount');
+        $prev_month_income =  DB::table('incomes')
+                                    ->join('rents','incomes.rent_id','rents.id')
+                                    ->whereDate('rents.pickup_datetime', '>=', $first_date_prev_month)
+                                    ->whereDate('rents.pickup_datetime', '<=', $last_date_prev_month)
+                                    ->sum('rents.price');        
+        
+        $prev_month_expense =  DB::table('incomes')
+                                    ->join('rents','incomes.rent_id','rents.id')
+                                    ->whereDate('rents.pickup_datetime', '>=', $first_date_prev_month)
+                                    ->whereDate('rents.pickup_datetime', '<=', $last_date_prev_month)
+                                    ->sum(\DB::raw('rents.fuel_cost + rents.driver_get + rents.other_cost'));
+                                    
+        $data['prev_month_earn'] =  ($prev_month_income - $prev_month_expense);
+                                    
+        $current_month_income =  DB::table('incomes')
+                                    ->join('rents','incomes.rent_id','rents.id')
+                                    ->whereDate('rents.pickup_datetime', '>=', $current_month_first_date)
+                                    ->whereDate('rents.pickup_datetime', '<=', $current_month_last_date)
+                                    ->sum('rents.price');        
+        
+        $current_month_expense =  DB::table('incomes')
+                                    ->join('rents','incomes.rent_id','rents.id')
+                                    ->whereDate('rents.pickup_datetime', '>=', $current_month_first_date)
+                                    ->whereDate('rents.pickup_datetime', '<=', $current_month_last_date)
+                                    ->sum(\DB::raw('rents.fuel_cost + rents.driver_get + rents.other_cost'));
+                                    
         $data['current_month_earn'] =  ($current_month_income - $current_month_expense);
         
         $total_income =  Income::sum('amount');
