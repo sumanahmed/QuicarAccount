@@ -220,6 +220,15 @@
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="referred_by">Referred By</label>
+                                            <input type="text" name="referred_by" id="referred_by" value="{{ old('referred_by') }}" class="form-control" placeholder="Referred By"/>
+                                            @if($errors->has('referred_by'))
+                                                <span class="text-danger">{{ $errors->first('referred_by') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">

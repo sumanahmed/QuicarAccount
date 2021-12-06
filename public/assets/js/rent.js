@@ -51,6 +51,8 @@ $("#changeRentStatus").click(function(e){
   var driver_get    = parseFloat($("#driverCost").val());
   var fuel_cost     = parseFloat($("#fuelCost").val());
   var other_cost    = parseFloat($("#otherCost").val());
+  var toll_charge   = parseFloat($("#tollCharge").val());
+  var total_km      = parseFloat($("#totalKm").val());
 
   $.ajax({
       type: 'POST',
@@ -62,6 +64,8 @@ $("#changeRentStatus").click(function(e){
         driver_get : driver_get,
         fuel_cost : fuel_cost,
         other_cost : other_cost,
+        toll_charge : toll_charge,
+        total_km : total_km,
       },
       success: function (response) {
         $("#hideStatusModalyBody").hide();

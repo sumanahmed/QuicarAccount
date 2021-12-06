@@ -126,6 +126,7 @@ class RentController extends Controller
             $rent->advance          = $request->advance;
             $rent->commission       = $request->commission;
             $rent->remaining        = $request->remaining;
+            $rent->referred_by      = $request->referred_by;
             $rent->note             = $request->note;
             $rent->created_by       = Auth::id();
             $rent->updated_by       = Auth::id();
@@ -211,6 +212,7 @@ class RentController extends Controller
         $rent->advance          = $request->advance;
         $rent->commission       = $request->commission;
         $rent->remaining        = $request->remaining;
+        $rent->referred_by      = $request->referred_by;
         $rent->note             = $request->note;
         $rent->updated_by       = Auth::id();
         
@@ -241,6 +243,8 @@ class RentController extends Controller
         $driver_get = (float)$request->driver_get;
         $other_cost = (float)$request->other_cost;
         $fuel_cost  = (float)$request->fuel_cost;
+        $toll_charge  = (float)$request->toll_charge;
+        $total_km  = (float)$request->total_km;
        
         
         DB::beginTransaction();
@@ -263,7 +267,8 @@ class RentController extends Controller
             }
     
             if ($status == 3 && $rent->price != 0) {
-                $total_cost = $other_cost + $fuel_cost + $driver_get;
+
+                $total_cost = ($other_cost + $fuel_cost + $driver_get + $toll_charge);
     
                 $income             = new Income();
                 $income->name       = 'Net Income After Cost';
@@ -277,51 +282,31 @@ class RentController extends Controller
             }
     
             if ($status == 3 && $driver_get != 0) {
-    
-                $expense             = new Expense();
-                $expense->name       = 'Driver cost';
-                $expense->date       = date('Y-m-d');
-                $expense->amount     = $driver_get;
-                $expense->rent_id    = $request->rent_id;
-                $expense->user_id    = Auth::id();
-                $expense->created_by = Auth::id();
-                $expense->updated_by = Auth::id();
-                $expense->save();
+                $this->addExpense($driver_get, 'Driver Cost', $request->rent_id);
             }
     
             if ($status == 3 && $other_cost != 0) {
-    
-                $expense             = new Expense();
-                $expense->name       = 'other cost';
-                $expense->date       = date('Y-m-d');
-                $expense->amount     = $other_cost;
-                $expense->rent_id    = $request->rent_id;
-                $expense->user_id    = Auth::id();
-                $expense->created_by = Auth::id();
-                $expense->updated_by = Auth::id();
-                $expense->save();
+                $this->addExpense($other_cost, 'Other Cost', $request->rent_id);
             }
             
             if ($status == 3 && $fuel_cost != 0) {
-    
-                $expense             = new Expense();
-                $expense->name       = 'Fuel cost';
-                $expense->date       = date('Y-m-d');
-                $expense->amount     = $fuel_cost;
-                $expense->rent_id    = $request->rent_id;
-                $expense->user_id    = Auth::id();
-                $expense->created_by = Auth::id();
-                $expense->updated_by = Auth::id();
-                $expense->save();
+                $this->addExpense($fuel_cost, 'Fuel Cost', $request->rent_id);
+            }
+            
+            if ($status == 3 && $toll_charge != 0) {
+                $this->addExpense($toll_charge, 'Toll Charge', $request->rent_id);
             }
     
             $rent->status       = $status;
             $rent->driver_get   = $driver_get;
             $rent->fuel_cost    = $fuel_cost;
             $rent->other_cost   = $other_cost;
+            $rent->toll_charge  = $toll_charge;
+            $rent->total_km     = $total_km;
             $rent->update();   
             
             DB::commit();
+
         } catch (Exception $e) {
             
             DB::rollback();
@@ -330,6 +315,18 @@ class RentController extends Controller
         }
         
         return redirect()->route('rent.index')->with('message','Rent status update successfully');
+    }
+
+    public function addExpense($amount, $title, $rent_id) {
+        $expense             = new Expense();
+        $expense->name       = $title;
+        $expense->date       = date('Y-m-d');
+        $expense->amount     = $amount;
+        $expense->rent_id    = $rent_id;
+        $expense->user_id    = Auth::id();
+        $expense->created_by = Auth::id();
+        $expense->updated_by = Auth::id();
+        $expense->save();
     }
     
     //show all upcoming rent

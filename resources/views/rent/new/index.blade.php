@@ -156,7 +156,6 @@
                                 <label class="col-form-label">Status <span class="text-danger" title="Required">*</span></label>
                                 <select id="status" class="form-control" required>
                                   <option value="1">New</option>
-                                  <option value="2">Upcoming</option>
                                   <option value="3">Complete</option>
                                   <option value="4">Cancel</option>
                                 </select>
@@ -165,28 +164,46 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" id="showCost" style="display:none">
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="col-form-label">Driver Cost</label>
-                                <input type="text" id="driverCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
-                                <span class="errorDriverCost text-danger text-bold"></span>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="col-form-label">Fuel Cost</label>
-                                <input type="text" id="fuelCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
-                                <span class="errorFuelCost text-danger text-bold"></span>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="col-form-label">Other Cost</label>
-                                <input type="text" id="otherCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
-                                <span class="errorOtherCost text-danger text-bold"></span>
-                            </div>
-                        </div>
+                    <div id="showCost" style="display:none">
+                      <div class="row">
+                          <div class="col">
+                              <div class="form-group">
+                                  <label class="col-form-label">Driver Cost</label>
+                                  <input type="text" id="driverCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                  <span class="errorDriverCost text-danger text-bold"></span>
+                              </div>
+                          </div>
+                          <div class="col">
+                              <div class="form-group">
+                                  <label class="col-form-label">Fuel Cost</label>
+                                  <input type="text" id="fuelCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                  <span class="errorFuelCost text-danger text-bold"></span>
+                              </div>
+                          </div>
+                          <div class="col">
+                              <div class="form-group">
+                                  <label class="col-form-label">Other Cost</label>
+                                  <input type="text" id="otherCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                  <span class="errorOtherCost text-danger text-bold"></span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col">
+                              <div class="form-group">
+                                  <label class="col-form-label">Toll Charge</label>
+                                  <input type="text" id="tollCharge" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                  <span class="errorTollCharge text-danger text-bold"></span>
+                              </div>
+                          </div>
+                          <div class="col">
+                              <div class="form-group">
+                                  <label class="col-form-label">Total Km</label>
+                                  <input type="text" id="totalKm" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                  <span class="errorTotalKm text-danger text-bold"></span>
+                              </div>
+                          </div>
+                      </div>
                     </div>
                 </div>
                 <div class="modal-footer">
