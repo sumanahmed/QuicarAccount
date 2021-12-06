@@ -79,7 +79,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $total_amount = 0; @endphp
+                            @php 
+                                $total_price = 0; 
+                                $total_cost = 0; 
+                                $total_amount = 0; 
+                            @endphp
                             @foreach($incomes as $income)
                                 @php 
                                     $price = $income->price;
@@ -92,16 +96,22 @@
                                     <td>{{ date('d M, Y h:i a', strtotime($income->date)) }}</td>
                                     <td>{{ $income->car_type_name }}</td>
                                     <td>{{ $income->name }}</td>
-                                    <td>{{ $income->price }}</td>
-                                    <td>{{ $cost }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{ $income->price }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{ $cost }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $netincome }}</td>
                                 </tr>
-                                @php $total_amount += $netincome @endphp
+                                @php 
+                                    $total_price += $income->price;
+                                    $total_cost += $cost;
+                                    $total_amount += $netincome;
+                                @endphp
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
-                              <th colspan="7">Total Net Income Amount</th>
+                              <th colspan="5">Total Net Income Amount</th>
+                              <th style="vertical-align: middle;text-align: right;">{{ $total_price }}</th>
+                              <th style="vertical-align: middle;text-align: right;">{{ $total_cost }}</th>
                               <th style="vertical-align: middle;text-align: right;">{{ $total_amount }}</th>
                           </tr>
                         </tfoot>

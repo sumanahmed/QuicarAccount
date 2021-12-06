@@ -26,8 +26,8 @@ class RentController extends Controller
     public function index(Request $request)
     {
         $query = DB::table('rents')
-                    ->join('car_types','rents.car_type_id','car_types.id')
-                    ->join('customers','rents.customer_id','customers.id')
+                    ->leftjoin('car_types','rents.car_type_id','car_types.id')
+                    ->leftjoin('customers','rents.customer_id','customers.id')
                     ->select('rents.*','customers.name as customer_name','customers.phone as customer_phone','car_types.name as car_type_name')
                     ->orderBy('rents.id', 'DESC')->where('rents.status', 1);
 

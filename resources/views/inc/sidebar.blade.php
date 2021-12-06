@@ -72,11 +72,11 @@
                   <p>New</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="{{ route('rent.upcoming.index') }}" class="nav-link nav-rent-upcoming">
                   <p>Upcoming(Confirm)</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="{{ route('rent.cancel.index') }}" class="nav-link nav-rent-cancel">
                   <p>Cancel</p>

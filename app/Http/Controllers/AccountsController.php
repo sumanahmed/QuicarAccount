@@ -28,7 +28,6 @@ class AccountsController extends Controller
                         'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost',
                         'rents.car_type_id','rents.pickup_datetime'
                     )
-                    ->whereBetween('date', [$start_date, $end_date])
                     ->orderBy('rents.pickup_datetime','DESC');
                     
         if ($request->search_type == 1) { 
