@@ -87,11 +87,15 @@
                             @foreach($incomes as $income)
                                 @php 
                                     $price = $income->price;
-                                    $cost  = (float)($income->fuel_cost + $income->other_cost + $income->driver_get);
+                                    $cost  = (float)($income->fuel_cost + $income->other_cost + $income->driver_get + $income->toll_charge);
                                     $netincome = ($price - $cost);
                                 @endphp
                                 <tr>
-                                    <td>{{ "Rent-".$income->rent_id }}</td>
+                                    <td>
+                                        <a target="_blank" href="{{ route('rent.details', $income->rent_id) }}">
+                                            {{ "Rent-".$income->rent_id }}
+                                        </a>
+                                    </td>
                                     <td>{{ date('d M, Y h:i a', strtotime($income->pickup_datetime)) }}</td>
                                     <td>{{ date('d M, Y h:i a', strtotime($income->date)) }}</td>
                                     <td>{{ $income->car_type_name }}</td>

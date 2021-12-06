@@ -22,11 +22,11 @@ class AccountsController extends Controller
         $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
 
         $query = DB::table('incomes')
-                    ->join('rents','incomes.rent_id','rents.id')
-                    ->join('car_types','rents.car_type_id','car_types.id')
-                    ->select('incomes.*','rents.pickup_datetime','car_types.name as car_type_name',
+                    ->leftjoin('rents','incomes.rent_id','rents.id')
+                    ->leftjoin('car_types','rents.car_type_id','car_types.id')
+                    ->select('incomes.*','rents.pickup_datetime','car_types.name as car_type_name','rents.id as rent_id',
                         'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost',
-                        'rents.car_type_id','rents.pickup_datetime'
+                        'rents.toll_charge', 'rents.car_type_id','rents.pickup_datetime'
                     )
                     ->orderBy('rents.pickup_datetime','DESC');
                     
@@ -59,9 +59,9 @@ class AccountsController extends Controller
         $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
         
         $query = DB::table('expenses')
-                    ->join('users','expenses.user_id','users.id')
-                    ->join('rents','expenses.rent_id','rents.id')
-                    ->join('car_types','rents.car_type_id','car_types.id')
+                    ->leftjoin('users','expenses.user_id','users.id')
+                    ->leftjoin('rents','expenses.rent_id','rents.id')
+                    ->leftjoin('car_types','rents.car_type_id','car_types.id')
                     ->select('expenses.*','rents.pickup_datetime','car_types.name as car_type_name',
                         'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost',
                         'rents.car_type_id', 'users.name as expense_by'
