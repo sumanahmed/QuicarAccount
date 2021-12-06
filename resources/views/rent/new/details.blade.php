@@ -7,13 +7,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Update Rent</h4>
+            <h4 class="m-0 text-dark">Rent Details</h4>
           </div><!-- /.col -->
           <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
               <li class="breadcrumb-item"><a href="{{ route('rent.index') }}">Rent</a></li>
-              <li class="breadcrumb-item active">Edit Rent</li>
+              <li class="breadcrumb-item active">Rent Details</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -229,6 +229,38 @@
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="referred_by">Total Km</label>
+                                            <input type="text" name="total_km" id="total_km" value="{{ $rent->total_km }}" class="form-control" placeholder="Referred By" readonly/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="driver_get">Driver Cost</label>
+                                            <input type="text" name="driver_get" id="driver_get" value="{{ $rent->driver_get }}" class="form-control" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="driver_get">Fuel Cost</label>
+                                            <input type="text" name="fuel_cost" id="fuel_cost" value="{{ $rent->fuel_cost }}" class="form-control" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="driver_get">Other Cost</label>
+                                            <input type="text" name="other_cost" id="other_cost" value="{{ $rent->other_cost }}" class="form-control" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="driver_get">Toll Charge</label>
+                                            <input type="text" name="toll_charge" id="toll_charge" value="{{ $rent->toll_charge }}" class="form-control" readonly/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -238,14 +270,6 @@
                                             @if($errors->has('note'))
                                                 <span class="text-danger">{{ $errors->first('note') }}</span>
                                             @endif
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-sm btn-success">Submit</button>
-                                            <button type="reset" class="btn btn-sm btn-danger">Cancel</button>
                                         </div>
                                     </div>
                                 </div>

@@ -98,6 +98,7 @@ Route::group(['prefix'=>'/rent', 'middleware'=>'admin'], function(){
     Route::get('/create', [RentController::class, 'create'])->name('rent.create');
     Route::post('/store', [RentController::class, 'store'])->name('rent.store');
     Route::get('/edit/{id}', [RentController::class, 'edit'])->name('rent.edit');
+    Route::get('/details/{id}', [RentController::class, 'details'])->name('rent.details');
     Route::post('/update/{id}', [RentController::class, 'update'])->name('rent.update');
     Route::post('/destroy', [RentController::class, 'destroy'])->name('rent.destroy');
     Route::post('/status-update', [RentController::class, 'statusUpdate'])->name('rent.stats.update');

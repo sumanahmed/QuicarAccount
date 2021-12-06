@@ -42,24 +42,28 @@
                         <thead>
                             <tr>
                                 <th>Travel Date & Time</th>
+                                <th>Return Date & Time</th>
                                 <th>Pickup Location</th>
                                 <th>Drop Location</th>
                                 <th>Customer</th>
                                 <th>Car Type</th>
                                 <th>Price</th>
                                 <th>Advance</th>
+                                <th>Total Cost</th>
                                 <th style="vertical-align: middle;text-align: center;">Action</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Travel Date & Time</th>
+                                <th>Return Date & Time</th>
                                 <th>Pickup Location</th>
                                 <th>Drop Location</th>
                                 <th>Customer</th>
                                 <th>Car Type</th>
                                 <th>Price</th>
                                 <th>Advance</th>
+                                <th>Total Cost</th>
                               <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
@@ -67,13 +71,16 @@
                           @foreach($rents as $rent)
                             <tr class="rent-{{ $rent->id }}">
                               <td>{{ date('d M, Y h:i a', strtotime($rent->pickup_datetime)) }}</td>
+                              <td>{{ date('d M, Y h:i a', strtotime($rent->return_datetime)) }}</td>
                               <td>{{ $rent->pickup_location }}</td>
                               <td>{{ $rent->drop_location }}</td>
                               <td>@if($rent->customer_id != null) {{ $rent->customer_name }} ({{ $rent->customer_phone }}) @endif</td>
                               <td>{{ $rent->car_type_name }}</td>
                               <td>{{ $rent->price }}</td>
                               <td>{{ $rent->advance }}</td>
+                              <td>{{ $rent->driver_get + $rent->fuel_cost + $rent->other_cost + $rent->toll_charge }}</td>
                               <td style="vertical-align: middle;text-align: center;">
+                                <a href="{{ route('rent.details', $rent->id) }}" class="btn btn-xs btn-warning" title="Details">Details</a>
                                 <button class="btn btn-xs btn-primary" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $rent->id }}" title="SMS">SMS</button>                                  
                                 <a href="{{ route('rent.invoice', $rent->id) }}" class="btn btn-xs btn-success" title="Edit">Invoice</a>
                                 <button class="btn btn-xs btn-danger" data-toggle="modal" id="rentDelete" data-target="#rentDeleteModal" data-id="{{ $rent->id }}" title="Delete">Delete</button>                                  

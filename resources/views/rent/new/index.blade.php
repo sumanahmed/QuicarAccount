@@ -83,6 +83,7 @@
                               <td>{{ $rent->advance }}</td>
                               <td>{{ $rent->remaining }}</td>
                               <td style="vertical-align: middle;text-align: center;">
+                                <a href="{{ route('rent.details', $rent->id) }}" class="btn btn-xs btn-warning" title="Details">Details</a>
                                 <button class="btn btn-xs btn-primary" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $rent->id }}" title="SMS">SMS</button>                                  
                                 <a href="{{ route('rent.invoice', $rent->id) }}" class="btn btn-xs btn-success" title="Edit">Invoice</a>
                                 <button class="btn btn-xs btn-info" data-toggle="modal" id="statusChange" data-id="{{ $rent->id }}" data-status="{{ $rent->status }}" title="Status">Status</button>

@@ -184,6 +184,21 @@ class RentController extends Controller
     }
 
     /**
+     * show details page
+     */
+    public function details ($id) 
+    {        
+        $rent      = Rent::find($id);
+        $car_types = CarType::all();
+        $models    = CarModel::where('car_type_id', $rent->car_type_id)->get();
+        $years     = Year::all(); 
+        $customers = Customer::all(); 
+        $drivers   = Driver::all(); 
+
+        return view('rent.new.details', compact('rent','car_types','models','years','customers','drivers'));
+    }
+
+    /**
      * rent update
      */
     public function update(Request $request, $id) 
