@@ -9,6 +9,7 @@ use App\Http\Controllers\CommonController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\MaintenanceChargeController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\RentController;
@@ -117,6 +118,15 @@ Route::group(['prefix'=>'/rent/cancel', 'middleware'=>'admin'], function(){
 
 Route::group(['prefix'=>'/rent/complete', 'middleware'=>'admin'], function(){
     Route::get('/', [RentController::class, 'complete'])->name('rent.complete.index');
+});
+
+Route::group(['prefix'=>'/maintenance', 'middleware'=>'admin'], function(){
+    Route::get('/', [MaintenanceChargeController::class, 'index'])->name('maintenance.index');
+    Route::get('/create', [MaintenanceChargeController::class, 'create'])->name('maintenance.create');
+    Route::post('/store', [MaintenanceChargeController::class, 'store'])->name('maintenance.store');
+    Route::get('/edit/{id}', [MaintenanceChargeController::class, 'edit'])->name('maintenance.edit');
+    Route::post('/update/{id}', [MaintenanceChargeController::class, 'update'])->name('maintenance.update');
+    Route::post('/destroy', [MaintenanceChargeController::class, 'destroy'])->name('maintenance.destroy');
 });
 
 Route::group(['prefix'=>'/accounts', 'middleware'=>'admin'], function(){

@@ -89,6 +89,12 @@
               </li>
             </ul>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('maintenance.index') }}" class="nav-link maintenance-charge">
+              <i class="nav-icon fas fa-dollar-sign"></i>
+              <p>Maintenance Charge</p>
+            </a>
+          </li>
           <li class="nav-item has-treeview menu-accounts">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-dollar-sign"></i>
