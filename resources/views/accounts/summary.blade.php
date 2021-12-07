@@ -26,14 +26,32 @@
                         <div class="row">
                           <div class="col-md-3">
                             <div class="form-group">
-                              <label for="date">Start Date</label>
-                              <input type="date" name="start_date" class="form-control" @if(isset($_GET['start_date'])) value="{{ date('Y-m-d', strtotime($_GET['start_date'])) }}" @endif />
+                              <label for="date">Month</label>
+                              <select name="month" class="form-control">
+                                <option value="0">Select</option>
+                                <option value="1" @if(isset($_GET['month']) && $_GET['month'] == 1) selected @endif>January</option>
+                                <option value="2" @if(isset($_GET['month']) && $_GET['month'] == 2) selected @endif>February</option>
+                                <option value="3" @if(isset($_GET['month']) && $_GET['month'] == 3) selected @endif>March</option>
+                                <option value="4" @if(isset($_GET['month']) && $_GET['month'] == 4) selected @endif>April</option>
+                                <option value="5" @if(isset($_GET['month']) && $_GET['month'] == 5) selected @endif>May</option>
+                                <option value="6" @if(isset($_GET['month']) && $_GET['month'] == 6) selected @endif>June</option>
+                                <option value="7" @if(isset($_GET['month']) && $_GET['month'] == 7) selected @endif>July</option>
+                                <option value="8" @if(isset($_GET['month']) && $_GET['month'] == 8) selected @endif>August</option>
+                                <option value="9" @if(isset($_GET['month']) && $_GET['month'] == 9) selected @endif>September</option>
+                                <option value="10" @if(isset($_GET['month']) && $_GET['month'] == 10) selected @endif>October</option>
+                                <option value="11" @if(isset($_GET['month']) && $_GET['month'] == 11) selected @endif>November</option>
+                                <option value="12" @if(isset($_GET['month']) && $_GET['month'] == 12) selected @endif>December</option>
+                              </select>
                             </div>
                           </div>
                           <div class="col-md-3">
                             <div class="form-group">
-                              <label for="date">End Date</label>
-                              <input type="date" name="end_date" class="form-control" @if(isset($_GET['end_date'])) value="{{ date('Y-m-d', strtotime($_GET['end_date'])) }}" @endif />
+                              <label for="year">Year</label>
+                              <select name="year" class="form-control">
+                                <option value="0">Select</option>
+                                <option value="2020" @if(isset($_GET['year']) && $_GET['year'] == 2020) selected @endif>2020</option>
+                                <option value="2021" @if(isset($_GET['year']) && $_GET['year'] == 2021) selected @endif>2021</option>
+                              </select>
                             </div>
                           </div>
                           <div class="col-md-3">
@@ -53,43 +71,43 @@
                                 <table class="table table-sm table-bordered table-striped data_table">
                                     <thead>
                                         <tr>
-                                            <th>Rent</th>
-                                            <th style="vertical-align: middle;">Travel Date</th>
-                                            <th style="vertical-align: middle;text-align: right;">Price</th>
-                                            <th style="vertical-align: middle;text-align: right;">Income</th>
-                                            <th style="vertical-align: middle;text-align: right;">Expense</th>
-                                            <th style="vertical-align: middle;text-align: right;">Net Income</th>
+                                            <th class="text-center">Month</th>
+                                            <th class="text-center">Total Rent</th>
+                                            <th style="vertical-align: middle;text-align: center;">Price (Tk)</th>
+                                            <th style="vertical-align: middle;text-align: center;">Cost (Tk)</th>
+                                            <th style="vertical-align: middle;text-align: center;">Income (Tk)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @php 
+                                            $total_rent = 0; 
                                             $total_price = 0; 
-                                            $total_income = 0; 
                                             $total_expense = 0; 
+                                            $total_income = 0; 
                                         @endphp
                                         @foreach($records as $record)
                                             <tr>
-                                                <td>{{ "Rent-".$record->rent_id }}</td>
-                                                <td>{{ date('d M, Y h:i a', strtotime($record->pickup_datetime)) }}</td>
-                                                <td style="vertical-align: middle;text-align: right;">{{ $record->price }}</td>
-                                                <td style="vertical-align: middle;text-align: right;">{{ $record->income }}</td>
-                                                <td style="vertical-align: middle;text-align: right;">{{ $record->expense }}</td>
-                                                <td style="vertical-align: middle;text-align: right;">{{ $record->price - $record->expense }}</td>
+                                                <td class="text-center">{{ getMonthName($record->month) }}</td>
+                                                <td class="text-center">{{ $record->total_rent }}</td>
+                                                <td style="vertical-align: middle;text-align: right;">{{ number_format((float)$record->total_price, 2, '.', '') }}</td>
+                                                <td style="vertical-align: middle;text-align: right;">{{ number_format((float)$record->total_expense, 2, '.', '') }}</td>
+                                                <td style="vertical-align: middle;text-align: right;">{{ number_format((float)$record->total_income, 2, '.', '') }}</td>
                                             </tr>
                                             @php 
-                                                $total_price += $record->price;
-                                                $total_income += $record->income;
-                                                $total_expense += $record->expense;
+                                                $total_rent += $record->total_rent;
+                                                $total_price += $record->total_price;
+                                                $total_expense += $record->total_expense;
+                                                $total_income += $record->total_income;
                                             @endphp
                                         @endforeach
                                     </tbody>
                                     <tfoot>
-                                        <tr>
-                                            <td colspan="2">Grand Total</td>
-                                            <td style="vertical-align: middle;text-align: right;">{{ $total_price }}</td>
-                                            <td style="vertical-align: middle;text-align: right;">{{ $total_income }}</td>
-                                            <td style="vertical-align: middle;text-align: right;">{{ $total_expense }}</td>
-                                            <td style="vertical-align: middle;text-align: right;">{{ $total_price - $total_expense }}</td>
+                                        <tr style="font-weight: bold;">
+                                            <td class="text-center">Grand Total</td>
+                                            <td class="text-center">{{ $total_rent }}</td>
+                                            <td style="vertical-align: middle;text-align: right;">{{ number_format((float)$total_price, 2, '.', '') }}</td>
+                                            <td style="vertical-align: middle;text-align: right;">{{ number_format((float)$total_expense, 2, '.', '') }}</td>
+                                            <td style="vertical-align: middle;text-align: right;">{{ number_format((float)$total_income, 2, '.', '') }}</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -100,6 +118,36 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
+    <?php 
+      function getMonthName ($month)
+      {
+        if ($month == 1) {
+          echo "January";
+        } else if ($month == 2) {
+          echo "February";
+        } else if ($month == 3) {
+          echo "March";
+        } else if ($month == 4) {
+          echo "April";
+        } else if ($month == 5) {
+          echo "May";
+        } else if ($month == 6) {
+          echo "June";
+        } else if ($month == 7) {
+          echo "July";
+        } else if ($month == 8) {
+          echo "August";
+        } else if ($month == 9) {
+          echo "September";
+        } else if ($month == 10) {
+          echo "October";
+        } else if ($month == 11) {
+          echo "November";
+        } else if ($month == 12) {
+          echo "December";
+        }
+      }
+    ?>
 @endsection
 @section('scripts')
     <script>

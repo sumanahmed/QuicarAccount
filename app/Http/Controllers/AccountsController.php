@@ -86,41 +86,30 @@ class AccountsController extends Controller
      * show summary
      */
     public function summary (Request $request) 
-    {
-        $today = date('Y-m-d');
-        $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date)) : date('Y-m-d', strtotime('-31 days', strtotime($today)));
-        $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
-
-        // $expenses = DB::table('expenses')
-        //             ->select('rent_id', DB::raw('SUM(amount) as amount'))
-        //             ->groupBy('rent_id')
-        //             ->whereBetween('date', [$start_date, $end_date])
-        //             ->orderBy('rent_id', 'DESC')
-        //             ->get();
-
-        // $incomes = DB::table('incomes')
-        //             ->select('rent_id', DB::raw('SUM(amount) as amount'))
-        //             ->groupBy('rent_id')
-        //             ->orderBy('id','DESC')
-        //             ->whereBetween('date', [$start_date, $end_date])
-        //             ->orderBy('rent_id', 'DESC')
-        //             ->get();
-
-        // $total_expense = Expense::whereBetween('date', [$start_date, $end_date])->sum('amount');
-        // $total_income  = Income::whereBetween('date', [$start_date, $end_date])->sum('amount');
-        
-        $records = DB::table('rents')
+    {        
+        $query = DB::table('rents')
                     ->leftJoin('incomes','rents.id','incomes.rent_id')
                     ->leftJoin('expenses','rents.id','expenses.rent_id')
-                    ->select('rents.id as rent_id', 'rents.pickup_datetime','rents.price',
-                            DB::raw('SUM(expenses.amount) as expense'), 
-                            DB::raw('SUM(incomes.amount) as income')
+                    ->select(
+                            DB::raw('COUNT(rents.id) as total_rent'), 
+                            DB::raw('SUM(rents.price) as total_price'), 
+                            DB::raw('SUM(incomes.amount) as total_income'),
+                            DB::raw('SUM(expenses.amount) as total_expense'),
+                            DB::raw('MONTH(rents.pickup_datetime) month')
                     )
-                    ->whereDate('rents.pickup_datetime', '>=', $start_date)
-                    ->whereDate('rents.pickup_datetime', '<=', $end_date)
-                    ->groupBy('rents.id', 'rents.pickup_datetime','rents.price')
+                    ->groupBy(DB::raw('YEAR(pickup_datetime)'), DB::raw('MONTH(pickup_datetime)'))
                     ->orderBy('rents.pickup_datetime', 'DESC')
-                    ->get();
+                    ->where('rents.status', 3);
+
+        if ($request->month && $request->month != 0) {
+            $query = $query->where(DB::raw('MONTH(pickup_datetime)'), $request->month);
+        }
+
+        if ($request->year && $request->year != 0) {
+            $query = $query->where(DB::raw('YEAR(pickup_datetime)'), $request->year);
+        }
+                    
+        $records = $query->get();
   
         return view('accounts.summary', compact('records'));
     }
