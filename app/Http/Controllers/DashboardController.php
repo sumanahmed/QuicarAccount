@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Expense;
 use App\Models\Income;
+use App\Models\MaintenanceCharge;
 use App\Models\Reminder;
 use App\Models\Rent;
 use Illuminate\Http\Request;
@@ -62,8 +63,12 @@ class DashboardController extends Controller
         $data['current_month_earn'] =  ($current_month_income - $current_month_expense);
         
         
+        $total_income  =  Income::sum('amount');
         $total_expense =  Expense::sum('amount');
-        $data['total_earn'] = Income::sum('amount');
+        $maintenance_charge = MaintenanceCharge::sum('amount');
+
+        $data['total_earn'] = $total_income;
+        $data['net_cash']   = $total_income - ($total_expense + $maintenance_charge);
 
         $query = DB::table('reminders')
                     ->join('customers','reminders.customer_id','customers.id')
