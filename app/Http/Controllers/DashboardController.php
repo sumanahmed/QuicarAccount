@@ -61,9 +61,9 @@ class DashboardController extends Controller
                                     
         $data['current_month_earn'] =  ($current_month_income - $current_month_expense);
         
-        $total_income =  Income::sum('amount');
+        
         $total_expense =  Expense::sum('amount');
-        $data['total_earn'] = ($total_income - $total_expense);
+        $data['total_earn'] = Income::sum('amount');
 
         $query = DB::table('reminders')
                     ->join('customers','reminders.customer_id','customers.id')

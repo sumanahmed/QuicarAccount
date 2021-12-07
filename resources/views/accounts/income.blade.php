@@ -88,7 +88,6 @@
                                 @php 
                                     $price = $income->price;
                                     $cost  = (float)($income->fuel_cost + $income->other_cost + $income->driver_get + $income->toll_charge);
-                                    $netincome = ($price - $cost);
                                 @endphp
                                 <tr>
                                     <td>
@@ -102,12 +101,12 @@
                                     <td>{{ $income->name }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $income->price }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $cost }}</td>
-                                    <td style="vertical-align: middle;text-align: right;">{{ $netincome }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{ $income->amount }}</td>
                                 </tr>
                                 @php 
                                     $total_price += $income->price;
                                     $total_cost += $cost;
-                                    $total_amount += $netincome;
+                                    $total_amount += $income->amount;
                                 @endphp
                             @endforeach
                         </tbody>
