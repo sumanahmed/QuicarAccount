@@ -69,21 +69,17 @@
                         <thead>
                             <tr>
                                 <th>Rent</th>
+                                <th>Pickup Location</th>
+                                <th>Drop Location</th>
                                 <th>Travel Date & Time</th>
                                 <th>Income Date</th>
                                 <th>Car Type</th>
-                                <th>Income From</th>
                                 <th>Price</th>
                                 <th>Cost</th>
                                 <th style="vertical-align: middle;text-align: right;">Net Income</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php 
-                                $total_price = 0; 
-                                $total_cost = 0; 
-                                $total_amount = 0; 
-                            @endphp
                             @foreach($incomes as $income)
                                 @php 
                                     $price = $income->price;
@@ -95,30 +91,21 @@
                                             {{ "Rent-".$income->rent_id }}
                                         </a>
                                     </td>
+                                    <td>{{ $income->pickup_location }}</td>
+                                    <td>{{ $income->drop_location }}</td>
                                     <td>{{ date('d M, Y h:i a', strtotime($income->pickup_datetime)) }}</td>
                                     <td>{{ date('d M, Y h:i a', strtotime($income->date)) }}</td>
                                     <td>{{ $income->car_type_name }}</td>
-                                    <td>{{ $income->name }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $income->price }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $cost }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $income->amount }}</td>
                                 </tr>
-                                @php 
-                                    $total_price += $income->price;
-                                    $total_cost += $cost;
-                                    $total_amount += $income->amount;
-                                @endphp
                             @endforeach
                         </tbody>
-                        <tfoot>
-                            <tr>
-                              <th colspan="5">Total Net Income Amount</th>
-                              <th style="vertical-align: middle;text-align: right;">{{ $total_price }}</th>
-                              <th style="vertical-align: middle;text-align: right;">{{ $total_cost }}</th>
-                              <th style="vertical-align: middle;text-align: right;">{{ $total_amount }}</th>
-                          </tr>
-                        </tfoot>
                       </table>
+                      <div class="d-felx justify-content-center mt-3">
+                        {{ $incomes->links('pagination::bootstrap-4') }}
+                      </div>
                     </div>
                 </div>
             </div>

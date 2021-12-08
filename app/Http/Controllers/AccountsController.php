@@ -26,7 +26,7 @@ class AccountsController extends Controller
                     ->leftjoin('car_types','rents.car_type_id','car_types.id')
                     ->select('incomes.*','rents.pickup_datetime','car_types.name as car_type_name','rents.id as rent_id',
                         'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost',
-                        'rents.toll_charge', 'rents.car_type_id','rents.pickup_datetime'
+                        'rents.toll_charge', 'rents.car_type_id','rents.pickup_datetime','rents.pickup_location','rents.drop_location'
                     )
                     ->orderBy('rents.pickup_datetime','DESC')
                     ->where('rents.status', 3);
@@ -44,8 +44,9 @@ class AccountsController extends Controller
             $query = $query->where('rents.car_type_id', $request->car_type_id);
         }
         
+        $incomes = $query->paginate(20)->appends(request()->query());
+
         $car_types = CarType::all();
-        $incomes = $query->get();
         
         return view('accounts.income', compact('car_types','incomes'));
     }
@@ -59,15 +60,11 @@ class AccountsController extends Controller
         $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
         $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
     
-        $query = DB::table('expenses')
-                    ->leftjoin('users','expenses.user_id','users.id')
-                    ->leftjoin('rents','expenses.rent_id','rents.id')
+        $query = DB::table('rents')
+                    ->leftjoin('expenses','rents.id','expenses.rent_id')
                     ->leftjoin('car_types','rents.car_type_id','car_types.id')
-                    ->select('expenses.*','rents.pickup_datetime','car_types.name as car_type_name',
-                        'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost',
-                        'rents.car_type_id', 'users.name as expense_by'
-                    )
-                    ->orderBy('expenses.id','DESC')
+                    ->select('rents.*','car_types.name as car_type_name')
+                    ->orderBy('rents.id','DESC')
                     ->where('rents.status', 3);
 
         if ($start_date && $end_date) {
@@ -75,10 +72,10 @@ class AccountsController extends Controller
         }
 
         if ($request->car_type_id) {
-            $query = $query->where('expenses.car_type_id', $request->car_type_id);
+            $query = $query->where('rents.car_type_id', $request->car_type_id);
         }
 
-        $expenses   = $query->get();
+        $expenses   = $query->paginate(20)->appends(request()->query());
         $car_types  = CarType::all();
         
         return view('accounts.expense', compact('expenses','car_types'));
@@ -90,16 +87,13 @@ class AccountsController extends Controller
     public function summary (Request $request) 
     {        
         $query = DB::table('rents')
-                    ->join('incomes','rents.id','incomes.rent_id')
-                    ->join('expenses','rents.id','expenses.rent_id')
-                    ->selectRaw('COUNT(rents.id) as total_rent,
-                        SUM(rents.price) as total_price,
-                        SUM(incomes.amount) as total_income,
-                        SUM(expenses.amount) as total_expense,
-                        MONTH(rents.pickup_datetime) month
+                    ->selectRaw('COUNT(id) as total_rent,
+                        SUM(price) as total_price,
+                        SUM(driver_get + toll_charge + fuel_cost + other_cost) as total_expense,
+                        MONTH(pickup_datetime) month
                     ')
-                    ->orderBy('rents.pickup_datetime', 'DESC')
-                    ->where('rents.status', 3)
+                    ->orderBy('pickup_datetime', 'DESC')
+                    ->where('status', 3)
                     ->groupBy(DB::raw('MONTH(pickup_datetime)'));
 
         if ($request->month && $request->month != 0) {
@@ -111,7 +105,7 @@ class AccountsController extends Controller
         }
                     
         $records = $query->get();
-        
+
         return view('accounts.summary', compact('records'));
     }
 }

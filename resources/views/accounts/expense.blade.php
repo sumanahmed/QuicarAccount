@@ -60,36 +60,41 @@
                         <thead>
                             <tr>
                                 <th>Rent</th>
+                                <th>Pickup Location</th>
+                                <th>Drop Location</th>
                                 <th>Travel Date & Time</th>
                                 <th>Car Type</th>
-                                <th>Expense For</th>
-                                <th>Date</th>
-                                <th>Expense By</th>
-                                <th style="vertical-align: middle;text-align: right;">Amount</th>
+                                <th>Fule Cost</th>
+                                <th>Other Cost</th>
+                                <th>Driver Cost</th>
+                                <th>Toll Charge</th>
+                                <th style="vertical-align: middle;text-align: right;">Total Cost</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php $total_amount = 0; @endphp
                             @foreach($expenses as $expense)
                                 <tr>
-                                    <td>{{ "Rent-".$expense->rent_id }}</td>
+                                    <td>
+                                      <a target="_blank" href="{{ route('rent.details', $expense->id) }}">
+                                        {{ "Rent-".$expense->id }}
+                                      </a>
+                                    </td>
+                                    <td>{{ $expense->pickup_location }}</td>
+                                    <td>{{ $expense->drop_location }}</td>
                                     <td>{{ date('d M, Y h:i:s a', strtotime($expense->pickup_datetime)) }}</td>
                                     <td>{{ $expense->car_type_name }}</td>
-                                    <td>{{ $expense->name }}</td>
-                                    <td>{{ $expense->date }}</td>
-                                    <td>{{ $expense->expense_by }}</td>
-                                    <td style="vertical-align: middle;text-align: right;">{{ $expense->amount }}</td>
+                                    <td>{{ $expense->fuel_cost }}</td>
+                                    <td>{{ $expense->other_cost }}</td>
+                                    <td>{{ $expense->driver_get }}</td>
+                                    <td>{{ $expense->toll_charge }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{ ($expense->fuel_cost + $expense->other_cost + $expense->driver_get + $expense->toll_charge) }}</td>
                                 </tr>
-                                @php $total_amount += $expense->amount @endphp
                             @endforeach
                         </tbody>
-                        <tfoot>
-                            <tr>
-                              <th colspan="6">Total Amount</th>
-                              <th style="vertical-align: middle;text-align: right;">{{ $total_amount }}</th>
-                          </tr>
-                        </tfoot>
                       </table>
+                      <div class="d-felx justify-content-center mt-3">
+                        {{ $expenses->links('pagination::bootstrap-4') }}
+                      </div>
                     </div>
                 </div>
             </div>

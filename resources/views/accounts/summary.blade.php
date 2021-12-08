@@ -86,18 +86,21 @@
                                             $total_income = 0; 
                                         @endphp
                                         @foreach($records as $record)
+                                          @php 
+                                            $net_total = ($record->total_price - $record->total_expense);
+                                          @endphp
                                             <tr>
                                                 <td class="text-center">{{ getMonthName($record->month) }}</td>
                                                 <td class="text-center">{{ $record->total_rent }}</td>
                                                 <td style="vertical-align: middle;text-align: right;">{{ number_format((float)$record->total_price, 2, '.', '') }}</td>
                                                 <td style="vertical-align: middle;text-align: right;">{{ number_format((float)$record->total_expense, 2, '.', '') }}</td>
-                                                <td style="vertical-align: middle;text-align: right;">{{ number_format((float)$record->total_income, 2, '.', '') }}</td>
+                                                <td style="vertical-align: middle;text-align: right;">{{ number_format((float)$net_total, 2, '.', '') }}</td>
                                             </tr>
                                             @php 
                                                 $total_rent += $record->total_rent;
                                                 $total_price += $record->total_price;
                                                 $total_expense += $record->total_expense;
-                                                $total_income += $record->total_income;
+                                                $total_income += $net_total;
                                             @endphp
                                         @endforeach
                                     </tbody>

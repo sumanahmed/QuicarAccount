@@ -34,10 +34,12 @@ class CreateRentsTable extends Migration
             $table->double('advance')->nullable();
             $table->double('commission')->nullable();
             $table->double('remaining')->nullable();
-            $table->double('driver_get')->nullable();
-            $table->string('driver_accomodation')->nullable();
-            $table->double('fuel_cost')->nullable();
-            $table->double('other_cost')->nullable();
+            $table->double('driver_get',10,2)->default(0);
+            $table->string('driver_accomodation')->default(0);
+            $table->double('toll_charge',10,2)->default(0);
+            $table->double('toll_km', 10,2)->nullable();
+            $table->double('fuel_cost',10,2)->default(0);
+            $table->double('other_cost',10,2)->default(0);
             $table->text('note')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
