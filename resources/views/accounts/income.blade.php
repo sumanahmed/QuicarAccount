@@ -59,6 +59,7 @@
                           <div class="col-md-3">
                             <div class="form-group">
                               <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 32px;" />
+                              <h4 style="float:right;margin-top:35px">Net Income: {{ $total_income }}</h4>
                             </div>
                           </div>
                         </div>
@@ -72,7 +73,7 @@
                                 <th>Pickup Location</th>
                                 <th>Drop Location</th>
                                 <th>Travel Date & Time</th>
-                                <th>Income Date</th>
+                                <th>Return Date & Time</th>
                                 <th>Car Type</th>
                                 <th>Price</th>
                                 <th>Cost</th>
@@ -94,7 +95,7 @@
                                     <td>{{ $income->pickup_location }}</td>
                                     <td>{{ $income->drop_location }}</td>
                                     <td>{{ date('d M, Y h:i a', strtotime($income->pickup_datetime)) }}</td>
-                                    <td>{{ date('d M, Y h:i a', strtotime($income->date)) }}</td>
+                                    <td>{{ date('d M, Y h:i a', strtotime($income->return_datetime)) }}</td>
                                     <td>{{ $income->car_type_name }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $income->price }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $cost }}</td>

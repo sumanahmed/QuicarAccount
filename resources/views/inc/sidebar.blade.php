@@ -112,6 +112,11 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{ route('accounts.maintenance') }}" class="nav-link nav-expense">
+                  <p>Maintenance</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('accounts.summary') }}" class="nav-link nav-summary">
                   <p>Summary</p>
                 </a>

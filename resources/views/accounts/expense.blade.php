@@ -50,6 +50,7 @@
                           <div class="col-md-3">
                             <div class="form-group">
                               <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 32px;" />
+                              <h4 style="float:right;margin-top:35px">Net Cost: {{ $total_expense }}</h4>
                             </div>
                           </div>
                         </div>

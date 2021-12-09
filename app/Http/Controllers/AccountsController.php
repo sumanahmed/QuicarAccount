@@ -7,6 +7,7 @@ use App\Models\Income;
 use App\Models\User;
 use App\Models\Customer;
 use App\Models\CarType;
+use App\Models\MaintenanceCharge;
 use Illuminate\Http\Request;
 use DB;
 
@@ -25,7 +26,7 @@ class AccountsController extends Controller
                     ->leftjoin('rents','incomes.rent_id','rents.id')
                     ->leftjoin('car_types','rents.car_type_id','car_types.id')
                     ->select('incomes.*','rents.pickup_datetime','car_types.name as car_type_name','rents.id as rent_id',
-                        'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost',
+                        'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost','rents.return_datetime',
                         'rents.toll_charge', 'rents.car_type_id','rents.pickup_datetime','rents.pickup_location','rents.drop_location'
                     )
                     ->orderBy('rents.pickup_datetime','DESC')
@@ -45,10 +46,12 @@ class AccountsController extends Controller
         }
         
         $incomes = $query->paginate(20)->appends(request()->query());
+        
+        $total_income = $query->sum('amount');
 
         $car_types = CarType::all();
         
-        return view('accounts.income', compact('car_types','incomes'));
+        return view('accounts.income', compact('car_types','incomes', 'total_income'));
     }
 
     /**
@@ -61,26 +64,45 @@ class AccountsController extends Controller
         $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
     
         $query = DB::table('rents')
-                    ->leftjoin('expenses','rents.id','expenses.rent_id')
                     ->leftjoin('car_types','rents.car_type_id','car_types.id')
                     ->select('rents.*','car_types.name as car_type_name')
                     ->orderBy('rents.id','DESC')
                     ->where('rents.status', 3);
 
         if ($start_date && $end_date) {
-            $query = $query->whereBetween('expenses.date', [$start_date, $end_date]);
+            $query = $query->whereDate('rents.pickup_datetime', '>=', $start_date)
+                            ->whereDate('rents.pickup_datetime', '<=', $end_date);
         }
 
         if ($request->car_type_id) {
             $query = $query->where('rents.car_type_id', $request->car_type_id);
         }
-
+        
+        
+        $total_expense = $query->sum(DB::raw('rents.fuel_cost + rents.other_cost + rents.driver_get + rents.toll_charge'));
+           
         $expenses   = $query->paginate(20)->appends(request()->query());
+        
         $car_types  = CarType::all();
         
-        return view('accounts.expense', compact('expenses','car_types'));
+        return view('accounts.expense', compact('expenses','car_types', 'total_expense'));
     }
 
+    /**
+     * show maintenance
+     */
+    public function maintenance (Request $request) 
+    {        
+        $today = date('Y-m-d');
+        $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
+        $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
+        
+        $total_income = Income::whereBetween('date', [$start_date, $end_date])->sum('amount');
+        $total_maintenance = MaintenanceCharge::whereBetween('date', [$start_date, $end_date])->sum('amount');
+
+        return view('accounts.maintenance', compact('total_income', 'total_maintenance'));
+    }
+    
     /**
      * show summary
      */
