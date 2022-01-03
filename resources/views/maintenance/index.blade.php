@@ -26,21 +26,32 @@
                     <div class="car-header">
                       <form class="form" action="{{ route('maintenance.index') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                             <div class="form-group">
                               <label for="purpose">Purpose</label>
                                 <input type="text" name="purpose" @if(isset($_GET['purpose'])) value="{{ $_GET['purpose'] }}" @endif class="form-control">
                             </div>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                             <div class="form-group">
-                              <label for="date">Date</label>
-                                <input type="date" name="date" @if(isset($_GET['date'])) value="{{ $_GET['date'] }}" @endif class="form-control">
+                              <label for="start_date">Start Date</label>
+                              <input type="date" name="start_date" @if(isset($_GET['start_date'])) value="{{ $_GET['start_date'] }}" @endif class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group">
+                              <label for="end_date">End Date</label>
+                              <input type="date" name="end_date" @if(isset($_GET['end_date'])) value="{{ $_GET['end_date'] }}" @endif class="form-control">
                             </div>
                           </div>
                           <div class="col-md-3">
                             <div class="form-group">
                               <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 30px;" />
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group" style='margin-top:30px;'>
+                              <h5>Total Maintenace Charge: <strong>{{ $total_maintenace_charge }}</strong></h5>
                             </div>
                           </div>
                         </div>

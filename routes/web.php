@@ -118,6 +118,7 @@ Route::group(['prefix'=>'/rent/cancel', 'middleware'=>'admin'], function(){
 
 Route::group(['prefix'=>'/rent/complete', 'middleware'=>'admin'], function(){
     Route::get('/', [RentController::class, 'complete'])->name('rent.complete.index');
+    Route::get('/export', [RentController::class, 'export'])->name('rent.export');
 });
 
 Route::group(['prefix'=>'/maintenance', 'middleware'=>'admin'], function(){

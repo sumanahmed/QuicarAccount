@@ -58,10 +58,10 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
-                                <div class="small-box bg-warning">
+                                <div class="small-box bg-danger">
                                   <div class="inner">
-                                    <h3>{{ $total_income }}</h3>
-                                    <p>Total Income</p>
+                                    <h3>{{ $total_expense }}</h3>
+                                    <p>Total Expense</p>
                                   </div>
                                   <div class="icon">
                                     <i class="ion ion-bag"></i>
@@ -69,10 +69,10 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
-                                <div class="small-box bg-danger">
+                                <div class="small-box bg-warning">
                                   <div class="inner">
-                                    <h3>{{ $total_expense }}</h3>
-                                    <p>Total Expense</p>
+                                    <h3>{{ $total_income }}</h3>
+                                    <p>Total Income</p>
                                   </div>
                                   <div class="icon">
                                     <i class="ion ion-bag"></i>

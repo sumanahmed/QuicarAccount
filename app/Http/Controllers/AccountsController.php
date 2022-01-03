@@ -65,11 +65,11 @@ class AccountsController extends Controller
         $today = date('Y-m-d');
         $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
         $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
-    
+
         $query = DB::table('rents')
                     ->leftjoin('car_types','rents.car_type_id','car_types.id')
                     ->select('rents.*','car_types.name as car_type_name')
-                    ->orderBy('rents.id','DESC')
+                    ->orderBy('rents.pickup_datetime','DESC')
                     ->where('rents.status', 3);
 
         if ($start_date && $end_date) {
@@ -104,13 +104,18 @@ class AccountsController extends Controller
         $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
         $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
         
-        $total_price = Rent::whereDate('rents.pickup_datetime', '>=', $start_date)
+        $rents = Rent::whereDate('rents.pickup_datetime', '>=', $start_date)
                             ->whereDate('rents.pickup_datetime', '<=', $end_date)
-                            ->where('status', 3)
-                            ->sum('price');
-        $total_income = Income::whereBetween('date', [$start_date, $end_date])->sum('amount');
+                            ->where('status', 3);
+        
+        $total_price    = $rents->sum('rents.price');
+        $total_expense  = $rents->sum(DB::raw('rents.fuel_cost + rents.other_cost + rents.driver_get + rents.toll_charge'));
+        $total_income   = (float)($total_price - $total_expense);
         $total_maintenance = MaintenanceCharge::whereBetween('date', [$start_date, $end_date])->sum('amount');
-        $total_expense =  Expense::whereBetween('date', [$start_date, $end_date])->sum('amount');
+        
+        // $total_income = Income::whereBetween('date', [$start_date, $end_date])->sum('amount');
+        // $total_expense =  Expense::whereBetween('date', [$start_date, $end_date])->sum('amount');
+        
         $net_cash   = $total_income - $total_maintenance;
 
         return view('accounts.maintenance', compact('total_price', 'total_income', 'total_expense', 'total_maintenance', 'net_cash'));

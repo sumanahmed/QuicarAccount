@@ -11,20 +11,25 @@ class MaintenanceChargeController extends Controller
     /**
      * get all maintenance charges
     */
-    public function index (Request $request) {
+    public function index (Request $request) 
+    {        
+        $today = date('Y-m-d');
+        $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
+        $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
+        
         $query = DB::table('maintenance_charges');
 
         if ($request->purpose) {
             $query = $query->where('purpose', 'like', "{$request->purpose}%");
         }
-
-        if ($request->date) {
-            $query = $query->where('rents.date', $request->date);
-        }
+        
+        $query = $query->whereBetween('date', [$start_date, $end_date]);
+        
+        $total_maintenace_charge= $query->sum('amount');
 
         $maintenances = $query->paginate(12)->appends(request()->query()); 
 
-        return view('maintenance.index', compact('maintenances'));
+        return view('maintenance.index', compact('maintenances', 'total_maintenace_charge'));
     }
 
     /**

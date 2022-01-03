@@ -10,6 +10,8 @@ use App\Models\Driver;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Rent;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ComplteRentExport;
 use Illuminate\Http\Request;
 use Validator;
 use GuzzleHttp\Client;
@@ -25,6 +27,10 @@ class RentController extends Controller
     //show all
     public function index(Request $request)
     {
+        $today = date('Y-m-d');
+        $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
+        $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
+
         $query = DB::table('rents')
                     ->leftjoin('car_types','rents.car_type_id','car_types.id')
                     ->leftjoin('customers','rents.customer_id','customers.id')
@@ -39,13 +45,16 @@ class RentController extends Controller
             $query = $query->where('rents.phone', $request->phone);
         }
 
-        if ($request->pickup_datetime) {
-            $query = $query->whereDate('rents.pickup_datetime', $request->pickup_datetime);
-        }
+        $query->whereDate('rents.created_at', '>=', $start_date)
+                ->whereDate('rents.created_at', '<=', $end_date);
+                
+        $total_price    = $query->sum('rents.price');
+        $total_advance  = $query->sum('rents.advance');
+        $total_remaining= $query->sum('rents.remaining');
 
         $rents = $query->paginate(12)->appends(request()->query()); 
 
-        return view('rent.new.index', compact('rents'));
+        return view('rent.new.index', compact('rents','total_price','total_advance','total_remaining'));
     }
 
     /**
@@ -476,7 +485,7 @@ class RentController extends Controller
         return view('rent.cancel.index', compact('rents'));
     }
 
-    //show all cancel rent
+    //show all complete rent
     public function complete(Request $request)
     {
         $today = date('Y-m-d');
@@ -514,6 +523,14 @@ class RentController extends Controller
         $rents = $query->paginate(12)->appends(request()->query());   
 
         return view('rent.complete.index', compact('rents'));
+    }
+    
+    /**
+     * Export Complte Rent
+    */
+    public function export ()
+    {
+        return Excel::download(new ComplteRentExport, 'complte_rent.xlsx');
     }
 
     /**

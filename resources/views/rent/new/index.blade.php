@@ -26,17 +26,26 @@
                     <div class="car-header">
                       <form class="form" action="{{ route('rent.index') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <label for="pickup_date">Pickup Date</label>
-                                <input type="date" name="pickup_datetime" @if(isset($_GET['pickup_datetime'])) value="{{ $_GET['pickup_datetime'] }}" @endif class="form-control">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                  <label for="start_date">Start Date</label>
+                                  <input type="date" name="start_date" @if(isset($_GET['start_date'])) value="{{ $_GET['start_date'] }}" @endif class="form-control">
+                                </div>
                             </div>
-                          </div>
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 30px;" />
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                  <label for="end_date">End Date</label>
+                                  <input type="date" name="end_date" @if(isset($_GET['end_date'])) value="{{ $_GET['end_date'] }}" @endif class="form-control">
+                                </div>
                             </div>
-                          </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                  <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 30px;" />
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="margin-top:30px;">
+                                <h5>Total Price: <strong>{{ $total_price }}</strong> | Total Advance: <strong>{{ $total_advance }}</strong> | Total Remaining: <strong>{{ $total_remaining }}</strong></h5>
+                            </div>
                         </div>
                       </form>
                     </div>

@@ -30,8 +30,9 @@
                             </div>
                           </div>
                           <div class="col-md-3">
-                            <div class="form-group">
-                              <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 30px;" />
+                            <div class="form-group" style="margin-top: 30px;">
+                              <input type="submit" class="btn btn-info btn-sm" value="Search" />
+                              <a href="{{ route('rent.export') }}" class="btn btn-warning btn-sm">Export <i class="fa fa-download"></i></a>
                             </div>
                           </div>
                         </div>
