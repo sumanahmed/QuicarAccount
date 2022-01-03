@@ -50,6 +50,7 @@
                                 <th>Price</th>
                                 <th>Advance</th>
                                 <th>Total Cost</th>
+                                <th>Total Income</th>
                                 <th style="vertical-align: middle;text-align: center;">Action</th>
                             </tr>
                         </thead>
@@ -64,12 +65,16 @@
                                 <th>Price</th>
                                 <th>Advance</th>
                                 <th>Total Cost</th>
+                                <th>Total Income</th>
                               <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
                         <tbody id="allRent">
                           @foreach($rents as $rent)
                             <tr class="rent-{{ $rent->id }}">
+                                @php 
+                                    $total_cost = $rent->driver_get + $rent->fuel_cost + $rent->other_cost + $rent->toll_charge
+                                @endphp
                               <td>{{ date('d M, Y h:i a', strtotime($rent->pickup_datetime)) }}</td>
                               <td>{{ date('d M, Y h:i a', strtotime($rent->return_datetime)) }}</td>
                               <td>{{ $rent->pickup_location }}</td>
@@ -78,7 +83,8 @@
                               <td>{{ $rent->car_type_name }}</td>
                               <td>{{ $rent->price }}</td>
                               <td>{{ $rent->advance }}</td>
-                              <td>{{ $rent->driver_get + $rent->fuel_cost + $rent->other_cost + $rent->toll_charge }}</td>
+                              <td>{{ $total_cost }}</td>
+                              <td>{{ $rent->price - $total_cost }}</td>
                               <td style="vertical-align: middle;text-align: center;">
                                 <a href="{{ route('rent.details', $rent->id) }}" class="btn btn-xs btn-warning" title="Details">Details</a>
                                 <button class="btn btn-xs btn-primary" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $rent->id }}" title="SMS">SMS</button>                                  

@@ -49,8 +49,30 @@
                             <div class="col-lg-3 col-6">
                                 <div class="small-box bg-warning">
                                   <div class="inner">
+                                    <h3>{{ $total_price }}</h3>
+                                    <p>Total Price</p>
+                                  </div>
+                                  <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="small-box bg-warning">
+                                  <div class="inner">
                                     <h3>{{ $total_income }}</h3>
                                     <p>Total Income</p>
+                                  </div>
+                                  <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="small-box bg-danger">
+                                  <div class="inner">
+                                    <h3>{{ $total_expense }}</h3>
+                                    <p>Total Expense</p>
                                   </div>
                                   <div class="icon">
                                     <i class="ion ion-bag"></i>
@@ -68,6 +90,17 @@
                                   </div>
                                 </div>
                             </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="small-box bg-success">
+                                  <div class="inner">
+                                    <h3>{{ $net_cash }}</h3>
+                                    <p>Net Cash</p>
+                                  </div>
+                                  <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                  </div>
+                                </div>
+                            </div>
                       </div>
                     </div>
                 </div>
@@ -79,6 +112,6 @@
 @section('scripts')
     <script>
         $('.menu-accounts').addClass('menu-open');
-        $('.nav-expense').addClass('active');
+        $('.nav-maintenance').addClass('active');
     </script>
 @endsection

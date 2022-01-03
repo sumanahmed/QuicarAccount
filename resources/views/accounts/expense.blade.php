@@ -47,12 +47,11 @@
                                 </select>
                             </div>
                           </div>
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 32px;" />
-                              <h4 style="float:right;margin-top:35px">Net Cost: {{ $total_expense }}</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Fuel Cost: <strong>{{ $total_fuel_cost }}</strong> | Other Cost: <strong>{{ $total_other_cost }}</strong> | Driver Cost: <strong>{{ $total_driver_get }}</strong> | Toll Charge: <strong>{{ $total_toll_charge }}</strong> | Net Expense: <strong>{{ $total_expense }}</strong></h5>
                             </div>
-                          </div>
                         </div>
                       </form>
                     </div>

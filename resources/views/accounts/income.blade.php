@@ -56,12 +56,11 @@
                                 </select>
                             </div>
                           </div>
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 32px;" />
-                              <h4 style="float:right;margin-top:35px">Net Income: {{ $total_income }}</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Total Price: <strong>{{ $total_price }}</strong> | Total Cost: <strong>{{ $total_cost }}</strong> | Net Income: <strong>{{ $total_income }}</strong></h5>
                             </div>
-                          </div>
                         </div>
                       </form>
                     </div>
