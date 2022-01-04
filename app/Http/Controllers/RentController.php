@@ -11,7 +11,7 @@ use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Rent;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ComplteRentExport;
+use App\Exports\CompleteRentExport;
 use Illuminate\Http\Request;
 use Validator;
 use GuzzleHttp\Client;
@@ -530,7 +530,22 @@ class RentController extends Controller
     */
     public function export ()
     {
-        return Excel::download(new ComplteRentExport, 'complte_rent.xlsx');
+        return Excel::download(new CompleteRentExport, 'complete_rent.xlsx');
+        
+        // return Excel::raw('Complete Rent', function($excel) {
+        //     $excel->sheet('Users', function($sheet) {
+                
+        //         $rents = Rent::join('customers', 'rents.customer_id','customers.id')
+        //                     ->select('customers.name', 'phone')
+        //                     ->where('rents.status', 3)
+        //                     ->get();
+                            
+        //         foreach ($rents as $key => $rent) {
+        //             $payload[] = array('name' => $rent['name'], 'mobile' => $value['phone']);
+        //         }
+        //         $sheet->fromArray($payload);
+        //     });
+        // })->download('xls');
     }
 
     /**

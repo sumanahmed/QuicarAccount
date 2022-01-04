@@ -5,7 +5,7 @@ namespace App\Exports;
 use App\Models\Rent;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
-class ComplteRentExport implements FromCollection
+class CompleteRentExport implements FromCollection
 {
     /**
     * @return \Illuminate\Support\Collection

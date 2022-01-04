@@ -49,7 +49,9 @@ class AccountsController extends Controller
         $incomes = $query->paginate(20)->appends(request()->query());
         
         $total_price = $query->sum('price');
-        $total_cost = $query->sum(DB::raw('fuel_cost','driver_get','other_cost','toll_charge'));
+        
+        $total_cost = $query->sum(DB::raw('fuel_cost + driver_get + other_cost + toll_charge'));
+                            
         $total_income = $query->sum('amount');
 
         $car_types = CarType::all();
