@@ -32,7 +32,10 @@
                                 <p>Many Thanks,</p>
                                 <p>Autospire Logistics</p> <br/>
                                 <p>Travel Date : {{ date('d M, Y h:i:s a', strtotime($rent->pickup_datetime)) }}</p>
-                                <p>Return Date : {{ date('d M, Y h:i:s a', strtotime($rent->return_datetime)) }} </p><br/>
+                                @if($rent->rent_type == 2)
+                                    <p>Return Date : {{ date('d M, Y h:i:s a', strtotime($rent->return_datetime)) }} </p>
+                                @endif
+                                <br/>
                             </div>
                         </div>
                         <div>
@@ -108,6 +111,9 @@
                                 <p>Bkash Merchant : Autospire</p>
                                 <p>Bkash Number : 01912278827</p><br/>
                                 <p><strong>(Note: Please do not hire bus from driver to avoid money loss, different bus and commitement issues)</strong></p><br/>
+                                @if($rent->note != null)
+                                    <p><strong>[Extra Note: {{ $rent->note }}]</strong></p><br/>
+                                @endif
                             </div>
                         </div>
                         <div style="margin-top:40px;">
