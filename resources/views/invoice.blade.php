@@ -100,7 +100,7 @@
                         <div class="row body-content">
                             <div class="col-md-12">
                                 <p>Many thanks for your Booking! We look forward to doing business with you again in due
-                                    course. Refer your friend with your phone number and get 1000 Taka Bkash Bonus.</p><br/>
+                                    course.</p><br/>
                                 <p>Payment Terms: Pay to our Bank Account / Bkash payment / Cash</p>
                                 <p>Brac Bank Limited</p>
                                 <p>Account name : Autospire</p>
