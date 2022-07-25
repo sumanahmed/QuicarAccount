@@ -166,7 +166,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <!-- <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="drop_datetime">Drop Date Time</label>
                                             <input type="datetime-local" name="drop_datetime" @if($rent->drop_datetime != null) value="{{ date('Y-m-d\TH:i:s', strtotime($rent->drop_datetime)) }}" @endif id="drop_datetime" class="form-control" />
@@ -174,7 +174,7 @@
                                                 <span class="text-danger">{{ $errors->first('drop_datetime') }}</span>
                                             @endif
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-3" id="returnDateTime" @if($rent->rent_type == 1) style="display: none;" @endif>
                                         <div class="form-group">
                                             <label for="return_datetime">Return Date Time</label>

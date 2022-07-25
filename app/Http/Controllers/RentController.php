@@ -132,7 +132,7 @@ class RentController extends Controller
             $rent->pickup_location  = $request->pickup_location;
             $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
             $rent->drop_location    = $request->drop_location;
-            $rent->drop_datetime    = isset($request->drop_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
+            // $rent->drop_datetime    = isset($request->drop_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
             $rent->return_datetime  = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
             $rent->price            = $request->price;
             $rent->advance          = $request->advance;
@@ -233,7 +233,7 @@ class RentController extends Controller
         $rent->pickup_location  = $request->pickup_location;
         $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
         $rent->drop_location    = $request->drop_location;
-        $rent->drop_datetime    = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
+        // $rent->drop_datetime    = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
         $rent->return_datetime  = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
         $rent->price            = $request->price;
         $rent->advance          = $request->advance;
@@ -428,7 +428,7 @@ class RentController extends Controller
         $rent->pickup_location  = $request->pickup_location;
         $rent->pickup_datetime  = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->pickup_datetime)) : Null;
         $rent->drop_location    = $request->drop_location;
-        $rent->drop_datetime    = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
+        // $rent->drop_datetime    = isset($request->pickup_datetime) ? date('Y-m-d H:i:s', strtotime($request->drop_datetime)) : Null;
         $rent->return_datetime  = isset($request->return_datetime) ? date('Y-m-d H:i:s', strtotime($request->return_datetime)) : Null;
         $rent->price            = $request->price;
         $rent->advance          = $request->advance;

@@ -166,7 +166,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <!-- <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="drop_datetime">Drop Date Time</label>
                                             <input type="datetime-local" name="drop_datetime" value="{{ old('drop_datetime') }}" id="drop_datetime" class="form-control" />
@@ -174,7 +174,7 @@
                                                 <span class="text-danger">{{ $errors->first('drop_datetime') }}</span>
                                             @endif
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-3" id="returnDateTime" style="display: none;">
                                         <div class="form-group">
                                             <label for="return_datetime">Return Date Time</label>
