@@ -8,12 +8,23 @@ $("#status").change(function () {
 });
 
 $("#rentType").change(function () {
-var rentType = $("#rentType :selected").val();
-if (rentType == 2) {
-  $("#returnDateTime").show();
-} else {
-  $("#returnDateTime").hide();
-}
+  var rentType = $("#rentType :selected").val();
+  if (rentType == 2) {
+    $("#returnDateTime").show();    
+    $("#bodyRent").hide();
+    $("#fuleCost").hide();
+    $("#driverAccomodation").hide();
+  } else if (rentType == 3) {
+    $("#returnDateTime").show();
+    $("#bodyRent").show();
+    $("#fuleCost").show();
+    $("#driverAccomodation").show();
+  } else {
+    $("#returnDateTime").hide();
+    $("#bodyRent").hide();
+    $("#fuleCost").hide();
+    $("#driverAccomodation").hide();
+  }
 });
 
 $(document).on('click', '#rentDelete', function () {

@@ -41,6 +41,7 @@ class CreateRentsTable extends Migration
             $table->double('fuel_cost',10,2)->default(0);
             $table->double('other_cost',10,2)->default(0);
             $table->double('total_vehicle',10,2)->default(0);
+            $table->double('body_rent',10,2)->default(0);
             $table->text('note')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

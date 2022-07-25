@@ -12,6 +12,7 @@ use App\Models\Income;
 use App\Models\Rent;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CompleteRentExport;
+use App\Library\Helper;
 use Illuminate\Http\Request;
 use Validator;
 use GuzzleHttp\Client;
@@ -110,13 +111,11 @@ class RentController extends Controller
      * store
      */
     public function store (Request $request) 
-    {   
+    {  
         $this->validate($request,[
             'car_type_id'   => 'required',    
             'model_id'      => 'required'
         ]);
-        
-        DB::beginTransaction();
         
         try {
             $rent                   = new Rent();
@@ -139,41 +138,30 @@ class RentController extends Controller
             $rent->commission       = $request->commission;
             $rent->remaining        = $request->remaining;
             $rent->referred_by      = $request->referred_by;
+
+            $rent->body_rent        = (float) $request->body_rent;
+            $rent->fuel_cost        = (float)$request->fuel_cost;
+            $rent->driver_accomodation  = (float)$request->driver_accomodation;
+            $rent->total_vehicle    = (float)$request->total_vehicle;
+
             $rent->note             = $request->note;
             $rent->created_by       = Auth::id();
             $rent->updated_by       = Auth::id();
             $rent->save();
-            
-            // $customer = $request->customer_id != null ? Customer::find($request->customer_id) : '';
-            // $driver = $request->driver_id != null ? Driver::find($request->driver_id) : '';
-                        
-            // if ($request->rent_type == 1) {
-            //     $rentType = 'Drop Only';
-            // }elseif ($request->rent_type == 2) {
-            //     $rentType = 'Round Trip';
-            // }elseif ($request->rent_type == 3) {
-            //     $rentType = 'Body Rent';
-            // }elseif ($request->rent_type == 4) {
-            //     $rentType = 'Monthly';
-            // }
-            
-            // $pickup_date_time = isset($request->pickup_datetime) ? date('Y-m-d H:i', strtotime($request->pickup_datetime)) : "";
-            // $msg = "Booking Confirmation, Car Type: ".$rent->CarType->name.", Car Model: ".$rent->CarModel->name.", Car Number: ".$request->reg_number.", Rent Type: ".$rentType.", Pickup Location: ".$request->pickup_location.", Date and Time: ".$pickup_date_time.", Drop Location: ".$request->drop_location.", Price: ".$request->price.", Advance: ".$request->advance.", Remaining: ".$request->remaining.", Customer Number: ".$customer->phone.", Driver Number: ".$driver->phone.". __ Autospire Logistics 01912278827";
-         
-            // if ($request->customer_id != null) {
-            //     $client = new Client();            
-            //     $sms    = $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $customer->phone ."&message=".$msg);
-            // } 
-            
-            // if ($request->driver_id != null) {
-            //     $client = new Client();              
-            //     $sms    = $client->request("GET", "http://66.45.237.70/api.php?username=01670168919&password=TVZMBN3D&number=". $driver->phone ."&message=".$msg);
-            // }
-            
-            DB::commit();
+
+            if ($request->customer_id != null) {
+
+                $admin_mobile = '01711005548';
+                $customer = Customer::find($request->customer_id);
+
+                // $sms = nl2br("অটোস্পায়ার থেকে গাড়ি বুকিং করার জন্য আপনাকে ধন্যবাদ। \n গাড়ির ধরন : ". $rent->CarType->name ."  \n ট্যুর লোকেশান : ". $rent->drop_location ." \n তারিখ ও সময় : ". date('Y-m-d\TH:i:s', strtotime($rent->pickup_datetime)) ." \nমোট ভাড়া : ". $rent->price ."  টাকা \nঅগ্রিম : ". $rent->advance ."  টাকা \nবাকি আছে : ". ( $rent->price -  $rent->advance) ." টাকা \nঅটোস্পায়ার বদলে দিবে আপনার ট্রাভেল অভিজ্ঞতা। \nহেল্প : 01912278827 / 01614945969");
+                $sms = "অটোস্পায়ার থেকে গাড়ি বুকিং করার জন্য আপনাকে ধন্যবাদ। <br>গাড়ির ধরন : ". $rent->CarType->name ."  <br>ট্যুর লোকেশান : ". $rent->drop_location ." <br>তারিখ ও সময় : ". date('Y-m-d H:i:s', strtotime($rent->pickup_datetime)) ." <br>মোট ভাড়া : ". $rent->price ."  টাকা <br>অগ্রিম : ". $rent->advance ."  টাকা <br>বাকি আছে : ". ( $rent->price -  $rent->advance) ." টাকা <br>অটোস্পায়ার বদলে দিবে আপনার ট্রাভেল অভিজ্ঞতা। <br>হেল্প : 01912278827 / 01614945969";
+
+                Helper::sendSMS($customer->phone, $sms);
+                // Helper::sendSMS($admin_mobile, $sms);
+            }
             
         } catch (Exception $ex) {
-            DB::rollback();
             return redirect()->back()->with('error_message', $ex->getMessage());
         }
         
@@ -240,6 +228,12 @@ class RentController extends Controller
         $rent->commission       = $request->commission;
         $rent->remaining        = $request->remaining;
         $rent->referred_by      = $request->referred_by;
+
+        $rent->body_rent        = (float) $request->body_rent;
+        $rent->fuel_cost        = (float)$request->fuel_cost;
+        $rent->driver_accomodation  = (float)$request->driver_accomodation;
+        $rent->total_vehicle    = (float)$request->total_vehicle;
+
         $rent->note             = $request->note;
         $rent->updated_by       = Auth::id();
         

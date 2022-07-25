@@ -229,6 +229,43 @@
                                             @endif
                                         </div>
                                     </div>
+                                    
+                                    <div class="col-md-3" id="bodyRent" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="body_rent">Body Rent</label>
+                                            <input type="text" name="body_rent" id="body_rent" value="{{ old('body_rent') }}" class="form-control" placeholder="Body Rent" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('body_rent'))
+                                                <span class="text-danger">{{ $errors->first('body_rent') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="fuleCost" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="fuel_cost">Fuel Cost</label>
+                                            <input type="text" name="fuel_cost" id="fuel_cost" value="{{ old('fuel_cost') }}" class="form-control" placeholder="Fuel Cost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('fuel_cost'))
+                                                <span class="text-danger">{{ $errors->first('fuel_cost') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="driverAccomodation" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="driver_accomodation">Driver Accomodation</label>
+                                            <input type="text" name="driver_accomodation" id="driver_accomodation" value="{{ old('driver_accomodation') }}" class="form-control" placeholder="Driver Accomodation" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('driver_accomodation'))
+                                                <span class="text-danger">{{ $errors->first('driver_accomodation') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="total_vehicle">Total Vehicle</label>
+                                            <input type="text" name="total_vehicle" id="total_vehicle" value="{{ old('total_vehicle') }}" class="form-control" placeholder="Total Vehicle" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('total_vehicle'))
+                                                <span class="text-danger">{{ $errors->first('total_vehicle') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
