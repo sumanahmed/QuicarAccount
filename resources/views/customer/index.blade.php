@@ -10,7 +10,8 @@
             <h1 class="m-0 text-dark">Customer</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
-            <button class="btn btn-success float-right" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i> Create</button>
+            <button class="btn btn-warning float-right" data-toggle="modal" data-target="#bulkUploadModal"><i class="fas fa-upload"></i> Bulk Customer Import</button>
+            <button class="btn btn-success float-right mr-2" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i> Create</button>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -84,6 +85,29 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
+    <div class="modal fade" tabindex="-1" id="bulkUploadModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-default" role="document">
+          <form id="createCategoryForm" method="POST" enctype="multipart/form-data">
+            {{ csrf_field() }} {{ method_field('POST') }}
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                  <h5 class="modal-title text-center w-100">Bulk Upload Customer</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label class="col-form-label">Excel File <span class="text-danger" title="Required">*</span></label>
+                      <input type="file" class="form-control" name="excel_name" id="excel_name" required>
+                      <span class="errorName text-danger text-bold"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" id="bulkUpload">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+          </form>
+        </div>
+    </div>
     <div class="modal fade" tabindex="-1" id="createModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-default" role="document">
           <form id="createCategoryForm" method="POST" enctype="multipart/form-data">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\CustomerExport;
+use App\Import\CustomerImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Validator;
@@ -28,6 +29,49 @@ class CustomerController extends Controller
         $customers = $query->paginate(12);
 
         return view('customer.index', compact('customers'));
+    }
+
+    /**
+     * bulk customer upload
+    */
+    public function bulkUpload(Request $request)
+    {  
+        DB::beginTransaction();
+
+        try {
+                        
+            $request->validate([
+                'excel_file' => 'required'
+            ]);
+            
+            if($request->hasFile('excel_file')){
+
+                $file       = $request->file('excel_file');
+                $file_name  = time().".".$file->getClientOriginalExtension();
+                $directory  = 'uploads/excel_file/';
+                $file->move($directory, $file_name);
+                $file_path  = $directory.$file_name;
+                Excel::import(new CustomerImport(), $file_path);
+
+                unlink($file_path);
+            }
+
+            DB::commit();
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            return response()->json([
+                'status' => 403,
+                'data'   => $ex->getMessage(),
+            ]);
+        }  
+            
+        return response()->json([
+            'status' => 201,
+            'data'   => [],
+        ]);
     }
 
     //store

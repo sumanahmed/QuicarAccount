@@ -73,6 +73,7 @@ Route::group(['prefix'=>'/reminder', 'middleware'=>'admin'], function(){
 Route::group(['prefix'=>'/customer', 'middleware'=>'admin'], function(){
     Route::get('/', [CustomerController::class, 'index'])->name('customer.index');
     Route::post('/store', [CustomerController::class, 'store'])->name('customer.store');
+    Route::post('/bulk-upload', [CustomerController::class, 'bulkUpload'])->name('customer.bulk_upload');
     Route::post('/update', [CustomerController::class, 'update'])->name('customer.update');
     Route::post('/destroy', [CustomerController::class, 'destroy'])->name('customer.destroy');
     Route::get('/export', [CustomerController::class, 'export'])->name('customer.export');
