@@ -154,11 +154,10 @@ class RentController extends Controller
                 $admin_mobile = '01711005548';
                 $customer = Customer::find($request->customer_id);
 
-                // $sms = nl2br("অটোস্পায়ার থেকে গাড়ি বুকিং করার জন্য আপনাকে ধন্যবাদ। \n গাড়ির ধরন : ". $rent->CarType->name ."  \n ট্যুর লোকেশান : ". $rent->drop_location ." \n তারিখ ও সময় : ". date('Y-m-d\TH:i:s', strtotime($rent->pickup_datetime)) ." \nমোট ভাড়া : ". $rent->price ."  টাকা \nঅগ্রিম : ". $rent->advance ."  টাকা \nবাকি আছে : ". ( $rent->price -  $rent->advance) ." টাকা \nঅটোস্পায়ার বদলে দিবে আপনার ট্রাভেল অভিজ্ঞতা। \nহেল্প : 01912278827 / 01614945969");
-                $sms = "অটোস্পায়ার থেকে গাড়ি বুকিং করার জন্য আপনাকে ধন্যবাদ। <br>গাড়ির ধরন : ". $rent->CarType->name ."  <br>ট্যুর লোকেশান : ". $rent->drop_location ." <br>তারিখ ও সময় : ". date('Y-m-d H:i:s', strtotime($rent->pickup_datetime)) ." <br>মোট ভাড়া : ". $rent->price ."  টাকা <br>অগ্রিম : ". $rent->advance ."  টাকা <br>বাকি আছে : ". ( $rent->price -  $rent->advance) ." টাকা <br>অটোস্পায়ার বদলে দিবে আপনার ট্রাভেল অভিজ্ঞতা। <br>হেল্প : 01912278827 / 01614945969";
+                $sms = "অটোস্পায়ার থেকে গাড়ি বুকিং করার জন্য আপনাকে ধন্যবাদ। গাড়ির ধরন : ". $rent->CarType->name .", ট্যুর লোকেশান : ". $rent->drop_location .", তারিখ ও সময় : ". date('j F, Y, g:i a', strtotime($rent->pickup_datetime)) .", মোট ভাড়া : ". $rent->price ."  টাকা, অগ্রিম : ". $rent->advance ."  টাকা, বাকি আছে : ". ( $rent->price -  $rent->advance) ." টাকা। অটোস্পায়ার বদলে দিবে আপনার ট্রাভেল অভিজ্ঞতা। হেল্প : 01912278827 / 01614945969";
 
                 Helper::sendSMS($customer->phone, $sms);
-                // Helper::sendSMS($admin_mobile, $sms);
+                Helper::sendSMS($admin_mobile, $sms);
             }
             
         } catch (Exception $ex) {
@@ -325,6 +324,28 @@ class RentController extends Controller
             $rent->toll_charge  = $toll_charge;
             $rent->total_km     = $total_km;
             $rent->update();   
+
+            if ($status == 4 && $rent->customer_id != null) { // $status 4 mean cancel
+
+                $admin_mobile = '01711005548';
+                $customer = Customer::find($rent->customer_id);
+
+                $sms = "আপনার বুকিং টি বাতিল করা হয়েছে। অনুগ্রহ করে আমাদের হেল্পলাইনে ফোন করুন। অটোস্পায়ার : 01912278827";
+
+                Helper::sendSMS($customer->phone, $sms);
+                Helper::sendSMS($admin_mobile, $sms);
+            }
+
+            if ($status == 3) { // status 3 mean complete
+
+                $admin_mobile = '01711005548';
+
+                $cash = ($rent->price - ($rent->driver_get + $rent->fuel_cost + $rent->toll_charge + $rent->other_cost));
+
+                $sms = "বুকিং সফলভাবে সম্পন্ন হয়েছে। গাড়ির ধরন : ". $rent->CarType->name .", যাত্রার তারিখ ও সময় : ". date('j F, Y, g:i a', strtotime($rent->pickup_datetime)) .", ভাড়া : ". $rent->price ."  টাকা, ড্রাইভার : ". $rent->driver_get .", ফুয়েল : ". $rent->fuel_cost ." টাকা, টোল : ". $rent->toll_charge ." টাকা, অন্যান্য : ". $rent->other_cost ." টাকা, ক্যাশ : ". $cash ." টাকা।";
+
+                Helper::sendSMS($admin_mobile, $sms);
+            }
             
             DB::commit();
 
