@@ -19,10 +19,10 @@ class CustomerImport implements ToModel,WithHeadingRow
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     public function model(array $row)
-    {   
+    { 
         return new Customer([            
             'name'  => $row['name'],
-            'phone' => $row['phone'],
+            'phone' => "0".$row['phone'],
         ]);
     }
 

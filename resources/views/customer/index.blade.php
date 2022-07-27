@@ -87,7 +87,7 @@
     </section>
     <div class="modal fade" tabindex="-1" id="bulkUploadModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-default" role="document">
-          <form id="createCategoryForm" method="POST" enctype="multipart/form-data">
+          <form id="customerForm" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }} {{ method_field('POST') }}
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
@@ -96,12 +96,13 @@
                 <div class="modal-body">
                     <div class="form-group">
                       <label class="col-form-label">Excel File <span class="text-danger" title="Required">*</span></label>
-                      <input type="file" class="form-control" name="excel_name" id="excel_name" required>
+                      <input type="file" class="form-control" name="excel_file" id="excel_file" required>
                       <span class="errorName text-danger text-bold"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" id="bulkUpload">Save</button>
+                    <a href="assets/customer_bulk_upload_format.xlsx" class="btn btn-warning">Download Sample File</a>
+                    <button type="submit" class="btn btn-success" id="bulkUpload">Upload</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

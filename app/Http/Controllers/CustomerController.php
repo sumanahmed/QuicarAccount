@@ -36,8 +36,6 @@ class CustomerController extends Controller
     */
     public function bulkUpload(Request $request)
     {  
-        DB::beginTransaction();
-
         try {
                         
             $request->validate([
@@ -48,19 +46,16 @@ class CustomerController extends Controller
 
                 $file       = $request->file('excel_file');
                 $file_name  = time().".".$file->getClientOriginalExtension();
-                $directory  = 'uploads/excel_file/';
+                $directory  = 'uploads/customer/excel_file/';
                 $file->move($directory, $file_name);
                 $file_path  = $directory.$file_name;
+                
                 Excel::import(new CustomerImport(), $file_path);
 
                 unlink($file_path);
             }
 
-            DB::commit();
-
         } catch (\Exception $ex) {
-
-            DB::rollback();
 
             return response()->json([
                 'status' => 403,
