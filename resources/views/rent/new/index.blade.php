@@ -56,7 +56,7 @@
                                 <th>Pickup Location</th>
                                 <th>Travel Date & Time</th>
                                 <th>Return Date & Time</th>
-                                <th>Drop Location</th>
+                                <th>Destination</th>
                                 <th>Customer</th>
                                 <th>Car Type</th>
                                 <th>Price</th>
@@ -70,7 +70,7 @@
                                 <th>Pickup Location</th>
                                 <th>Travel Date & Time</th>
                                 <th>Return Date & Time</th>
-                                <th>Drop Location</th>
+                                <th>Destination</th>
                                 <th>Customer</th>
                                 <th>Car Type</th>
                                 <th>Price</th>

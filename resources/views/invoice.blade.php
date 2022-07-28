@@ -32,7 +32,7 @@
                                 <p>Many Thanks,</p>
                                 <p>Autospire Logistics</p> <br/>
                                 <p>Travel Date : {{ date('d M, Y h:i:s a', strtotime($rent->pickup_datetime)) }}</p>
-                                @if($rent->rent_type == 2)
+                                @if($rent->rent_type != 1)
                                     <p>Return Date : {{ date('d M, Y h:i:s a', strtotime($rent->return_datetime)) }} </p>
                                 @endif
                                 <br/>
@@ -52,7 +52,7 @@
                                         <td class="col-md-6">{{ $rent->pickup_location }} @if($rent->pickup_datetime != null) at {{ date('d M, Y h:i:s a', strtotime($rent->pickup_datetime)) }} @endif</td>
                                     </tr>
                                     <tr>
-                                        <td class="col-md-6">Drop</td>
+                                        <td class="col-md-6">(Destination</td>
                                         <td class="col-md-6">{{ $rent->drop_location }} @if($rent->drop_datetime != null) at {{ date('d M, Y h:i:s a', strtotime($rent->drop_datetime)) }} @endif </td>
                                     </tr>
                                     @if($rent->rent_type == 2 && $rent->return_datetime != null)
@@ -65,6 +65,32 @@
                                         <td class="col-md-6">Car Type</td>
                                         <td class="col-md-6">{{ $rent->CarType->name }} </td>
                                     </tr>
+                                    <tr>
+                                        <td class="col-md-6">Total Vehicle</td>
+                                        <td class="col-md-6">{{ $rent->total_vehicle }} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-6">Total Person</td>
+                                        <td class="col-md-6">{{ $rent->total_person }} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-6">Rent Type</td>
+                                        <td class="col-md-6">{{ getRentType($rent->rent_type) }} </td>
+                                    </tr>
+                                    @if($rent->rent_type ==3)
+                                        <tr>
+                                            <td class="col-md-6">Body Rent (Per Day)</td>
+                                            <td class="col-md-6">{{ $rent->body_rent }} Tk</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-6">Fuel Cost (Per Km)</td>
+                                            <td class="col-md-6">{{ $rent->fuel_cost }} Tk</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-6">Driver Accomodation (Per Day)</td>
+                                            <td class="col-md-6">{{ $rent->driver_accomodation }} Tk</td>
+                                        </tr>
+                                    @endif
                                     @if($rent->driver_id != null)
                                         <tr>
                                             <td class="col-md-6">Driver</td>
@@ -75,45 +101,19 @@
                                             <td class="col-md-6">{{ $rent->reg_number }}) </td>
                                         </tr>
                                     @endif
-                                    @if($rent->rent_type ==3)
-                                        <tr>
-                                            <td class="col-md-6">Body Rent (Per Day)</td>
-                                            <td class="col-md-6">{{ $rent->body_rent }} </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-md-6">Fuel Cost (Per Km)</td>
-                                            <td class="col-md-6">{{ $rent->fuel_cost }} </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-md-6">Driver Accomodation (Per Day)</td>
-                                            <td class="col-md-6">{{ $rent->driver_accomodation }} </td>
-                                        </tr>
-                                    @endif
-                                    <tr>
-                                        <td class="col-md-6">Total Person</td>
-                                        <td class="col-md-6">{{ $rent->total_person }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-6">Total Vehicle</td>
-                                        <td class="col-md-6">{{ $rent->total_vehicle }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-6">Rent Type</td>
-                                        <td class="col-md-6">{{ getRentType($rent->rent_type) }} </td>
-                                    </tr>
                                 </tbody>
                                 <tfoot style="font-weight: 700">
                                     <tr>
                                         <td class="col-md-6">Price</td>
-                                        <td class="col-md-6 text-right">{{ $rent->price }} </td>
+                                        <td class="col-md-6 text-right">{{ $rent->price }} Tk</td>
                                     </tr>
                                     <tr>
                                         <td class="col-md-6">Advanced</td>
-                                        <td class="col-md-6 text-right">{{ $rent->advance }} </td>
+                                        <td class="col-md-6 text-right">{{ $rent->advance }} Tk</td>
                                     </tr>
                                     <tr>
                                         <td class="col-md-6">Due (Remaining)</td>
-                                        <td class="col-md-6 text-right">{{ (float)($rent->price - $rent->advance) }} </td>
+                                        <td class="col-md-6 text-right">{{ (float)($rent->price - $rent->advance) }} Tk</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -123,9 +123,17 @@
                                 <p>Many thanks for your Booking! We look forward to doing business with you again in due
                                     course.</p><br/>
                                 <p>Payment Terms: Pay to our Bank Account / Bkash payment / Cash</p>
+                                <br/>
                                 <p>Brac Bank Limited</p>
                                 <p>Account name : Autospire</p>
-                                 <p>AC/NO: 1538204467297001</p> <br/>
+                                <p>AC/NO: 1538204467297001</p> 
+                                <br/>
+                                 
+                                 <p>The City Bank Limited</p>
+                                <p>Account name : Autospire</p>
+                                <p>AC/NO: 1233539402001</p>
+                                <br/>
+                                  
                                 <p>Bkash Merchant : Autospire</p>
                                 <p>Bkash Number : 01912278827</p><br/>
                                 <p><strong>(Note: Please do not hire bus from driver to avoid money loss, different bus and commitment issues)</strong></p><br/>

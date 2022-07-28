@@ -159,8 +159,8 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="drop_location">Drop Location</label>
-                                            <input type="text" name="drop_location" id="drop_location" value="{{ $rent->drop_location }}" class="form-control" placeholder="Drop Location"  readonly/>
+                                            <label for="drop_location">Destination</label>
+                                            <input type="text" name="drop_location" id="drop_location" value="{{ $rent->drop_location }}" class="form-control" placeholder="Destination"  readonly/>
                                             @if($errors->has('drop_location'))
                                                 <span class="text-danger">{{ $errors->first('drop_location') }}</span>
                                             @endif
