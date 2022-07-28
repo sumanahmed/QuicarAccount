@@ -140,7 +140,7 @@ class RentController extends Controller
             $rent->referred_by      = $request->referred_by;
 
             $rent->body_rent        = (float) $request->body_rent;
-            $rent->fuel_cost        = (float)$request->fuel_cost;
+            $rent->fuel             = (float)$request->fuel;
             $rent->driver_accomodation  = (float)$request->driver_accomodation;
             $rent->total_vehicle    = (float)$request->total_vehicle;
 
@@ -229,7 +229,7 @@ class RentController extends Controller
         $rent->referred_by      = $request->referred_by;
 
         $rent->body_rent        = (float) $request->body_rent;
-        $rent->fuel_cost        = (float)$request->fuel_cost;
+        $rent->fuel             = (float)$request->fuel;
         $rent->driver_accomodation  = (float)$request->driver_accomodation;
         $rent->total_vehicle    = (float)$request->total_vehicle;
 

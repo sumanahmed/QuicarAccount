@@ -241,10 +241,10 @@
                                     </div>
                                     <div class="col-md-3" id="fuleCost"  @if($rent->rent_type != 3) style="display: none;" @endif>
                                         <div class="form-group">
-                                            <label for="fuel_cost">Fuel Cost (Per Km)</label>
-                                            <input type="text" name="fuel_cost" id="fuel_cost" value="{{ $rent->fuel_cost }}" class="form-control" placeholder="Fuel Cost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
-                                            @if($errors->has('fuel_cost'))
-                                                <span class="text-danger">{{ $errors->first('fuel_cost') }}</span>
+                                            <label for="fuel">Fuel Cost (Per Km)</label>
+                                            <input type="text" name="fuel" id="fuel" value="{{ $rent->fuel }}" class="form-control" placeholder="Fuel Cost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('fuel'))
+                                                <span class="text-danger">{{ $errors->first('fuel') }}</span>
                                             @endif
                                         </div>
                                     </div>

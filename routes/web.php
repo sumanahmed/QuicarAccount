@@ -135,5 +135,6 @@ Route::group(['prefix'=>'/accounts', 'middleware'=>'admin'], function(){
     Route::get('/income', [AccountsController::class, 'income'])->name('accounts.income');
     Route::get('/expense', [AccountsController::class, 'expense'])->name('accounts.expense');
     Route::get('/maintenance', [AccountsController::class, 'maintenance'])->name('accounts.maintenance');
+    Route::get('/cash', [AccountsController::class, 'cash'])->name('accounts.cash');
     Route::get('/summary', [AccountsController::class, 'summary'])->name('accounts.summary');
 });

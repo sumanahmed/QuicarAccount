@@ -84,7 +84,7 @@
                                         </tr>
                                         <tr>
                                             <td class="col-md-6">Fuel Cost (Per Km)</td>
-                                            <td class="col-md-6">{{ $rent->fuel_cost }} Tk</td>
+                                            <td class="col-md-6">{{ $rent->fuel }} Tk</td>
                                         </tr>
                                         <tr>
                                             <td class="col-md-6">Driver Accomodation (Per Day)</td>

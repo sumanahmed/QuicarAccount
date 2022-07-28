@@ -122,6 +122,14 @@ class AccountsController extends Controller
 
         return view('accounts.maintenance', compact('total_price', 'total_income', 'total_expense', 'total_maintenance', 'net_cash'));
     }
+
+    /**
+     * cash calculation
+    */
+    public function cash (Request $request)
+    {
+        
+    }
     
     /**
      * show summary
