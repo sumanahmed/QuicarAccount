@@ -102,6 +102,11 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="{{ route('accounts.cash') }}" class="nav-link nav-cash">
+                  <p>Cash</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('accounts.income') }}" class="nav-link nav-income">
                   <p>Income</p>
                 </a>
