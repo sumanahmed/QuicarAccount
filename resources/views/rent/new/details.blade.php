@@ -243,21 +243,33 @@
                                             <input type="text" name="driver_get" id="driver_get" value="{{ $rent->driver_get }}" class="form-control" readonly/>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3" id="bodyRent" @if($rent->rent_type != 3) style="display: none;" @endif>
                                         <div class="form-group">
-                                            <label for="driver_get">Fuel Cost</label>
+                                            <label for="body_rent">Body Rent (Per Day)</label>
+                                            <input type="text" name="body_rent" id="body_rent" value="{{ $rent->body_rent }}" class="form-control" readonly/>                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="fuleCost" @if($rent->rent_type != 3) style="display: none;" @endif>
+                                        <div class="form-group">
+                                            <label for="fuel_cost">Fuel Cost (Per Km)</label>
                                             <input type="text" name="fuel_cost" id="fuel_cost" value="{{ $rent->fuel_cost }}" class="form-control" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="driverAccomodation"  @if($rent->rent_type != 3) style="display: none;" @endif>
+                                        <div class="form-group">
+                                            <label for="driver_accomodation">Driver Accomodation (Per Day)</label>
+                                            <input type="text" name="driver_accomodation" id="driver_accomodation" value="{{ $rent->driver_accomodation }}" class="form-control" readonly/>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="driver_get">Other Cost</label>
+                                            <label for="other_cost">Other Cost</label>
                                             <input type="text" name="other_cost" id="other_cost" value="{{ $rent->other_cost }}" class="form-control" readonly/>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="driver_get">Toll Charge</label>
+                                            <label for="toll_charge">Toll Charge</label>
                                             <input type="text" name="toll_charge" id="toll_charge" value="{{ $rent->toll_charge }}" class="form-control" readonly/>
                                         </div>
                                     </div>

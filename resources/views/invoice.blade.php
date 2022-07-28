@@ -52,7 +52,7 @@
                                         <td class="col-md-6">{{ $rent->pickup_location }} @if($rent->pickup_datetime != null) at {{ date('d M, Y h:i:s a', strtotime($rent->pickup_datetime)) }} @endif</td>
                                     </tr>
                                     <tr>
-                                        <td class="col-md-6">(Destination</td>
+                                        <td class="col-md-6">Destination</td>
                                         <td class="col-md-6">{{ $rent->drop_location }} @if($rent->drop_datetime != null) at {{ date('d M, Y h:i:s a', strtotime($rent->drop_datetime)) }} @endif </td>
                                     </tr>
                                     @if($rent->rent_type == 2 && $rent->return_datetime != null)

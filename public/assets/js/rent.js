@@ -1,3 +1,28 @@
+
+function calculatePrice () {
+  var rentType      = $( "#rentType option:selected" ).val();
+  var price         = $("#price").val() > 0 ? parseFloat($("#price").val()) : 0;
+  var bodyRent      = $("#body_rent").val() > 0 ? parseFloat($("#body_rent").val()) : 0;
+  var totalVehicle  = $("#total_vehicle").val() > 0 ? parseFloat($("#total_vehicle").val()) : 1;
+  var totalDay      = $("#total_day").val() > 0 ? parseFloat($("#total_day").val()) : 1;
+  var advance       = $("#advance").val() > 0 ? parseFloat($("#advance").val()) : 0;
+
+  if (rentType === 3) {
+    var newPrice = parseFloat(bodyRent * (totalVehicle * totalDay));
+    var newRemaining = parseFloat(newPrice - advance);
+
+    $("#price").val(newPrice);
+    $("#remaining").val(newRemaining);
+  } else {
+    var newPrice = parseFloat(price * (totalVehicle * totalDay));
+    var newRemaining = parseFloat(newPrice - advance);
+
+    $("#price").val(newPrice);
+    $("#remaining").val(newRemaining);
+  }
+  
+}
+
 $("#status").change(function () {
   var status = $("#status :selected").val();
   if (status == 3) {

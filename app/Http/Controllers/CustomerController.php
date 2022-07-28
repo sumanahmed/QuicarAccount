@@ -10,7 +10,7 @@ use Validator;
 use Response;
 use App\Models\Customer;
 use DB;
-
+use Log;
 class CustomerController extends Controller
 {
     //show all
@@ -41,7 +41,7 @@ class CustomerController extends Controller
             $request->validate([
                 'excel_file' => 'required'
             ]);
-            
+            Log::info("started");
             if($request->hasFile('excel_file')){
 
                 $file       = $request->file('excel_file');
@@ -54,7 +54,7 @@ class CustomerController extends Controller
 
                 unlink($file_path);
             }
-
+            Log::info("endd");
         } catch (\Exception $ex) {
 
             return response()->json([
