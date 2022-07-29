@@ -22,7 +22,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="car-header">
-                      <form class="form" action="{{ route('accounts.income') }}" method="get" style="padding:10px 20px;">
+                      <form class="form" action="{{ route('accounts.cash') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -44,10 +44,10 @@
                                 </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="car_type_id">Car Type</label>
-                                    <select name="car_type_id" id="car_type_id" class="form-control selectable" multiple>
+                                    <select name="car_type_id[]" id="car_type_id" class="form-control selectable" multiple>
                                         <option value="0">Select</option>
                                         @foreach($car_types as $car_type) 
                                             <option value="{{ $car_type->id }}" @if(isset($_GET['car_type_id']) && $car_type->id == $_GET['car_type_id']) selected @endif>{{ $car_type->name }}</option>
@@ -55,10 +55,10 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h5>Total Price: <strong>{{ $total_price }}</strong> | Total Cost: <strong>{{ $total_cost }}</strong> | Net Income: <strong>{{ $total_income }}</strong></h5>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                <input type="submit" class="btn btn-info btn-sm" value="Search" style="margin-top: 32px;" />
+                                </div>
                             </div>
                         </div>
                       </form>
@@ -67,47 +67,68 @@
                       <table class="table table-sm table-bordered table-striped data_table">
                         <thead>
                             <tr>
-                                <th>Total Trip</th>
-                                <th>Amount</th>
-                                <th>Cost</th>
-                                <th>Income</th>
-                                <th>Maintenance</th>
-                                <th style="vertical-align: middle;text-align: right;">Actual Cash</th>
+                                <th style="vertical-align: middle;text-align: center;">Month</th>
+                                <th style="vertical-align: middle;text-align: center;">Total Trip</th>
+                                <th style="vertical-align: middle;text-align: center;">Amount</th>
+                                <th style="vertical-align: middle;text-align: center;">Cost</th>
+                                <th style="vertical-align: middle;text-align: center;">Maintenance</th>
+                                <th style="vertical-align: middle;text-align: center;">Income</th>
+                                <th style="vertical-align: middle;text-align: center;">Actual Cash</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($incomes as $income)
+                            @foreach($records as $record)
                                 @php 
-                                    $price = $income->price;
-                                    $cost  = (float)($income->fuel_cost + $income->other_cost + $income->driver_get + $income->toll_charge);
+                                    $actual_cost  = (float)($record->total_price - ($record->total_cost + $record->total_charge));
                                 @endphp
                                 <tr>
-                                    <td>
-                                        <a target="_blank" href="{{ route('rent.details', $income->rent_id) }}">
-                                            {{ "Rent-".$income->rent_id }}
-                                        </a>
-                                    </td>
-                                    <td>{{ $income->pickup_location }}</td>
-                                    <td>{{ $income->drop_location }}</td>
-                                    <td>{{ date('d M, Y h:i a', strtotime($income->pickup_datetime)) }}</td>
-                                    <td>{{ date('d M, Y h:i a', strtotime($income->return_datetime)) }}</td>
-                                    <td>{{ $income->car_type_name }}</td>
-                                    <td style="vertical-align: middle;text-align: right;">{{ $income->price }}</td>
-                                    <td style="vertical-align: middle;text-align: right;">{{ $cost }}</td>
-                                    <td style="vertical-align: middle;text-align: right;">{{ $income->amount }}</td>
+                                    <td style="vertical-align: middle;text-align: center;">{{ getMonthName($record->month) }}</td>
+                                    <td style="vertical-align: middle;text-align: center;">{{ $record->total_trip }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{ $record->total_price }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{ $record->total_cost }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{ $record->total_charge }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{ $actual_cost }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{ $actual_cost }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                       </table>
-                      <div class="d-felx justify-content-center mt-3">
-                        {{ $incomes->links('pagination::bootstrap-4') }}
-                      </div>
                     </div>
                 </div>
             </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
+    <?php 
+      function getMonthName ($month)
+      {
+        if ($month == 1) {
+          echo "January";
+        } else if ($month == 2) {
+          echo "February";
+        } else if ($month == 3) {
+          echo "March";
+        } else if ($month == 4) {
+          echo "April";
+        } else if ($month == 5) {
+          echo "May";
+        } else if ($month == 6) {
+          echo "June";
+        } else if ($month == 7) {
+          echo "July";
+        } else if ($month == 8) {
+          echo "August";
+        } else if ($month == 9) {
+          echo "September";
+        } else if ($month == 10) {
+          echo "October";
+        } else if ($month == 11) {
+          echo "November";
+        } else if ($month == 12) {
+          echo "December";
+        }
+      }
+    ?>
 @endsection
 @section('scripts')
     <script>

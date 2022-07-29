@@ -11,6 +11,7 @@ use App\Models\Rent;
 use App\Models\MaintenanceCharge;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Arr;
 
 class AccountsController extends Controller
 {
@@ -127,7 +128,8 @@ class AccountsController extends Controller
      * cash calculation
     */
     public function cash (Request $request)
-    {
+    {  
+        // dd($request->all());
         $query = DB::table('rents')
                     ->selectRaw('COUNT(id) as total_trip,
                         SUM(price) as total_price,
@@ -145,10 +147,43 @@ class AccountsController extends Controller
         if ($request->year && $request->year != 0) {
             $query = $query->where(DB::raw('YEAR(pickup_datetime)'), $request->year);
         }
-                    
-        $records = $query->get();
 
-        return view('accounts.summary', compact('records'));
+        if ($request->car_type_id) {
+            $query = $query->whereIn('rents.car_type_id', $request->car_type_id);
+        }
+                    
+        $rents = $query->get();
+
+        // Maintenance Charge
+
+        $query2 = MaintenanceCharge::selectRaw('SUM(amount) as total_charge, MONTH(created_at) month')
+                                    ->groupBy(DB::raw('MONTH(created_at)'));
+
+        if ($request->month && $request->month != 0) {
+            $query2 = $query2->where(DB::raw('MONTH(created_at)'), $request->month);
+        }
+
+        if ($request->year && $request->year != 0) {
+            $query2 = $query2->where(DB::raw('YEAR(created_at)'), $request->year);
+        }
+
+        $charges = $query2->get();
+
+
+        $records = $rents->filter(function ($obj) use ($charges) {
+
+            $charge = Arr::first($charges, function($chargeObj, $index) use ($obj) {
+                return $chargeObj['month'] == $obj->month;
+            });
+
+            $obj->total_charge = $charge ? $charge['total_charge'] : 0;
+
+            return $obj;
+        });
+
+        $car_types = CarType::all();
+
+        return view('accounts.cash', compact('car_types', 'records'));
     }
     
     /**
