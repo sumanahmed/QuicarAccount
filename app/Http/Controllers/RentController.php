@@ -150,16 +150,16 @@ class RentController extends Controller
             $rent->updated_by       = Auth::id();
             $rent->save();
 
-            // if ($request->customer_id != null) {
+            if ($request->customer_id != null) {
 
-            //     $admin_mobile = '01711005548';
-            //     $customer = Customer::find($request->customer_id);
+                $admin_mobile = '01711005548';
+                $customer = Customer::find($request->customer_id);
 
-            //     $sms = urlencode("অটোস্পায়ার থেকে গাড়ি বুকিং করার জন্য আপনাকে ধন্যবাদ। গাড়ির ধরন : ". $rent->CarType->name .", ট্যুর লোকেশান : ". $rent->drop_location .", তারিখ ও সময় : ". date('j F, Y, g:i a', strtotime($rent->pickup_datetime)) .", মোট ভাড়া : ". $rent->price ."  টাকা, অগ্রিম : ". $rent->advance ."  টাকা, বাকি আছে : ". ( $rent->price -  $rent->advance) ." টাকা। অটোস্পায়ার বদলে দিবে আপনার ট্রাভেল অভিজ্ঞতা। হেল্প : 01912278827 / 01614945969");
+                $sms = urlencode("অটোস্পায়ার থেকে গাড়ি বুকিং করার জন্য আপনাকে ধন্যবাদ। গাড়ির ধরন : ". $rent->CarType->name .", ট্যুর লোকেশান : ". $rent->drop_location .", তারিখ ও সময় : ". date('j F, Y, g:i a', strtotime($rent->pickup_datetime)) .", মোট ভাড়া : ". $rent->price ."  টাকা, অগ্রিম : ". $rent->advance ."  টাকা, বাকি আছে : ". ( $rent->price -  $rent->advance) ." টাকা। অটোস্পায়ার বদলে দিবে আপনার ট্রাভেল অভিজ্ঞতা। হেল্প : 01912278827 / 01614945969");
 
-            //     Helper::sendSMS($customer->phone, $sms);
-            //     Helper::sendSMS($admin_mobile, $sms);
-            // }
+                Helper::sendSMS($customer->phone, $sms);
+                Helper::sendSMS($admin_mobile, $sms);
+            }
             
         } catch (Exception $ex) {
             return redirect()->back()->with('error_message', $ex->getMessage());
