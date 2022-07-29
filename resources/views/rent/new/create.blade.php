@@ -118,15 +118,6 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="total_day">Total Day</label>
-                                            <input type="text" oninput="calculatePrice()" name="total_day" id="total_day" value="{{ old('total_day') }}" class="form-control" placeholder="Total Day" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
-                                            @if($errors->has('total_day'))
-                                                <span class="text-danger">{{ $errors->first('total_day') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
                                             <label for="rent_type">Rent Type</label>
                                             <select name="rent_type" class="form-control" id="rentType">
                                                 <option value="1">Drop Only</option>
@@ -186,8 +177,44 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label for="total_day">Total Day</label>
+                                            <input type="text" oninput="calculatePrice()" name="total_day" id="total_day" value="{{ old('total_day') }}" class="form-control" placeholder="Total Day" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('total_day'))
+                                                <span class="text-danger">{{ $errors->first('total_day') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="total_vehicle">Total Vehicle</label>
+                                            <input type="text" oninput="calculatePrice()" name="total_vehicle" id="total_vehicle" value="{{ old('total_vehicle') }}" class="form-control" placeholder="Total Vehicle" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('total_vehicle'))
+                                                <span class="text-danger">{{ $errors->first('total_vehicle') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="rideRent">
+                                        <div class="form-group">
+                                            <label for="price">Rent</label>
+                                            <input type="text" oninput="calculatePrice()" name="rent" id="rent" value="{{ old('rent') }}" class="form-control" placeholder="Enter Rent" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('price'))
+                                                <span class="text-danger">{{ $errors->first('price') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="bodyRent" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="body_rent">Body Rent (Per Day)</label>
+                                            <input type="text" oninput="calculatePrice()" name="body_rent" id="body_rent" value="{{ old('body_rent') }}" class="form-control" placeholder="Body Rent" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('body_rent'))
+                                                <span class="text-danger">{{ $errors->first('body_rent') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
                                             <label for="price">Price</label>
-                                            <input type="text" oninput="calculatePrice()" name="price" id="price" value="{{ old('price') }}" class="form-control" placeholder="Enter price" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            <input type="text" oninput="calculatePrice()" name="price" id="price" value="{{ old('price') }}" class="form-control" placeholder="Enter price" readonly />
                                             @if($errors->has('price'))
                                                 <span class="text-danger">{{ $errors->first('price') }}</span>
                                             @endif
@@ -204,15 +231,6 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="commission">Commission</label>
-                                            <input type="text" name="commission" id="commission" value="{{ old('commission') }}" class="form-control" placeholder="Enter commission" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
-                                            @if($errors->has('commission'))
-                                                <span class="text-danger">{{ $errors->first('commission') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
                                             <label for="remaining">Remaining</label>
                                             <input type="text" oninput="calculatePrice()" name="remaining" id="remaining" value="{{ old('remaining') }}" class="form-control" placeholder="Enter remaining" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
                                             @if($errors->has('remaining'))
@@ -222,20 +240,19 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label for="commission">Commission</label>
+                                            <input type="text" name="commission" id="commission" value="{{ old('commission') }}" class="form-control" placeholder="Enter commission" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('commission'))
+                                                <span class="text-danger">{{ $errors->first('commission') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
                                             <label for="referred_by">Referred By</label>
                                             <input type="text" name="referred_by" id="referred_by" value="{{ old('referred_by') }}" class="form-control" placeholder="Referred By"/>
                                             @if($errors->has('referred_by'))
                                                 <span class="text-danger">{{ $errors->first('referred_by') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-3" id="bodyRent" style="display: none;">
-                                        <div class="form-group">
-                                            <label for="body_rent">Body Rent (Per Day)</label>
-                                            <input type="text" oninput="calculatePrice()" name="body_rent" id="body_rent" value="{{ old('body_rent') }}" class="form-control" placeholder="Body Rent" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
-                                            @if($errors->has('body_rent'))
-                                                <span class="text-danger">{{ $errors->first('body_rent') }}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -254,15 +271,6 @@
                                             <input type="text" name="driver_accomodation" id="driver_accomodation" value="{{ old('driver_accomodation') }}" class="form-control" placeholder="Driver Accomodation" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
                                             @if($errors->has('driver_accomodation'))
                                                 <span class="text-danger">{{ $errors->first('driver_accomodation') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="total_vehicle">Total Vehicle</label>
-                                            <input type="text" oninput="calculatePrice()" name="total_vehicle" id="total_vehicle" value="{{ old('total_vehicle') }}" class="form-control" placeholder="Total Vehicle" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
-                                            @if($errors->has('total_vehicle'))
-                                                <span class="text-danger">{{ $errors->first('total_vehicle') }}</span>
                                             @endif
                                         </div>
                                     </div>
