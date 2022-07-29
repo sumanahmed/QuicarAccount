@@ -154,7 +154,7 @@ class RentController extends Controller
                 $admin_mobile = '01711005548';
                 $customer = Customer::find($request->customer_id);
 
-                $sms = "অটোস্পায়ার থেকে গাড়ি বুকিং করার জন্য আপনাকে ধন্যবাদ। গাড়ির ধরন : ". $rent->CarType->name .", ট্যুর লোকেশান : ". $rent->drop_location .", তারিখ ও সময় : ". date('j F, Y, g:i a', strtotime($rent->pickup_datetime)) .", মোট ভাড়া : ". $rent->price ."  টাকা, অগ্রিম : ". $rent->advance ."  টাকা, বাকি আছে : ". ( $rent->price -  $rent->advance) ." টাকা। অটোস্পায়ার বদলে দিবে আপনার ট্রাভেল অভিজ্ঞতা। হেল্প : 01912278827 / 01614945969";
+                $sms = urlencode("অটোস্পায়ার থেকে গাড়ি বুকিং করার জন্য আপনাকে ধন্যবাদ। গাড়ির ধরন : ". $rent->CarType->name .", ট্যুর লোকেশান : ". $rent->drop_location .", তারিখ ও সময় : ". date('j F, Y, g:i a', strtotime($rent->pickup_datetime)) .", মোট ভাড়া : ". $rent->price ."  টাকা, অগ্রিম : ". $rent->advance ."  টাকা, বাকি আছে : ". ( $rent->price -  $rent->advance) ." টাকা। অটোস্পায়ার বদলে দিবে আপনার ট্রাভেল অভিজ্ঞতা। হেল্প : 01912278827 / 01614945969");
 
                 Helper::sendSMS($customer->phone, $sms);
                 Helper::sendSMS($admin_mobile, $sms);
@@ -330,7 +330,7 @@ class RentController extends Controller
                 $admin_mobile = '01711005548';
                 $customer = Customer::find($rent->customer_id);
 
-                $sms = "আপনার বুকিং টি বাতিল করা হয়েছে। অনুগ্রহ করে আমাদের হেল্পলাইনে ফোন করুন। অটোস্পায়ার : 01912278827";
+                $sms = urlencode("আপনার বুকিং টি বাতিল করা হয়েছে। অনুগ্রহ করে আমাদের হেল্পলাইনে ফোন করুন। অটোস্পায়ার : 01912278827");
 
                 Helper::sendSMS($customer->phone, $sms);
                 Helper::sendSMS($admin_mobile, $sms);
@@ -342,7 +342,7 @@ class RentController extends Controller
 
                 $cash = ($rent->price - ($rent->driver_get + $rent->fuel_cost + $rent->toll_charge + $rent->other_cost));
 
-                $sms = "বুকিং সফলভাবে সম্পন্ন হয়েছে। গাড়ির ধরন : ". $rent->CarType->name .", যাত্রার তারিখ ও সময় : ". date('j F, Y, g:i a', strtotime($rent->pickup_datetime)) .", ভাড়া : ". $rent->price ."  টাকা, ড্রাইভার : ". $rent->driver_get .", ফুয়েল : ". $rent->fuel_cost ." টাকা, টোল : ". $rent->toll_charge ." টাকা, অন্যান্য : ". $rent->other_cost ." টাকা, ক্যাশ : ". $cash ." টাকা। অটোস্পায়ার : 01912278827";
+                $sms = urlencode("ক্যাশ কালেকশন হয়েছে। গাড়ির ধরন : ". $rent->CarType->name .", যাত্রার তারিখ ও সময় : ". date('j F, Y, g:i a', strtotime($rent->pickup_datetime)) .", লোকেশন : ".$rent->drop_location.", ভাড়া : ". $rent->price ."  টাকা, ড্রাইভার : ". $rent->driver_get .", ফুয়েল : ". $rent->fuel_cost ." টাকা, টোল : ". $rent->toll_charge ." টাকা, অন্যান্য : ". $rent->other_cost ." টাকা, ক্যাশ : ". $cash ." টাকা। অটোস্পায়ার : 01912278827");
 
                 Helper::sendSMS($admin_mobile, $sms);
             }
