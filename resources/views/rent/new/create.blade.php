@@ -195,10 +195,10 @@
                                     </div>
                                     <div class="col-md-3" id="rideRent">
                                         <div class="form-group">
-                                            <label for="price">Rent</label>
+                                            <label for="rent">Rent</label>
                                             <input type="text" oninput="calculatePrice()" name="rent" id="rent" value="{{ old('rent') }}" class="form-control" placeholder="Enter Rent" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
-                                            @if($errors->has('price'))
-                                                <span class="text-danger">{{ $errors->first('price') }}</span>
+                                            @if($errors->has('rent'))
+                                                <span class="text-danger">{{ $errors->first('rent') }}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -259,16 +259,25 @@
                                     <div class="col-md-3" id="fuleCost" style="display: none;">
                                         <div class="form-group">
                                             <label for="fuel">Fuel Cost (Per Km)</label>
-                                            <input type="text" name="fuel" id="fuel" value="{{ old('fuel') }}" class="form-control" placeholder="Fuel Cost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            <input type="text" oninput="calculatePrice()" name="fuel" id="fuel" value="{{ old('fuel') }}" class="form-control" placeholder="Fuel Cost" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
                                             @if($errors->has('fuel'))
                                                 <span class="text-danger">{{ $errors->first('fuel') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="bodyRentKilometer" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="kilometer">Total Kilometer</label>
+                                            <input type="text" oninput="calculatePrice()" name="kilometer" id="kilometer" value="{{ old('kilometer') }}" class="form-control" placeholder="Total Kilometer" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            @if($errors->has('kilometer'))
+                                                <span class="text-danger">{{ $errors->first('kilometer') }}</span>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-md-3" id="driverAccomodation" style="display: none;">
                                         <div class="form-group">
                                             <label for="driver_accomodation">Driver Accomodation (Per Day)</label>
-                                            <input type="text" name="driver_accomodation" id="driver_accomodation" value="{{ old('driver_accomodation') }}" class="form-control" placeholder="Driver Accomodation" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                            <input type="text" oninput="calculatePrice()" name="driver_accomodation" id="driver_accomodation" value="{{ old('driver_accomodation') }}" class="form-control" placeholder="Driver Accomodation" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
                                             @if($errors->has('driver_accomodation'))
                                                 <span class="text-danger">{{ $errors->first('driver_accomodation') }}</span>
                                             @endif

@@ -110,18 +110,9 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="total_person">Total Person</label>
-                                            <input type="text" name="total_person" class="form-control" value="{{ $rent->total_person }}" placeholder="Total Person" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" readonly/>
+                                            <input type="text" name="total_person" class="form-control" value="{{ $rent->total_person }}" placeholder="Total Person" readonly/>
                                             @if($errors->has('total_person'))
                                                 <span class="text-danger">{{ $errors->first('total_person') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="total_day">Total Day</label>
-                                            <input type="text" name="total_day" class="form-control" value="{{ $rent->total_day }}" placeholder="Total Day" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" readonly/>
-                                            @if($errors->has('total_day'))
-                                                <span class="text-danger">{{ $errors->first('total_day') }}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -166,7 +157,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <!-- <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="drop_datetime">Drop Date Time</label>
                                             <input type="datetime-local" name="drop_datetime" @if($rent->drop_datetime != null) value="{{ date('Y-m-d\TH:i:s', strtotime($rent->drop_datetime)) }}" @endif id="drop_datetime" class="form-control"  readonly/>
@@ -174,7 +165,7 @@
                                                 <span class="text-danger">{{ $errors->first('drop_datetime') }}</span>
                                             @endif
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-3" id="returnDateTime" @if($rent->rent_type == 1) style="display: none;" @endif>
                                         <div class="form-group">
                                             <label for="return_datetime">Return Date Time</label>
@@ -186,17 +177,41 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="price">Price</label>
-                                            <input type="text" name="price" id="price" value="{{ $rent->price }}" class="form-control" placeholder="Enter price" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" readonly/>
-                                            @if($errors->has('price'))
-                                                <span class="text-danger">{{ $errors->first('price') }}</span>
+                                            <label for="total_day">Total Day</label>
+                                            <input type="text" name="total_day" class="form-control" value="{{ $rent->total_day }}" placeholder="Total Day" readonly/>
+                                            @if($errors->has('total_day'))
+                                                <span class="text-danger">{{ $errors->first('total_day') }}</span>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label for="total_vehicle">Total Vehicle</label>
+                                            <input type="text" name="total_vehicle" id="total_vehicle" value="{{ $rent->total_vehicle }}" class="form-control" placeholder="Total Vehicle" readonly/>                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="rideRent" @if($rent->rent_type == 3) style="display: none;" @endif>
+                                        <div class="form-group">
+                                            <label for="rent">Rent</label>
+                                            <input type="text" name="rent" id="rent" value="{{ $rent->rent }}" class="form-control" placeholder="Enter Rent" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="bodyRent" @if($rent->rent_type != 3) style="display: none;" @endif>
+                                        <div class="form-group">
+                                            <label for="body_rent">Body Rent (Per Day)</label>
+                                            <input type="text" name="body_rent" id="body_rent" value="{{ $rent->body_rent }}" class="form-control" placeholder="Body Rent" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="price">Price</label>
+                                            <input type="text" name="price" id="price" value="{{ $rent->price }}" class="form-control" placeholder="Enter price" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
                                             <label for="advance">Advance</label>
-                                            <input type="text" name="advance" id="advance" value="{{ $rent->advance }}" class="form-control" placeholder="Enter advance" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" readonly/>
+                                            <input type="text" name="advance" id="advance" value="{{ $rent->advance }}" class="form-control" placeholder="Enter advance" readonly/>
                                             @if($errors->has('advance'))
                                                 <span class="text-danger">{{ $errors->first('advance') }}</span>
                                             @endif
@@ -204,19 +219,19 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="commission">Commission</label>
-                                            <input type="text" name="commission" id="commission" value="{{ $rent->commission }}" class="form-control" placeholder="Enter commission" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" readonly/>
-                                            @if($errors->has('commission'))
-                                                <span class="text-danger">{{ $errors->first('commission') }}</span>
+                                            <label for="remaining">Remaining</label>
+                                            <input type="text" name="remaining" id="remaining" value="{{ $rent->remaining }}" class="form-control" placeholder="Enter remaining" readonly/>
+                                            @if($errors->has('remaining'))
+                                                <span class="text-danger">{{ $errors->first('remaining') }}</span>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="remaining">Remaining</label>
-                                            <input type="text" name="remaining" id="remaining" value="{{ $rent->remaining }}" class="form-control" placeholder="Enter remaining" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" readonly/>
-                                            @if($errors->has('remaining'))
-                                                <span class="text-danger">{{ $errors->first('remaining') }}</span>
+                                            <label for="commission">Commission</label>
+                                            <input type="text" name="commission" id="commission" value="{{ $rent->commission }}" class="form-control" placeholder="Enter commission" readonly/>
+                                            @if($errors->has('commission'))
+                                                <span class="text-danger">{{ $errors->first('commission') }}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -228,11 +243,29 @@
                                                 <span class="text-danger">{{ $errors->first('referred_by') }}</span>
                                             @endif
                                         </div>
+                                    </div>                                    
+                                    <div class="col-md-3" id="fuleCost"  @if($rent->rent_type != 3) style="display: none;" @endif>
+                                        <div class="form-group">
+                                            <label for="fuel">Fuel Cost (Per Km)</label>
+                                            <input type="text" name="fuel" id="fuel" value="{{ $rent->fuel }}" class="form-control" placeholder="Fuel Cost" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="bodyRentKilometer" @if($rent->rent_type != 3) style="display: none;" @endif>
+                                        <div class="form-group">
+                                            <label for="kilometer">Total Kilometer</label>
+                                            <input type="text" name="kilometer" id="kilometer" value="{{ $rent->kilometer }}" class="form-control" placeholder="Total Kilometer" readonly/>
+                                        </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="referred_by">Total Km</label>
                                             <input type="text" name="total_km" id="total_km" value="{{ $rent->total_km }}" class="form-control" placeholder="Referred By" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="driverAccomodation"  @if($rent->rent_type != 3) style="display: none;" @endif>
+                                        <div class="form-group">
+                                            <label for="driver_accomodation">Driver Accomodation (Per Day)</label>
+                                            <input type="text" name="driver_accomodation" id="driver_accomodation" value="{{ $rent->driver_accomodation }}" class="form-control" placeholder="Driver Accomodation" readonly/>
                                         </div>
                                     </div>
                                 </div>
@@ -241,24 +274,6 @@
                                         <div class="form-group">
                                             <label for="driver_get">Driver Cost</label>
                                             <input type="text" name="driver_get" id="driver_get" value="{{ $rent->driver_get }}" class="form-control" readonly/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3" id="bodyRent" @if($rent->rent_type != 3) style="display: none;" @endif>
-                                        <div class="form-group">
-                                            <label for="body_rent">Body Rent (Per Day)</label>
-                                            <input type="text" name="body_rent" id="body_rent" value="{{ $rent->body_rent }}" class="form-control" readonly/>                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3" id="fuleCost" @if($rent->rent_type != 3) style="display: none;" @endif>
-                                        <div class="form-group">
-                                            <label for="fuel_cost">Fuel Cost (Per Km)</label>
-                                            <input type="text" name="fuel_cost" id="fuel_cost" value="{{ $rent->fuel_cost }}" class="form-control" readonly/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3" id="driverAccomodation"  @if($rent->rent_type != 3) style="display: none;" @endif>
-                                        <div class="form-group">
-                                            <label for="driver_accomodation">Driver Accomodation (Per Day)</label>
-                                            <input type="text" name="driver_accomodation" id="driver_accomodation" value="{{ $rent->driver_accomodation }}" class="form-control" readonly/>
                                         </div>
                                     </div>
                                     <div class="col-md-3">

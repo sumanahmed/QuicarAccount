@@ -7,18 +7,22 @@ function calculatePrice () {
   var totalVehicle  = $("#total_vehicle").val() > 0 ? parseFloat($("#total_vehicle").val()) : 1;
   var totalDay      = $("#total_day").val() > 0 ? parseFloat($("#total_day").val()) : 1;
   var advance       = $("#advance").val() > 0 ? parseFloat($("#advance").val()) : 0;
+  var kilometer     = $("#kilometer").val() > 0 ? parseFloat($("#kilometer").val()) : 0;
+  var fuel          = $("#fuel").val() > 0 ? parseFloat($("#fuel").val()) : 0;
+  var driverAccomodation = $("#driver_accomodation").val() > 0 ? parseFloat($("#driver_accomodation").val()) : 0;
   
   if (rentType == 3) {
-
-    var newPrice = parseFloat(bodyRent * (totalVehicle * totalDay));
+    var total_km_charge = parseFloat(fuel * kilometer);
+    var accomodation =  parseFloat(driverAccomodation * (totalVehicle * totalDay))
+    var newPrice = parseFloat((accomodation + total_km_charge) + (bodyRent * (totalVehicle * totalDay)));
     var newRemaining = parseFloat(newPrice - advance);
 
     $("#price").val(newPrice);
     $("#remaining").val(newRemaining);
 
   } else {
-
-     var newPrice = parseFloat(rent * totalVehicle);
+    var accomodation = 0;
+    var newPrice = parseFloat(accomodation + (rent * totalVehicle));
     var newRemaining = parseFloat(newPrice - advance);
     
     $("#price").val(newPrice);
@@ -45,9 +49,10 @@ $("#rentType").change(function () {
     $("#bodyRent").hide();
     $("#fuleCost").hide();
     $("#driverAccomodation").hide();
+    $("#bodyRentKilometer").hide();
   } else if (rentType == 3) {
-    $("#bodyRent").val(0);
     $("#returnDateTime").show();
+    $("#bodyRentKilometer").show();
     $("#bodyRent").show();
     $("#fuleCost").show();
     $("#driverAccomodation").show();
@@ -58,6 +63,7 @@ $("#rentType").change(function () {
     $("#bodyRent").hide();
     $("#fuleCost").hide();
     $("#driverAccomodation").hide();
+    $("#bodyRentKilometer").hide();
   }
 });
 

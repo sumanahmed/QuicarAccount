@@ -144,6 +144,7 @@ class RentController extends Controller
             $rent->fuel             = (float)$request->fuel;
             $rent->driver_accomodation  = (float)$request->driver_accomodation;
             $rent->total_vehicle    = (float)$request->total_vehicle;
+            $rent->kilometer        = (float)$request->kilometer;
 
             $rent->note             = $request->note;
             $rent->created_by       = Auth::id();
@@ -234,6 +235,7 @@ class RentController extends Controller
         $rent->fuel             = (float)$request->fuel;
         $rent->driver_accomodation  = (float)$request->driver_accomodation;
         $rent->total_vehicle    = (float)$request->total_vehicle;
+        $rent->kilometer        = (float)$request->kilometer;
 
         $rent->note             = $request->note;
         $rent->updated_by       = Auth::id();

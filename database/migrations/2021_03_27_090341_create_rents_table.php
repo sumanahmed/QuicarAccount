@@ -37,7 +37,8 @@ class CreateRentsTable extends Migration
             $table->double('driver_get',10,2)->default(0);
             $table->string('driver_accomodation')->default(0);
             $table->double('toll_charge',10,2)->default(0);
-            $table->double('toll_km', 10,2)->nullable();
+            $table->double('kilometer', 10,2)->default(0);
+            $table->double('total_km', 10,2)->nullable();
             $table->double('fuel',10,2)->default(0)->comment('invoice show');
             $table->double('fuel_cost',10,2)->default(0);
             $table->double('other_cost',10,2)->default(0);
