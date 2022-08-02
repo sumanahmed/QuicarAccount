@@ -39,10 +39,13 @@
                           <div class="col-md-2">
                             <div class="form-group">
                                 <label for="car_type_id">Car Type</label>
-                                <select name="car_type_id" id="car_type_id" class="form-control selectable">
+                                <select name="car_type_id[]" id="car_type_id" class="form-control selectable" multiple>
                                     <option value="0">Select</option>
                                     @foreach($car_types as $car_type) 
-                                        <option value="{{ $car_type->id }}" @if(isset($_GET['car_type_id']) && $car_type->id == $_GET['car_type_id']) selected @endif>{{ $car_type->name }}</option>
+                                      <option value="{{ $car_type->id }}" 
+                                        @if(isset($_GET['car_type_id'])) {{ in_array($car_type->id, $_GET['car_type_id']) ? 'selected' : '' }} @endif>
+                                          {{ $car_type->name }}
+                                      </option>
                                     @endforeach
                                 </select>
                             </div>

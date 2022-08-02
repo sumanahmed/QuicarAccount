@@ -44,7 +44,7 @@ class AccountsController extends Controller
         }
         
         if ($request->car_type_id) {
-            $query = $query->where('rents.car_type_id', $request->car_type_id);
+            $query = $query->whereIn('rents.car_type_id', $request->car_type_id);
         }
         
         $incomes = $query->paginate(20)->appends(request()->query());
@@ -81,7 +81,7 @@ class AccountsController extends Controller
         }
 
         if ($request->car_type_id) {
-            $query = $query->where('rents.car_type_id', $request->car_type_id);
+            $query = $query->whereIn('rents.car_type_id', $request->car_type_id);
         }
         
         $total_fuel_cost = $query->sum('fuel_cost');
