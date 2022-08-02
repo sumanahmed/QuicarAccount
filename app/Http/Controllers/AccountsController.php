@@ -129,7 +129,6 @@ class AccountsController extends Controller
     */
     public function cash (Request $request)
     {  
-        
         $query = DB::table('rents')
                     ->selectRaw('COUNT(id) as total_trip,
                         SUM(price) as total_price,
@@ -181,8 +180,8 @@ class AccountsController extends Controller
             return $obj;
         });
 
-        $car_types = CarType::all();
-
+        $car_types = CarType::select('id', 'name')->get();
+        
         return view('accounts.cash', compact('car_types', 'records'));
     }
     
