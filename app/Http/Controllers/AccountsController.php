@@ -129,7 +129,7 @@ class AccountsController extends Controller
     */
     public function cash (Request $request)
     {  
-        // dd($request->all());
+        
         $query = DB::table('rents')
                     ->selectRaw('COUNT(id) as total_trip,
                         SUM(price) as total_price,

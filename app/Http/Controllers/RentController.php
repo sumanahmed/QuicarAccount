@@ -65,11 +65,14 @@ class RentController extends Controller
     {
         ini_set('max_execution_time', 300);
         ini_set("memory_limit","512M");
+        libxml_use_internal_errors(true);
         
         $rent = Rent::join('customers','rents.customer_id','customers.id')
                     ->select('customers.name','customers.phone','rents.*')
                     ->where('rents.id', $id)->first();
-
+                    
+        // return view('invoice2', compact('rent'));
+        
         $pdf = PDF::loadView('invoice', compact('rent'));
         $pdf->setPaper('A4', 'Portrait');
         // return $pdf->stream("Invoice-AS".$id.".pdf");
