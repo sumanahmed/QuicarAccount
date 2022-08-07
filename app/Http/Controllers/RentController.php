@@ -28,9 +28,9 @@ class RentController extends Controller
     //show all
     public function index(Request $request)
     {
-        $today = date('Y-m-d');
-        $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
-        $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
+        // $today = date('Y-m-d');
+        // $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
+        // $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
 
         $query = DB::table('rents')
                     ->leftjoin('car_types','rents.car_type_id','car_types.id')
@@ -46,8 +46,10 @@ class RentController extends Controller
             $query = $query->where('rents.phone', $request->phone);
         }
 
-        $query->whereDate('rents.created_at', '>=', $start_date)
-                ->whereDate('rents.created_at', '<=', $end_date);
+        if ($request->start_date && $request->end_date) {
+            $query->whereDate('rents.pickup_datetime', '>=',  date('Y-m-d', strtotime($request->start_date)))
+                    ->whereDate('rents.pickup_datetime', '<=',  date('Y-m-d', strtotime($request->end_date)));
+        }
                 
         $total_price    = $query->sum('rents.price');
         $total_advance  = $query->sum('rents.advance');
