@@ -40,8 +40,7 @@
                 <table style="width:100%;">
                     <thead style="background: #ddd !important;">
                         <tr>
-                            <th style="padding: 5px !important;border: 1px solid #000 !important;">Rental Description</th>
-                            <th style="padding: 5px !important;border: 1px solid #000 !important;">Amount</th>
+                            <th style="padding: 5px !important;border: 1px solid #000 !important;" colspan="2">Rental Description</th>
                         </tr>
                     </thead>
                     <tbody>
