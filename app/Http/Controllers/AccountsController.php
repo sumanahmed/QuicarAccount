@@ -207,9 +207,14 @@ class AccountsController extends Controller
         if ($request->year && $request->year != 0) {
             $query = $query->where(DB::raw('YEAR(pickup_datetime)'), $request->year);
         }
+
+        if ($request->car_type_id) {
+            $query = $query->whereIn('rents.car_type_id', $request->car_type_id);
+        }
                     
         $records = $query->get();
+        $car_types = CarType::select('id', 'name')->get();
 
-        return view('accounts.summary', compact('records'));
+        return view('accounts.summary', compact('car_types', 'records'));
     }
 }

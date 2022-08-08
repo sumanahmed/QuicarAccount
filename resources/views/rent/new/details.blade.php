@@ -282,6 +282,12 @@
                                             <input type="text" name="other_cost" id="other_cost" value="{{ $rent->other_cost }}" class="form-control" readonly/>
                                         </div>
                                     </div>
+                                    <div class="col-md-3" id="fuleCost">
+                                        <div class="form-group">
+                                            <label for="fuel">Fuel Cost</label>
+                                            <input type="text" name="fuel" value="{{ $rent->fuel_cost }}" class="form-control" placeholder="Fuel Cost" readonly/>
+                                        </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="toll_charge">Toll Charge</label>

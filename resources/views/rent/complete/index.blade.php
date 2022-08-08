@@ -50,6 +50,7 @@
                                 <th>Car Type</th>
                                 <th>Price</th>
                                 <th>Advance</th>
+                                <th>Fuel Cost</th>
                                 <th>Total Cost</th>
                                 <th>Total Income</th>
                                 <th style="vertical-align: middle;text-align: center;">Action</th>
@@ -65,6 +66,7 @@
                                 <th>Car Type</th>
                                 <th>Price</th>
                                 <th>Advance</th>
+                                <th>Fuel Cost</th>
                                 <th>Total Cost</th>
                                 <th>Total Income</th>
                               <th style="vertical-align: middle;text-align: center;">Action</th>
@@ -84,6 +86,7 @@
                               <td>{{ $rent->car_type_name }}</td>
                               <td>{{ $rent->price }}</td>
                               <td>{{ $rent->advance }}</td>
+                              <td>{{ $rent->fuel_cost }}</td>
                               <td>{{ $total_cost }}</td>
                               <td>{{ $rent->price - $total_cost }}</td>
                               <td style="vertical-align: middle;text-align: center;">
