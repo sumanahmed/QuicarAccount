@@ -70,10 +70,11 @@ class AccountsController extends Controller
         $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
 
         $query = DB::table('rents')
-                    ->leftjoin('car_types','rents.car_type_id','car_types.id')
+                    ->join('car_types','rents.car_type_id','car_types.id')
                     ->select('rents.*','car_types.name as car_type_name')
                     ->orderBy('rents.pickup_datetime','DESC')
                     ->where('rents.status', 3);
+                    
 
         if ($start_date && $end_date) {
             $query = $query->whereDate('rents.pickup_datetime', '>=', $start_date)
@@ -83,6 +84,8 @@ class AccountsController extends Controller
         if ($request->car_type_id) {
             $query = $query->whereIn('rents.car_type_id', $request->car_type_id);
         }
+        
+        return $query->get();
         
         $total_fuel_cost = $query->sum('fuel_cost');
         $total_other_cost = $query->sum('other_cost');
@@ -194,28 +197,30 @@ class AccountsController extends Controller
     public function summary (Request $request) 
     {        
         $query = DB::table('rents')
-                    ->selectRaw('COUNT(id) as total_rent,
-                        SUM(price) as total_price,
-                        SUM(driver_get + toll_charge + fuel_cost + other_cost) as total_expense,
-                        MONTH(pickup_datetime) month
+                    ->leftjoin('incomes', 'rents.id', 'incomes.rent_id')
+                    ->leftjoin('expenses', 'rents.id', 'expenses.rent_id')
+                    ->selectRaw('COUNT(rents.id) as total_rent,
+                        SUM(rents.price) as total_price,
+                        SUM(incomes.amount) as total_income,
+                        SUM(expenses.amount) as total_expense,
+                        MONTH(rents.pickup_datetime) month
                     ')
-                    ->orderBy('pickup_datetime', 'DESC')
-                    ->where('status', 3)
-                    ->groupBy(DB::raw('MONTH(pickup_datetime)'));
+                    // ->orderBy('pickup_datetime', 'DESC')
+                    ->where('rents.status', 3)
+                    ->groupBy(DB::raw('MONTH(rents.pickup_datetime)'));
 
         if ($request->month && $request->month != 0) {
-            $query = $query->where(DB::raw('MONTH(pickup_datetime)'), $request->month);
+            $query = $query->where(DB::raw('rents.MONTH(pickup_datetime)'), $request->month);
         }
 
         if ($request->year && $request->year != 0) {
-            $query = $query->where(DB::raw('YEAR(pickup_datetime)'), $request->year);
+            $query = $query->where(DB::raw('YEAR(rents.pickup_datetime)'), $request->year);
         }
 
         if ($request->car_type_id) {
             $query = $query->whereIn('rents.car_type_id', $request->car_type_id);
         }
                     
-        $records = $query->get();
         $car_types = CarType::select('id', 'name')->get();
 
         return view('accounts.summary', compact('car_types', 'records'));

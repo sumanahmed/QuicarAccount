@@ -120,7 +120,7 @@
                                         @endphp
                                         @foreach($records as $record)
                                           @php 
-                                            $net_total = ($record->total_price - $record->total_expense);
+                                            $net_total = ($record->total_income - $record->total_expense);
                                           @endphp
                                             <tr>
                                                 <td class="text-center">{{ getMonthName($record->month) }}</td>
