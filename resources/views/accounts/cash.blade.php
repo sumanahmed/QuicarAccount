@@ -111,7 +111,7 @@
                         <tbody>
                             @foreach($records as $record)
                                 @php 
-                                    $actual_cost  = (float)($record->total_price - ($record->total_cost + $record->total_charge));
+                                    $actual_cost  = (float)($record->total_income - ($record->total_cost + $record->total_charge));
                                 @endphp
                                 <tr>
                                     <td style="vertical-align: middle;text-align: center;">{{ getMonthName($record->month) }}</td>
@@ -119,7 +119,7 @@
                                     <td style="vertical-align: middle;text-align: right;">{{ $record->total_price }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $record->total_cost }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $record->total_charge }}</td>
-                                    <td style="vertical-align: middle;text-align: right;">{{ $actual_cost }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{ $record->total_income }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $actual_cost }}</td>
                                 </tr>
                             @endforeach

@@ -130,21 +130,24 @@ class AccountsController extends Controller
     public function cash (Request $request)
     {  
         $query = DB::table('rents')
-                    ->selectRaw('COUNT(id) as total_trip,
-                        SUM(price) as total_price,
-                        SUM(driver_get + toll_charge + fuel_cost + other_cost) as total_cost,
-                        MONTH(pickup_datetime) month
+        ->leftjoin('incomes', 'rents.id', 'incomes.rent_id')
+        ->leftjoin('expenses', 'rents.id', 'expenses.rent_id')
+                    ->selectRaw('COUNT(rents.id) as total_trip,
+                        SUM(rents.price) as total_price,
+                        SUM(incomes.amount) as total_income,
+                        SUM(expenses.amount) as total_cost,
+                        MONTH(rents.pickup_datetime) month
                     ')
-                    ->orderBy('pickup_datetime', 'DESC')
-                    ->where('status', 3)
-                    ->groupBy(DB::raw('MONTH(pickup_datetime)'));
+                    // ->orderBy('pickup_datetime', 'DESC')
+                    ->where('rents.status', 3)
+                    ->groupBy(DB::raw('MONTH(rents.pickup_datetime)'));
 
         if ($request->month && $request->month != 0) {
-            $query = $query->where(DB::raw('MONTH(pickup_datetime)'), $request->month);
+            $query = $query->where(DB::raw('MONTH(rents.pickup_datetime)'), $request->month);
         }
 
         if ($request->year && $request->year != 0) {
-            $query = $query->where(DB::raw('YEAR(pickup_datetime)'), $request->year);
+            $query = $query->where(DB::raw('YEAR(rents.pickup_datetime)'), $request->year);
         }
 
         if ($request->car_type_id) {
