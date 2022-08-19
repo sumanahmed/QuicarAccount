@@ -124,6 +124,7 @@ class RentController extends Controller
         
         try {
             $rent                   = new Rent();
+            $rent->outside_agent    = $request->outside_agent;
             $rent->car_type_id      = $request->car_type_id;
             $rent->model_id         = $request->model_id;
             $rent->year_id          = $request->year_id ? $request->year_id : null;
@@ -215,6 +216,7 @@ class RentController extends Controller
         ]);
         
         $rent                   = Rent::find($id);
+        $rent->outside_agent    = $request->outside_agent;
         $rent->car_type_id      = $request->car_type_id;
         $rent->model_id         = $request->model_id;
         $rent->year_id          = $request->year_id ? $request->year_id : null;
@@ -282,48 +284,47 @@ class RentController extends Controller
 
             $rent = Rent::find($request->rent_id);
 
-            if ($status == 3 && $rent->commission != 0) {
-    
-                $income             = new Income();
-                $income->name       = 'Income From commission';
-                $income->date       = date('Y-m-d');
-                $income->amount     = $rent->commission;
-                $income->rent_id    = $request->rent_id;
-                $income->created_by = Auth::id();
-                $income->updated_by = Auth::id();
-                $income->save();
-    
-            }
-    
-            if ($status == 3 && $rent->price != 0) {
+            $commission = $rent->commission != 0 ? $rent->commission : 0;
 
-                $total_cost = ($other_cost + $fuel_cost + $driver_get + $toll_charge);
+            if ($status == 3) {
+
+                if ($rent->outside_agent == 1) {
+                    $commnet_text   = "(From Outside Agent)";
+                    $income_amount  = $commission;
+                } else {
+                    $commnet_text   = "(After Total Cost)";
+                    $total_cost     = ($other_cost + $fuel_cost + $driver_get + $toll_charge);
+                    $income_amount  = (float)($rent->price - $total_cost);
+                }                
     
                 $income             = new Income();
-                $income->name       = 'Net Income After Cost';
+                $income->name       = 'Net Income '. $commnet_text;
                 $income->date       = date('Y-m-d');
-                $income->amount     = (float)($rent->price - $total_cost);
+                $income->amount     = (float)$income_amount;
                 $income->rent_id    = $request->rent_id;
                 $income->created_by = Auth::id();
                 $income->updated_by = Auth::id();
                 $income->save();
     
             }
+
+            if ($status == 3 && $rent->outside_agent == 2) {
     
-            if ($status == 3 && $driver_get != 0) {
-                $this->addExpense($driver_get, 'Driver Cost', $request->rent_id);
-            }
-    
-            if ($status == 3 && $other_cost != 0) {
-                $this->addExpense($other_cost, 'Other Cost', $request->rent_id);
-            }
-            
-            if ($status == 3 && $fuel_cost != 0) {
-                $this->addExpense($fuel_cost, 'Fuel Cost', $request->rent_id);
-            }
-            
-            if ($status == 3 && $toll_charge != 0) {
-                $this->addExpense($toll_charge, 'Toll Charge', $request->rent_id);
+                if ($driver_get != 0) {
+                    $this->addExpense($driver_get, 'Driver Cost', $request->rent_id);
+                }
+        
+                if ($other_cost != 0) {
+                    $this->addExpense($other_cost, 'Other Cost', $request->rent_id);
+                }
+                
+                if ($fuel_cost != 0) {
+                    $this->addExpense($fuel_cost, 'Fuel Cost', $request->rent_id);
+                }
+                
+                if ($toll_charge != 0) {
+                    $this->addExpense($toll_charge, 'Toll Charge', $request->rent_id);
+                }
             }
     
             $rent->status       = $status;

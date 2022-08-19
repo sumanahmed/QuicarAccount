@@ -117,7 +117,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('accounts.maintenance') }}" class="nav-link nav-expense">
+                <a href="{{ route('accounts.maintenance') }}" class="nav-link nav-maintenance">
                   <p>Maintenance</p>
                 </a>
               </li>

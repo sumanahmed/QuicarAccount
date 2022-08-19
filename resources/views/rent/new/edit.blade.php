@@ -33,6 +33,18 @@
                                 <div class="row">
                                     <div class="col-3">
                                         <div class="form-group">
+                                            <label for="outside_agent">Outside Agent <span class="text-danger" title="Required">*</span></label>
+                                            <select name="outside_agent" id="outside_agent" class="form-control">
+                                                <option value="1"  @if($rent->outside_agent == 1) selected @endif>Yes</option>
+                                                <option value="2"  @if($rent->outside_agent == 2) selected @endif>No</option>
+                                            </select>
+                                            @if($errors->has('outside_agent'))
+                                                <span class="text-danger">{{ $errors->first('outside_agent') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
                                             <label for="name">Car Type <span class="text-danger" title="Required">*</span></label>
                                             <select name="car_type_id" id="car_type_id" class="form-control">
                                                 <option value="0">Select</option>

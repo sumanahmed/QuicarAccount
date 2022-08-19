@@ -74,7 +74,48 @@
                   <a href="{{ route('reminder.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
               </div>
-              <!-- ./col -->
+            </div>
+
+            <div class="row">
+              <h4 class="mt-4 ml-4">Previous Month History</h4>
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-6">
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>{{ $data['prev_month_income'] }}</h3>
+                    <p>Previous Month Income</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="{{ route('accounts.income') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <div class="col-lg-3 col-6">
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>{{ $data['prev_month_expense'] }}</h3>
+                    <p>Previous Month Expense</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="{{ route('accounts.expense') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <div class="col-lg-3 col-6">
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3>{{ $data['prev_month_maintenance'] }}</h3>
+                    <p>Previous Month Maintenance</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="{{ route('maintenance.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
               <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-danger">
@@ -88,7 +129,49 @@
                   <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
               </div>
-              <!-- ./col -->
+            </div>
+
+            
+            <div class="row">
+              <h4 class="mt-4 ml-4">Current Month History</h4>
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-6">
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>{{ $data['current_month_income'] }}</h3>
+                    <p>Current Month Income</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="{{ route('accounts.income') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <div class="col-lg-3 col-6">
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>{{ $data['current_month_expense'] }}</h3>
+                    <p>Current Month Expense</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="{{ route('accounts.expense') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <div class="col-lg-3 col-6">
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3>{{ $data['current_maintenance'] }}</h3>
+                    <p>Current Month Maintenance</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="{{ route('maintenance.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
               <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-danger">
@@ -102,12 +185,18 @@
                   <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
               </div>
+            </div>
+
+            <div class="row">
+              <h4 class="mt-4 ml-4">Total History</h4>
+            </div>
+            <div class="row">
               <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-warning">
                   <div class="inner">
-                    <h3>{{ $data['total_earn'] }}</h3>
-                    <p>Total Earning</p>
+                    <h3>{{ $data['total_income'] }}</h3>
+                    <p>Total Income</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-pie-graph"></i>
@@ -115,8 +204,31 @@
                   <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
               </div>
-              <!-- ./col -->
-              
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>{{ $data['total_expense'] }}</h3>
+                    <p>Total Expense</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <div class="col-lg-3 col-6">
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>{{ $data['total_maintenance'] }}</h3>
+                    <p>Total Maintenance</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="{{ route('maintenance.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>              
               <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-success">
