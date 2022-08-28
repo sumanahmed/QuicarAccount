@@ -178,6 +178,15 @@
                       <div class="row">
                           <div class="col">
                               <div class="form-group">
+                                  <label class="col-form-label">Date</label>
+                                  <input type="date" id="rentDate" class="form-control" />
+                                  <span class="errorRentDate text-danger text-bold"></span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col">
+                              <div class="form-group">
                                   <label class="col-form-label">Driver Cost</label>
                                   <input type="text" id="driverCost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                                   <span class="errorDriverCost text-danger text-bold"></span>

@@ -99,6 +99,7 @@ $("#changeRentStatus").click(function(e){
 
   var rent_id       = parseInt($("#rent_id").val());
   var status        = parseInt($("#status :selected").val());
+  var rent_date     = $("#rentDate").val();
   var driver_get    = parseFloat($("#driverCost").val());
   var fuel_cost     = parseFloat($("#fuelCost").val());
   var other_cost    = parseFloat($("#otherCost").val());
@@ -110,13 +111,14 @@ $("#changeRentStatus").click(function(e){
       url: '/rent/status-update',
       headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
       data: {
-        rent_id : rent_id,
-        status : status,
-        driver_get : driver_get,
-        fuel_cost : fuel_cost,
-        other_cost : other_cost,
+        rent_id     : rent_id,
+        status      : status,
+        rent_date   : rent_date,
+        driver_get  : driver_get,
+        fuel_cost   : fuel_cost,
+        other_cost  : other_cost,
         toll_charge : toll_charge,
-        total_km : total_km,
+        total_km    : total_km,
       },
       success: function (response) {
         $("#hideStatusModalyBody").hide();

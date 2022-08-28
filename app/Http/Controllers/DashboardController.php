@@ -39,8 +39,9 @@ class DashboardController extends Controller
                                     ->sum('amount'); 
         
         $prev_month_expense =  DB::table('expenses')
-                                    ->whereDate('created_at', '>=', $first_date_prev_month)
-                                    ->whereDate('created_at', '<=', $last_date_prev_month)
+                                    // ->whereDate('created_at', '>=', $first_date_prev_month)
+                                    // ->whereDate('created_at', '<=', $last_date_prev_month)
+                                    ->whereBetween('date', [$first_date_prev_month, $last_date_prev_month])
                                     ->sum('amount');
                                     
         $data['prev_month_income']  = $prev_month_income;
@@ -60,8 +61,9 @@ class DashboardController extends Controller
                                     ->sum('amount');         
         
         $current_month_expense =  DB::table('expenses')
-                                    ->whereDate('created_at', '>=', $current_month_first_date)
-                                    ->whereDate('created_at', '<=', $current_month_last_date)
+                                    // ->whereDate('created_at', '>=', $current_month_first_date)
+                                    // ->whereDate('created_at', '<=', $current_month_last_date)
+                                    ->whereBetween('date', [$current_month_first_date, $current_month_last_date])
                                     ->sum('amount');
                                     
         $data['current_month_income']   = $current_month_income;

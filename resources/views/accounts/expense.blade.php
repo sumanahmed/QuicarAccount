@@ -50,6 +50,11 @@
                                 </select>
                             </div>
                           </div>
+                          <div class="col-md-2">
+                            <div class="form-group" style="margin-top: 30px;">
+                              <input type="submit" class="btn btn-info btn-sm" value="Search" />
+                            </div>
+                          </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">

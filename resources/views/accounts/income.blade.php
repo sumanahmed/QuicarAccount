@@ -59,10 +59,25 @@
                                 </select>
                             </div>
                           </div>
+                          <div class="col-md-2">
+                            <div class="form-group">
+                              <label for="outside_agent">Income From</label>
+                              <select name="outside_agent" class="form-control">
+                                <option value="0">Select</option>
+                                <option value="1" @if(isset($_GET['outside_agent']) && $_GET['outside_agent'] == 1) selected  @endif>Commision</option>
+                                <option value="2" @if(isset($_GET['outside_agent']) && $_GET['outside_agent'] == 2) selected  @endif>Company</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group" style="margin-top: 30px;">
+                              <input type="submit" class="btn btn-info btn-sm" value="Search" />
+                            </div>
+                          </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <h5>Total Price: <strong>{{ $total_price }}</strong> | Total Cost: <strong>{{ $total_cost }}</strong> | Net Income: <strong>{{ $total_income }}</strong></h5>
+                                <h5>Total Price: <strong>{{ $total_price }}</strong> | Total Cost: <strong>{{ $total_cost }}</strong> | Total Commission: <strong>{{ $commission_income }}</strong> | Total Company Income: <strong>{{ $company_income }}</strong>  | Net Income: <strong>{{ $total_income }}</strong></h5>
                             </div>
                         </div>
                       </form>
@@ -77,6 +92,7 @@
                                 <th>Travel Date & Time</th>
                                 <th>Return Date & Time</th>
                                 <th>Car Type</th>
+                                <th><strong>Income From</strong></th>
                                 <th>Price</th>
                                 <th>Cost</th>
                                 <th style="vertical-align: middle;text-align: right;">Net Income</th>
@@ -86,7 +102,7 @@
                             @foreach($incomes as $income)
                                 @php 
                                     $price = $income->price;
-                                    $cost  = (float)($income->fuel_cost + $income->other_cost + $income->driver_get + $income->toll_charge);
+                                    $cost  = $income->outside_agent == 2 ? (float)($income->fuel_cost + $income->other_cost + $income->driver_get + $income->toll_charge) : 0;
                                 @endphp
                                 <tr>
                                     <td>
@@ -99,8 +115,9 @@
                                     <td>{{ date('d M, Y h:i a', strtotime($income->pickup_datetime)) }}</td>
                                     <td>{{ date('d M, Y h:i a', strtotime($income->return_datetime)) }}</td>
                                     <td>{{ $income->car_type_name }}</td>
+                                    <td><strong>{{ $income->outside_agent == 1 ? 'Commission' : 'Company' }}</strong></td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $income->price }}</td>
-                                    <td style="vertical-align: middle;text-align: right;">{{ $cost }}</td>
+                                    <td style="vertical-align: middle;text-align: right;">{{$income->outside_agent == 2 ? $cost : '' }}</td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $income->amount }}</td>
                                 </tr>
                             @endforeach

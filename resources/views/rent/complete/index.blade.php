@@ -30,6 +30,16 @@
                             </div>
                           </div>
                           <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="outside_agent">Income From</label>
+                              <select name="outside_agent" class="form-control">
+                                <option value="0">Select</option>
+                                <option value="1" @if(isset($_GET['outside_agent']) && $_GET['outside_agent'] == 1) selected  @endif>Commision</option>
+                                <option value="2" @if(isset($_GET['outside_agent']) && $_GET['outside_agent'] == 2) selected  @endif>Company</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
                             <div class="form-group" style="margin-top: 30px;">
                               <input type="submit" class="btn btn-info btn-sm" value="Search" />
                               <a href="{{ route('rent.export') }}" class="btn btn-warning btn-sm">Export <i class="fa fa-download"></i></a>
@@ -53,6 +63,7 @@
                                 <th>Fuel Cost</th>
                                 <th>Total Cost</th>
                                 <th>Total Income</th>
+                                <th>Income From</th>
                                 <th style="vertical-align: middle;text-align: center;">Action</th>
                             </tr>
                         </thead>
@@ -69,6 +80,7 @@
                                 <th>Fuel Cost</th>
                                 <th>Total Cost</th>
                                 <th>Total Income</th>
+                                <th>Income From</th>
                               <th style="vertical-align: middle;text-align: center;">Action</th>
                           </tr>
                         </tfoot>
@@ -76,19 +88,20 @@
                           @foreach($rents as $rent)
                             <tr class="rent-{{ $rent->id }}">
                                 @php 
-                                    $total_cost = $rent->driver_get + $rent->fuel_cost + $rent->other_cost + $rent->toll_charge
+                                  $total_cost = $rent->outside_agent == 2 ? ($rent->driver_get + $rent->fuel_cost + $rent->other_cost + $rent->toll_charge) : 0;
                                 @endphp
                               <td>{{ date('d M, Y h:i a', strtotime($rent->pickup_datetime)) }}</td>
-                              <td>{{ date('d M, Y h:i a', strtotime($rent->return_datetime)) }}</td>
+                              <td>{{ $rent->return_datetime != null ? date('d M, Y h:i a', strtotime($rent->return_datetime)) : '' }}</td>
                               <td>{{ $rent->pickup_location }}</td>
                               <td>{{ $rent->drop_location }}</td>
                               <td>@if($rent->customer_id != null) {{ $rent->customer_name }} ({{ $rent->customer_phone }}) @endif</td>
                               <td>{{ $rent->car_type_name }}</td>
                               <td>{{ $rent->price }}</td>
                               <td>{{ $rent->advance }}</td>
-                              <td>{{ $rent->fuel_cost }}</td>
+                              <td>{{ $rent->outside_agent == 2 ? $rent->fuel_cost : 0 }}</td>
                               <td>{{ $total_cost }}</td>
-                              <td>{{ $rent->price - $total_cost }}</td>
+                              <td>{{ $rent->outside_agent == 1 ? $rent->commission : ($rent->price - $total_cost) }}</td>
+                              <td>{{ $rent->outside_agent == 1 ? 'Commission' : 'Company' }}</td>
                               <td style="vertical-align: middle;text-align: center;">
                                 <a href="{{ route('rent.details', $rent->id) }}" class="btn btn-xs btn-warning" title="Details">Details</a>
                                 <button class="btn btn-xs btn-primary" data-toggle="modal" id="sms" data-target="#smsModal" data-id="{{ $rent->id }}" title="SMS">SMS</button>                                  

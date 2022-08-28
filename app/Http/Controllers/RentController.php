@@ -269,13 +269,13 @@ class RentController extends Controller
      * status update
      */
     public function statusUpdate (Request $request) 
-    {   
-        $status = (int)$request->status;
-        $driver_get = (float)$request->driver_get;
-        $other_cost = (float)$request->other_cost;
-        $fuel_cost  = (float)$request->fuel_cost;
-        $toll_charge  = (float)$request->toll_charge;
-        $total_km  = (float)$request->total_km;
+    {          
+        $status         = (int)$request->status;
+        $driver_get     = (float)$request->driver_get;
+        $other_cost     = (float)$request->other_cost;
+        $fuel_cost      = (float)$request->fuel_cost;
+        $toll_charge    = (float)$request->toll_charge;
+        $total_km       = (float)$request->total_km;
        
         
         DB::beginTransaction();
@@ -291,17 +291,20 @@ class RentController extends Controller
                 if ($rent->outside_agent == 1) {
                     $commnet_text   = "(From Outside Agent)";
                     $income_amount  = $commission;
+                    $income_from    = 1;
                 } else {
                     $commnet_text   = "(After Total Cost)";
                     $total_cost     = ($other_cost + $fuel_cost + $driver_get + $toll_charge);
                     $income_amount  = (float)($rent->price - $total_cost);
+                    $income_from    = 2;
                 }                
     
                 $income             = new Income();
                 $income->name       = 'Net Income '. $commnet_text;
-                $income->date       = date('Y-m-d');
+                $income->date       = $request->rent_date;
                 $income->amount     = (float)$income_amount;
                 $income->rent_id    = $request->rent_id;
+                $income->income_from= $income_from;
                 $income->created_by = Auth::id();
                 $income->updated_by = Auth::id();
                 $income->save();
@@ -311,19 +314,19 @@ class RentController extends Controller
             if ($status == 3 && $rent->outside_agent == 2) {
     
                 if ($driver_get != 0) {
-                    $this->addExpense($driver_get, 'Driver Cost', $request->rent_id);
+                    $this->addExpense($driver_get, 'Driver Cost', $request->rent_id, $request->rent_date);
                 }
         
                 if ($other_cost != 0) {
-                    $this->addExpense($other_cost, 'Other Cost', $request->rent_id);
+                    $this->addExpense($other_cost, 'Other Cost', $request->rent_id, $request->rent_date);
                 }
                 
                 if ($fuel_cost != 0) {
-                    $this->addExpense($fuel_cost, 'Fuel Cost', $request->rent_id);
+                    $this->addExpense($fuel_cost, 'Fuel Cost', $request->rent_id, $request->rent_date);
                 }
                 
                 if ($toll_charge != 0) {
-                    $this->addExpense($toll_charge, 'Toll Charge', $request->rent_id);
+                    $this->addExpense($toll_charge, 'Toll Charge', $request->rent_id, $request->rent_date);
                 }
             }
     
@@ -369,10 +372,10 @@ class RentController extends Controller
         return redirect()->route('rent.index')->with('message','Rent status update successfully');
     }
 
-    public function addExpense($amount, $title, $rent_id) {
+    public function addExpense($amount, $title, $rent_id, $rent_date) {
         $expense             = new Expense();
         $expense->name       = $title;
-        $expense->date       = date('Y-m-d');
+        $expense->date       = $rent_date;
         $expense->amount     = $amount;
         $expense->rent_id    = $rent_id;
         $expense->user_id    = Auth::id();
@@ -412,8 +415,7 @@ class RentController extends Controller
 
         return view('rent.upcoming.index', compact('rents'));
     }
-    
-    
+        
     /**
      * show edit page
      */
@@ -518,14 +520,18 @@ class RentController extends Controller
     {
         $today = date('Y-m-d');
         $query = DB::table('rents')
-                    ->join('car_types','rents.car_type_id','car_types.id')
-                    ->join('customers','rents.customer_id','customers.id')
+                    ->leftjoin('car_types','rents.car_type_id','car_types.id')
+                    ->leftjoin('customers','rents.customer_id','customers.id')
                     ->select('rents.*','customers.name as customer_name','customers.phone as customer_phone','car_types.name as car_type_name')
                     ->orderBy('rents.id', 'DESC')
                     ->where('status', 3);
 
         if ($request->name) {
             $query = $query->where('name', 'like', "{$request->name}%");
+        }
+
+        if (isset($request->outside_agent) && $request->outside_agent != 0) {
+            $query = $query->where('outside_agent', $request->outside_agent);
         }
 
         if ($request->phone) {

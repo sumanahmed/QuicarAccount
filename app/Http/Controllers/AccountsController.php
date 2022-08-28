@@ -28,7 +28,7 @@ class AccountsController extends Controller
                     ->join('rents','incomes.rent_id','rents.id')
                     ->join('car_types','rents.car_type_id','car_types.id')
                     ->select('incomes.*','rents.pickup_datetime','car_types.name as car_type_name','rents.id as rent_id',
-                        'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost','rents.return_datetime',
+                        'rents.price','rents.fuel_cost','rents.driver_get','rents.other_cost','rents.return_datetime', 'rents.outside_agent',
                         'rents.toll_charge', 'rents.car_type_id','rents.pickup_datetime','rents.pickup_location','rents.drop_location'
                     )
                     ->orderBy('rents.pickup_datetime','DESC')
@@ -46,18 +46,27 @@ class AccountsController extends Controller
         if ($request->car_type_id) {
             $query = $query->whereIn('rents.car_type_id', $request->car_type_id);
         }
+
+        if ($request->outside_agent) {
+            $query = $query->where('rents.outside_agent', $request->outside_agent);
+        }
         
         $incomes = $query->paginate(20)->appends(request()->query());
+
+        $commission_income = $query->where('rents.outside_agent', 1)->sum('commission');
         
         $total_price = $query->sum('price');
         
-        $total_cost = $query->sum(DB::raw('fuel_cost + driver_get + other_cost + toll_charge'));
+        $company_price = $query->where('rents.outside_agent', 2)->sum('price');
+        $total_cost = $query->where('rents.outside_agent', 2)->sum(DB::raw('fuel_cost + driver_get + other_cost + toll_charge'));
+        
+        $company_income = (float) $company_price - $total_cost;
                             
         $total_income = $query->sum('amount');
 
         $car_types = CarType::all();
         
-        return view('accounts.income', compact('car_types','incomes', 'total_price', 'total_cost', 'total_income'));
+        return view('accounts.income', compact('commission_income', 'company_income', 'car_types','incomes', 'total_price', 'total_cost', 'total_income'));
     }
 
     /**
@@ -84,9 +93,7 @@ class AccountsController extends Controller
         if ($request->car_type_id) {
             $query = $query->whereIn('rents.car_type_id', $request->car_type_id);
         }
-        
-        return $query->get();
-        
+                
         $total_fuel_cost = $query->sum('fuel_cost');
         $total_other_cost = $query->sum('other_cost');
         $total_driver_get = $query->sum('driver_get');
@@ -109,22 +116,26 @@ class AccountsController extends Controller
         $today = date('Y-m-d');
         $start_date = isset($request->start_date) ? date('Y-m-d', strtotime($request->start_date))  : date('Y-m-d', strtotime('-31 days', strtotime($today)));
         $end_date = isset($request->end_date) ? date('Y-m-d', strtotime($request->end_date )) : $today;
-        
+
         $rents = Rent::whereDate('rents.pickup_datetime', '>=', $start_date)
                             ->whereDate('rents.pickup_datetime', '<=', $end_date)
                             ->where('status', 3);
         
-        $total_price    = $rents->sum('rents.price');
-        $total_expense  = Expense::sum('amount');
-        $total_income   = Income::sum('amount');
+        $total_rent     = $rents->sum('rents.price');
+        $total_expense  = Expense::whereBetween('date', [$start_date, $end_date])->sum('amount');
         $total_maintenance = MaintenanceCharge::whereBetween('date', [$start_date, $end_date])->sum('amount');
+
+        $income         = Income::whereBetween('date', [$start_date, $end_date])->get();
+        $total_income   = $income->sum('amount');
+        $company_income = $income->where('income_from', 2)->sum('amount');
+        $commission     = $income->where('income_from', 1)->sum('amount');
         
         // $total_income = Income::whereBetween('date', [$start_date, $end_date])->sum('amount');
         // $total_expense =  Expense::whereBetween('date', [$start_date, $end_date])->sum('amount');
         
         $net_cash   = $total_income - $total_maintenance;
 
-        return view('accounts.maintenance', compact('total_price', 'total_income', 'total_expense', 'total_maintenance', 'net_cash'));
+        return view('accounts.maintenance', compact('start_date', 'end_date', 'total_rent', 'total_income', 'total_expense', 'total_maintenance', 'net_cash', 'company_income', 'commission'));
     }
 
     /**
@@ -161,8 +172,11 @@ class AccountsController extends Controller
 
         // Maintenance Charge
 
-        $query2 = MaintenanceCharge::selectRaw('SUM(amount) as total_charge, MONTH(created_at) month')
-                                    ->groupBy(DB::raw('MONTH(created_at)'));
+        // $query2 = MaintenanceCharge::selectRaw('SUM(amount) as total_charge, MONTH(created_at) month')
+        //                             ->groupBy(DB::raw('MONTH(created_at)'));
+
+        $query2 = MaintenanceCharge::selectRaw('SUM(amount) as total_charge, MONTH(date) month')
+                                    ->groupBy(DB::raw('MONTH(date)'));
 
         if ($request->month && $request->month != 0) {
             $query2 = $query2->where(DB::raw('MONTH(created_at)'), $request->month);
