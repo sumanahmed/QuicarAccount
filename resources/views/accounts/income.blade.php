@@ -113,7 +113,7 @@
                                     <td>{{ $income->pickup_location }}</td>
                                     <td>{{ $income->drop_location }}</td>
                                     <td>{{ date('d M, Y h:i a', strtotime($income->pickup_datetime)) }}</td>
-                                    <td>{{ date('d M, Y h:i a', strtotime($income->return_datetime)) }}</td>
+                                    <td>{{ $income->return_datetime != null ? date('d M, Y h:i a', strtotime($income->return_datetime)) : '' }}</td>
                                     <td>{{ $income->car_type_name }}</td>
                                     <td><strong>{{ $income->outside_agent == 1 ? 'Commission' : 'Company' }}</strong></td>
                                     <td style="vertical-align: middle;text-align: right;">{{ $income->price }}</td>

@@ -24,12 +24,12 @@ class MaintenanceChargeController extends Controller
         }
         
         $query = $query->whereBetween('date', [$start_date, $end_date]);
-        
-        $total_maintenace_charge= $query->sum('amount');
 
         $maintenances = $query->paginate(12)->appends(request()->query()); 
+        
+        $total_maintenace_charge= MaintenanceCharge::sum('amount');
 
-        return view('maintenance.index', compact('maintenances', 'total_maintenace_charge'));
+        return view('maintenance.index', compact('start_date', 'end_date', 'maintenances', 'total_maintenace_charge'));
     }
 
     /**

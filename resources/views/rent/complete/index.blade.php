@@ -23,13 +23,33 @@
                     <div class="car-header">
                       <form class="form" action="{{ route('rent.complete.index') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                             <div class="form-group">
-                              <label for="pickup_date">Pickup Date</label>
+                              <label for="pickup_date">Travel Date</label>
                                 <input type="date" name="pickup_datetime" @if(isset($_GET['pickup_datetime'])) value="{{ $_GET['pickup_datetime'] }}" @endif class="form-control">
                             </div>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-2">
+                            <div class="form-group">
+                              <label for="customer_phone">Custome Phone</label>
+                                <input type="text" name="customer_phone" @if(isset($_GET['customer_phone'])) value="{{ $_GET['customer_phone'] }}" @endif class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="car_type_id">Car Type</label>
+                                <select name="car_type_id[]" id="car_type_id" class="form-control selectable" multiple>
+                                    <option value="0">Select</option>
+                                    @foreach($car_types as $car_type) 
+                                      <option value="{{ $car_type->id }}" 
+                                        @if(isset($_GET['car_type_id'])) {{ in_array($car_type->id, $_GET['car_type_id']) ? 'selected' : '' }} @endif>
+                                          {{ $car_type->name }}
+                                      </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
                             <div class="form-group">
                               <label for="outside_agent">Income From</label>
                               <select name="outside_agent" class="form-control">

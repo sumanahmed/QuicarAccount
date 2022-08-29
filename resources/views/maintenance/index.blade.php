@@ -35,13 +35,13 @@
                           <div class="col-md-2">
                             <div class="form-group">
                               <label for="start_date">Start Date</label>
-                              <input type="date" name="start_date" @if(isset($_GET['start_date'])) value="{{ $_GET['start_date'] }}" @endif class="form-control">
+                              <input type="date" name="start_date" value="{{ $start_date }}" class="form-control">
                             </div>
                           </div>
                           <div class="col-md-2">
                             <div class="form-group">
                               <label for="end_date">End Date</label>
-                              <input type="date" name="end_date" @if(isset($_GET['end_date'])) value="{{ $_GET['end_date'] }}" @endif class="form-control">
+                              <input type="date" name="end_date" value="{{ $end_date }}" class="form-control">
                             </div>
                           </div>
                           <div class="col-md-3">

@@ -526,16 +526,12 @@ class RentController extends Controller
                     ->orderBy('rents.id', 'DESC')
                     ->where('status', 3);
 
-        if ($request->name) {
-            $query = $query->where('name', 'like', "{$request->name}%");
-        }
-
         if (isset($request->outside_agent) && $request->outside_agent != 0) {
             $query = $query->where('outside_agent', $request->outside_agent);
         }
 
-        if ($request->phone) {
-            $query = $query->where('phone', $request->phone);
+        if ($request->customer_phone) {
+            $query = $query->where('customers.phone', $request->customer_phone);
         }
         
         if ($request->pickup_datetime) {
@@ -555,8 +551,9 @@ class RentController extends Controller
         }
 
         $rents = $query->paginate(12)->appends(request()->query());   
+        $car_types = CarType::all();
 
-        return view('rent.complete.index', compact('rents'));
+        return view('rent.complete.index', compact('car_types', 'rents'));
     }
     
     /**
