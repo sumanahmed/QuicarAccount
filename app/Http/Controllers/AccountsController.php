@@ -47,22 +47,33 @@ class AccountsController extends Controller
             $query = $query->whereIn('rents.car_type_id', $request->car_type_id);
         }
 
-        if ($request->outside_agent) {
+        if (isset($request->outside_agent) && $request->outside_agent != 0) {
             $query = $query->where('rents.outside_agent', $request->outside_agent);
         }
         
+        $getQuery = $query;
+        
         $incomes = $query->paginate(20)->appends(request()->query());
+        
+        $total_price =  Rent::whereDate('pickup_datetime', '>=', $start_date)
+                            ->whereDate('pickup_datetime', '<=', $end_date)->sum('price');
 
-        $commission_income = $query->where('rents.outside_agent', 1)->sum('commission');
+        $commission_income =  Rent::whereDate('pickup_datetime', '>=', $start_date)
+                            ->whereDate('pickup_datetime', '<=', $end_date)
+                            ->where('rents.outside_agent', 1)->sum('commission');
         
-        $total_price = $query->sum('price');
-        
-        $company_price = $query->where('rents.outside_agent', 2)->sum('price');
-        $total_cost = $query->where('rents.outside_agent', 2)->sum(DB::raw('fuel_cost + driver_get + other_cost + toll_charge'));
-        
-        $company_income = (float) $company_price - $total_cost;
+        $company_price = Rent::whereDate('pickup_datetime', '>=', $start_date)
+                            ->whereDate('pickup_datetime', '<=', $end_date)
+                            ->where('rents.outside_agent', 2)->sum('price');
+       
+        $total_cost =  Rent::whereDate('pickup_datetime', '>=', $start_date)
+                            ->whereDate('pickup_datetime', '<=', $end_date)
+                            ->where('rents.outside_agent', 2)
+                            ->sum(DB::raw('rents.fuel_cost + rents.driver_get + rents.other_cost + rents.toll_charge'));
+ 
+        $company_income = ($company_price - $total_cost);
                             
-        $total_income = $query->sum('amount');
+        $total_income = Income::whereBetween('date', [$start_date, $end_date])->sum('amount');
 
         $car_types = CarType::all();
         

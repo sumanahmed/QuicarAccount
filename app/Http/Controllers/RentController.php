@@ -478,7 +478,7 @@ class RentController extends Controller
     //show all cancel rent
     public function cancel(Request $request)
     {
-        $today = date('Y-m-d');
+       
         $query = DB::table('rents')
                     ->join('car_types','rents.car_type_id','car_types.id')
                     ->join('customers','rents.customer_id','customers.id')
@@ -525,6 +525,11 @@ class RentController extends Controller
                     ->select('rents.*','customers.name as customer_name','customers.phone as customer_phone','car_types.name as car_type_name')
                     ->orderBy('rents.id', 'DESC')
                     ->where('status', 3);
+                    
+        if ($request->start_date && $request->end_date) {
+            $query->whereDate('pickup_datetime', '>=',  date('Y-m-d', strtotime($request->start_date)))
+                    ->whereDate('pickup_datetime', '<=',  date('Y-m-d', strtotime($request->end_date)));
+        }
 
         if (isset($request->outside_agent) && $request->outside_agent != 0) {
             $query = $query->where('outside_agent', $request->outside_agent);

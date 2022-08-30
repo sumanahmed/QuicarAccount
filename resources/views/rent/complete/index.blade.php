@@ -23,12 +23,18 @@
                     <div class="car-header">
                       <form class="form" action="{{ route('rent.complete.index') }}" method="get" style="padding:10px 20px;">
                         <div class="row">
-                          <div class="col-md-2">
-                            <div class="form-group">
-                              <label for="pickup_date">Travel Date</label>
-                                <input type="date" name="pickup_datetime" @if(isset($_GET['pickup_datetime'])) value="{{ $_GET['pickup_datetime'] }}" @endif class="form-control">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                  <label for="start_date">Start Date</label>
+                                  <input type="date" name="start_date" @if(isset($_GET['start_date'])) value="{{ $_GET['start_date'] }}" @endif class="form-control">
+                                </div>
                             </div>
-                          </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                  <label for="end_date">End Date</label>
+                                  <input type="date" name="end_date" @if(isset($_GET['end_date'])) value="{{ $_GET['end_date'] }}" @endif class="form-control">
+                                </div>
+                            </div>
                           <div class="col-md-2">
                             <div class="form-group">
                               <label for="customer_phone">Custome Phone</label>
@@ -59,7 +65,7 @@
                               </select>
                             </div>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                             <div class="form-group" style="margin-top: 30px;">
                               <input type="submit" class="btn btn-info btn-sm" value="Search" />
                               <a href="{{ route('rent.export') }}" class="btn btn-warning btn-sm">Export <i class="fa fa-download"></i></a>
