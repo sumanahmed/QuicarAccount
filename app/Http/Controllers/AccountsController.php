@@ -56,11 +56,19 @@ class AccountsController extends Controller
         $incomes = $query->paginate(20)->appends(request()->query());
         
         $total_price =  Rent::whereDate('pickup_datetime', '>=', $start_date)
-                            ->whereDate('pickup_datetime', '<=', $end_date)->sum('price');
+                            ->whereDate('pickup_datetime', '<=', $end_date)
+                            ->when($request->outside_agent != 0, function ($query) use ($request) {
+                                return $query->where('outside_agent', $request->outside_agent);
+                            })
+                            ->sum('price');
 
         $commission_income =  Rent::whereDate('pickup_datetime', '>=', $start_date)
                             ->whereDate('pickup_datetime', '<=', $end_date)
-                            ->where('rents.outside_agent', 1)->sum('commission');
+                            ->where('rents.outside_agent', 1)
+                             ->when($request->outside_agent != 0, function ($query) use ($request) {
+                                return $query->where('rents.outside_agent', $request->outside_agent);
+                            })
+                            ->sum('commission');
         
         $company_price = Rent::whereDate('pickup_datetime', '>=', $start_date)
                             ->whereDate('pickup_datetime', '<=', $end_date)
